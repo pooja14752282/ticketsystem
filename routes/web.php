@@ -1,0 +1,115 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\AdminTicketController;
+use App\Http\Controllers\TicketCategoryController;
+use App\Http\Controllers\SupportTeamController;
+use App\Http\Controllers\TicketOptionController;
+use App\Http\Controllers\notificationcontroller;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Register routes
+Route::get("register", [AuthController::class, "register"])->name('register');
+Route::post("register", [AuthController::class, "store"])->name('register.store');
+
+// Dashboard route
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Login routes
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'loginStore'])->name('login.store');
+
+// Forgot Password routes
+Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
+Route::post('/forgot-password', [AuthController::class, 'forgotPasswordStore'])->name('forgot.password.store');
+
+// Reset Password routes
+Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPasswordStore'])->name('password.update');
+
+// All auth protected routes in ONE group
+Route::middleware(['auth'])->group(function () {
+
+    // Ticket System
+    Route::get('/ticketsystem/my',                [TicketController::class, 'myTickets'])      ->name('ticketsystem.my');
+    Route::get('/ticketsystem/assigned',          [TicketController::class, 'assignedTickets'])->name('ticketsystem.assigned');
+    Route::get('/ticketsystem/create',            [TicketController::class, 'create'])         ->name('ticketsystem.create');
+    Route::post('/ticketsystem/store',            [TicketController::class, 'store'])          ->name('ticketsystem.store');
+    Route::patch('/ticketsystem/{ticket}/status', [TicketController::class, 'updateStatus'])   ->name('ticketsystem.updateStatus');
+    Route::delete('/ticketsystem/{ticket}',       [TicketController::class, 'destroy'])        ->name('ticketsystem.destroy');
+
+    // Admin: All Tickets
+    Route::get('/ticketsystem/branch',            [AdminTicketController::class, 'index'])  ->name('admin.tickets.index');
+    Route::get('/ticketsystem/branch/{ticket}',   [AdminTicketController::class, 'show'])   ->name('admin.tickets.show');
+    Route::delete('/ticketsystem/branch/{ticket}',[AdminTicketController::class, 'destroy'])->name('admin.tickets.destroy');
+
+    // Admin: Ticket Categories
+    Route::get('/ticketcategory',                          [TicketCategoryController::class, 'index'])       ->name('admin.ticket-categories.index');
+    Route::get('/ticketcategory/create',                   [TicketCategoryController::class, 'create'])      ->name('admin.ticket-categories.create');
+    Route::post('/ticketcategory',                         [TicketCategoryController::class, 'store'])       ->name('admin.ticket-categories.store');
+    Route::get('/ticketcategory/{ticketCategory}',         [TicketCategoryController::class, 'show'])        ->name('admin.ticket-categories.show');
+    Route::get('/ticketcategory/{ticketCategory}/edit',    [TicketCategoryController::class, 'edit'])        ->name('admin.ticket-categories.edit');
+    Route::put('/ticketcategory/{ticketCategory}',         [TicketCategoryController::class, 'update'])      ->name('admin.ticket-categories.update');
+    Route::post('/ticketcategory/{ticketCategory}/toggle', [TicketCategoryController::class, 'toggleStatus'])->name('admin.ticket-categories.toggle');
+    Route::delete('/ticketcategory/{ticketCategory}',      [TicketCategoryController::class, 'destroy'])     ->name('admin.ticket-categories.destroy');
+
+    // Admin: Support Team
+    Route::get('/admin/support-team',                       [SupportTeamController::class, 'index'])  ->name('admin.support-team.index');
+    Route::get('/admin/support-team/create',                [SupportTeamController::class, 'create']) ->name('admin.support-team.create');
+    Route::post('/admin/support-team',                      [SupportTeamController::class, 'store'])  ->name('admin.support-team.store');
+    Route::delete('/admin/support-team/{supportTeam}',      [SupportTeamController::class, 'destroy'])->name('admin.support-team.destroy');
+    Route::get('/admin/support-team/{supportTeam}/edit',    [SupportTeamController::class, 'edit'])   ->name('admin.support-team.edit');
+    Route::put('/admin/support-team/{supportTeam}',         [SupportTeamController::class, 'update']) ->name('admin.support-team.update');
+    Route::patch('/admin/support-team/{supportTeam}/toggle',[SupportTeamController::class, 'toggle']) ->name('admin.support-team.toggle');
+
+    // Support Member
+    Route::get('/support/tickets',          [SupportTeamController::class, 'myAssignedTickets'])->name('support.tickets');
+    Route::get('/support/tickets/{ticket}', [SupportTeamController::class, 'showTicket'])       ->name('support.ticket.show');
+
+    
+
+    
+    Route::patch('/ticketsystem/{ticket}/due-date', [TicketController::class, 'updateDueDate'])->name('ticketsystem.updateDueDate');
+
+    Route::patch('/tickets/{ticket}/due-date', [TicketController::class, 'updateDueDate'])
+    ->name('tickets.updateDueDate')
+    ->middleware(['auth', 'admin']); // or your existing admin middleware
+    // ✅ Correct
+Route::get('/tickets/due-dates', [TicketController::class, 'dueDatesPage'])
+    ->name('admin.tickets.duedates')
+    ->middleware(['auth']);
+
+Route::patch('/tickets/{ticket}/due-date', [TicketController::class, 'updateDueDate'])
+    ->name('tickets.updateDueDate')
+    ->middleware(['auth']);
+Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])
+    ->name('tickets.updateStatus')
+    ->middleware(['auth']);
+Route::patch('/tickets/{ticket}/reassign', [AdminTicketController::class, 'reassign'])->name('admin.tickets.reassign');
+// Ticket Options (Status & Priority)
+Route::get('/admin/ticket-options',                        [TicketOptionController::class, 'index']) ->name('admin.ticket-options.index');
+Route::post('/admin/ticket-options',                       [TicketOptionController::class, 'store']) ->name('admin.ticket-options.store');
+Route::patch('/admin/ticket-options/{ticketOption}/toggle',[TicketOptionController::class, 'toggle'])->name('admin.ticket-options.toggle');
+Route::delete('/admin/ticket-options/{ticketOption}',      [TicketOptionController::class, 'destroy'])->name('admin.ticket-options.destroy');
+Route::get('/ticket-options/{type}',                       [TicketOptionController::class, 'getOptions'])->name('ticket-options.get');
+
+Route::patch('/tickets/{ticket}/priority', [TicketController::class, 'updatePriority']);
+// Notifications
+Route::get('/notifications',                    [notificationcontroller::class, 'index'])      ->name('notifications.index');
+Route::post('/notifications/{id}/read',         [notificationcontroller::class, 'markAsRead']) ->name('notifications.read');
+Route::post('/notifications/mark-all-read',     [notificationcontroller::class, 'markAllRead'])->name('notifications.markAllRead');
+
+Route::patch('/tickets/{id}/reassign', [TicketController::class, 'reassign'])
+    ->name('tickets.reassign');
+
+    Route::post('/ticketsystem/branch/{ticket}/review', [App\Http\Controllers\TicketReviewController::class, 'store'])->name('ticket.review.store');
+}); // ← single closing brace for everything

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forgot Password</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { height: 100vh; background: #f4f4f4; display: flex; justify-content: center; align-items: center; }
+.container { width: 350px; padding: 25px; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.container h2 { text-align: center; margin-bottom: 10px; color: #333; }
+.container p { text-align: center; font-size: 13px; color: #666; margin-bottom: 20px; }
+.input-box { margin-bottom: 15px; }
+.input-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; outline: none; font-size: 14px; }
+.input-box input:focus { border-color: #4facfe; }
+.btn { width: 100%; padding: 10px; border: none; border-radius: 6px; background: #4facfe; color: white; font-weight: 500; cursor: pointer; }
+.btn:hover { background: #3a8ee6; }
+.footer { text-align: center; margin-top: 12px; font-size: 14px; }
+.footer a { color: #4facfe; text-decoration: none; }
+.success { color: green; text-align: center; margin-bottom: 10px; font-size: 14px; }
+.error { color: red; text-align: center; margin-bottom: 10px; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Forgot Password</h2>
+    <p>Enter your email and we'll send you a reset link.</p>
+
+    @if(session('success'))
+        <p class="success">{{ session('success') }}</p>
+    @endif
+
+    @if(session('error'))
+        <p class="error">{{ session('error') }}</p>
+    @endif
+
+    <form action="{{ route('forgot.password.store') }}" method="POST">
+        @csrf
+        <div class="input-box">
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <button class="btn">Send Reset Link</button>
+    </form>
+
+    <div class="footer">
+        Remember your password? <a href="{{ route('login') }}">Login</a>
+    </div>
+</div>
+</body>
+</html>
