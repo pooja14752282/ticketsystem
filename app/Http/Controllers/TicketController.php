@@ -334,7 +334,6 @@ public function reassign(Request $request, $id)
 {
     if (Auth::user()->role !== 'admin') {
         return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
-         'new_assignee' => $newMember->name,
     }
 
     $request->validate([
@@ -360,6 +359,7 @@ public function reassign(Request $request, $id)
                          . ($request->reassign_reason ? ' Reason: ' . $request->reassign_reason : ''),
             'type'      => 'info',
             'is_read'   => false,
+            'new_assignee' => $newMember->name,
         ]);
     }
 
