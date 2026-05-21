@@ -427,13 +427,19 @@
             <p>Overview of all support tickets and their status</p>
         </div>
         <div class="topbar-right">
-            @if(Auth::user()->role === 'admin')
-                <span class="role-pill admin"><i class="fas fa-shield-alt" style="margin-right:4px"></i>Admin</span>
-            @else
-                <span class="role-pill user"><i class="fas fa-user" style="margin-right:4px"></i>User</span>
-            @endif
-            
+    @if(Auth::user()->role === 'admin')
+        <span class="role-pill admin"><i class="fas fa-shield-alt" style="margin-right:4px"></i>Admin</span>
+    @else
+        <span class="role-pill user"><i class="fas fa-user" style="margin-right:4px"></i>User</span>
+    @endif
+
+    <div style="display:flex; align-items:center; gap:8px; margin-left:6px;">
+        <div style="width:30px; height:30px; border-radius:50%; background:#dbeafe; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#1d4ed8;">
+            {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
         </div>
+        <span style="font-size:13px; color:#374151; font-weight:500;">{{ Auth::user()->name }}</span>
+    </div>
+</div>
     </header>
 
     <!-- CONTENT -->
