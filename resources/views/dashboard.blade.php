@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Support Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
     <style>
         :root {
-            --bg-page:      #f4f6f9;
+            --bg-page:      #f1f3f6;
             --bg-white:     #ffffff;
-            --bg-sidebar:   #0f1c2e;
-            --sidebar-w:    220px;
             --accent:       #2563eb;
             --accent-light: #eff6ff;
             --text-primary: #1a202c;
             --text-muted:   #64748b;
             --text-light:   #94a3b8;
-            --border:       #e8edf2;
+            --border:       #e5e7eb;
             --radius-sm:    6px;
             --radius-md:    10px;
             --radius-lg:    14px;
@@ -33,173 +32,126 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg-page); color: var(--text-primary); display: flex; min-height: 100vh; font-size: 14px; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg-page); color: var(--text-primary); display: flex; height: 100vh; overflow: hidden; font-size: 14px; }
 
-        /* ── SIDEBAR ── */
+        /* ══ SIDEBAR (ticket system style) ══ */
         .sidebar {
-            width: var(--sidebar-w);
-            background: var(--bg-sidebar);
-            flex-shrink: 0;
+            width: 220px;
+            background: #fff;
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 0; left: 0;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 100;
+            flex-shrink: 0;
         }
-        .sidebar-brand {
-            padding: 22px 20px 18px;
+        .sidebar-logo {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 1px solid rgba(255,255,255,.07);
         }
-        .brand-icon {
-            width: 32px; height: 32px;
-            background: var(--accent);
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: #dbeafe;
             border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 15px;
+            color: #1d4ed8; font-size: 16px;
         }
-        .brand-name { color: #fff; font-size: 15px; font-weight: 600; letter-spacing: -.2px; }
+        .logo-text { font-size: 13px; font-weight: 600; color: #111827; line-height: 1.3; }
 
-        .nav-section { padding: 14px 12px; }
-        .nav-section-label {
-            font-size: 10px;
-            font-weight: 600;
-            color: rgba(255,255,255,.3);
+        .sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+
+        .nav-section-title {
+            padding: 10px 16px;
+            font-size: 11px; font-weight: 700;
+            color: #9ca3af;
             text-transform: uppercase;
-            letter-spacing: .8px;
-            padding: 0 8px;
-            margin-bottom: 6px;
+            letter-spacing: 0.8px;
+            margin-top: 6px;
         }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 10px;
-            border-radius: var(--radius-sm);
-            color: rgba(255,255,255,.55);
+        .nav-section-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 16px;
+            font-size: 13px; font-weight: 600;
+            color: #374151;
+        }
+        .nav-section-header i { font-size: 14px; color: #6b7280; }
+
+        .nav-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 16px 9px 32px;
+            font-size: 13px; color: #6b7280;
             text-decoration: none;
-            font-size: 13px;
-            font-weight: 400;
-            transition: all .15s;
-            margin-bottom: 1px;
-            cursor: pointer;
+            border-left: 2px solid transparent;
+            transition: all 0.15s;
         }
-        .nav-item i { width: 16px; text-align: center; font-size: 14px; flex-shrink: 0; }
-        .nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
-        .nav-item.active { background: rgba(37,99,235,.35); color: #fff; font-weight: 500; }
-        .nav-item .nav-badge {
+        .nav-link:hover { background: #f3f4f6; color: #111827; }
+        .nav-link.active { color: #1d4ed8; background: #dbeafe; border-left-color: #1d4ed8; font-weight: 500; }
+        .nav-link i { font-size: 13px; width: 16px; text-align: center; }
+        .nav-link .nav-badge {
             margin-left: auto;
             background: var(--accent);
             color: #fff;
-            font-size: 10px;
-            font-weight: 600;
+            font-size: 10px; font-weight: 600;
             padding: 1px 6px;
             border-radius: 20px;
-            min-width: 20px;
-            text-align: center;
+            min-width: 20px; text-align: center;
         }
 
         .sidebar-footer {
-            margin-top: auto;
-            padding: 14px 12px;
-            border-top: 1px solid rgba(255,255,255,.07);
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
         }
-        .sidebar-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
+        .sidebar-footer a, .sidebar-footer button {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; color: #6b7280;
+            text-decoration: none;
+            padding: 8px 10px; border-radius: 6px;
+            width: 100%; background: none; border: none; cursor: pointer;
         }
-        .sidebar-user:hover { background: rgba(255,255,255,.07); }
-        .user-avatar {
-            width: 32px; height: 32px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 12px; font-weight: 600;
-            flex-shrink: 0;
-        }
-        .user-info .user-name { color: #fff; font-size: 12.5px; font-weight: 500; }
-        .user-info .user-role { color: rgba(255,255,255,.4); font-size: 11px; }
+        .sidebar-footer a:hover { background: #f3f4f6; color: #374151; }
+        .sidebar-footer .logout-btn { color: #dc2626; }
+        .sidebar-footer .logout-btn:hover { background: #fef2f2; }
 
-        /* ── MAIN ── */
-        .main {
-            margin-left: var(--sidebar-w);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        /* ══ MAIN ══ */
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         .topbar {
             background: var(--bg-white);
             border-bottom: 1px solid var(--border);
-            padding: 0 28px;
-            height: 58px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            padding: 0 24px;
+            height: 56px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-shrink: 0;
         }
-        .topbar-left h2 { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .topbar-left h2 { font-size: 15px; font-weight: 600; color: #111827; }
         .topbar-left p  { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
-        .topbar-right { display: flex; align-items: center; gap: 10px; }
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
 
-        .btn {
-            display: inline-flex; align-items: center; gap: 7px;
-            padding: 8px 16px; border-radius: var(--radius-sm);
-            font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
-            cursor: pointer; border: none; transition: all .15s; text-decoration: none;
-        }
-        .btn-primary { background: var(--accent); color: #fff; }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
-        .btn-ghost:hover { background: var(--bg-page); }
+        .admin-badge  { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .support-badge{ background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .user-badge-role { background: #dbeafe; color: #1d4ed8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .icon-btn {
-            width: 36px; height: 36px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            background: transparent;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-muted);
-            cursor: pointer;
-            position: relative;
-        }
-        .icon-btn:hover { background: var(--bg-page); }
-        .notif-dot {
-            position: absolute; top: 7px; right: 7px;
-            width: 7px; height: 7px;
-            background: var(--red);
-            border-radius: 50%;
-            border: 1.5px solid var(--bg-white);
-        }
+        .user-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #6b7280; }
+        .avatar { width: 30px; height: 30px; border-radius: 50%; background: #fde68a; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #92400e; }
 
-        .content { padding: 24px 28px; flex: 1; }
+        /* ══ CONTENT ══ */
+        .content { padding: 20px 24px; flex: 1; overflow-y: auto; }
 
-        /* ── METRIC CARDS ── */
+        /* METRIC CARDS */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
         .metric-card {
             background: var(--bg-white);
             border-radius: var(--radius-lg);
             border: 1px solid var(--border);
             padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
+            display: flex; align-items: center; gap: 14px;
             box-shadow: var(--shadow-sm);
             transition: box-shadow .2s, transform .2s;
         }
@@ -208,24 +160,22 @@
             width: 44px; height: 44px;
             border-radius: var(--radius-md);
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
+            font-size: 18px; flex-shrink: 0;
         }
         .metric-icon.blue   { background: var(--blue-bg);   color: var(--blue); }
         .metric-icon.green  { background: var(--green-bg);  color: var(--green); }
         .metric-icon.amber  { background: var(--amber-bg);  color: var(--amber); }
         .metric-icon.red    { background: var(--red-bg);    color: var(--red); }
-        .metric-icon.orange { background: var(--orange-bg); color: var(--orange); }
         .metric-body { flex: 1; min-width: 0; }
         .metric-value { font-size: 26px; font-weight: 600; color: var(--text-primary); line-height: 1; margin-bottom: 4px; font-family: 'DM Mono', monospace; }
         .metric-label { font-size: 12px; color: var(--text-muted); }
 
-        /* ── CHARTS ROW ── */
+        /* CHARTS ROW */
         .charts-row {
             display: grid;
             grid-template-columns: 1fr 280px;
             gap: 16px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
         .card {
             background: var(--bg-white);
@@ -235,14 +185,11 @@
         }
         .card-header {
             padding: 16px 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
         }
         .card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
         .card-body  { padding: 16px 20px 20px; }
 
-        /* STATUS LEGEND */
         .status-legend { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
         .legend-item { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; }
         .legend-left { display: flex; align-items: center; gap: 8px; }
@@ -250,36 +197,28 @@
         .legend-name { color: var(--text-primary); }
         .legend-right { color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 12px; }
 
-        /* ── BOTTOM ROW ── */
+        /* BOTTOM ROW */
         .bottom-row {
             display: grid;
             grid-template-columns: 1fr 220px 220px;
             gap: 16px;
         }
 
-        /* RECENT TICKETS TABLE */
+        /* TABLE */
         .tbl-header {
             padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             border-bottom: 1px solid var(--border);
         }
         table { width: 100%; border-collapse: collapse; }
         thead th {
-            text-align: left;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: .5px;
-            padding: 10px 14px;
-            border-bottom: 1px solid var(--border);
-            background: #fafbfc;
+            text-align: left; font-size: 11px; font-weight: 600;
+            color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: .5px; padding: 10px 14px;
+            border-bottom: 1px solid var(--border); background: #fafbfc;
         }
         tbody td {
-            padding: 11px 14px;
-            font-size: 12.5px;
+            padding: 11px 14px; font-size: 12.5px;
             color: var(--text-primary);
             border-bottom: 1px solid var(--border);
             vertical-align: middle;
@@ -287,39 +226,28 @@
         tbody tr:last-child td { border-bottom: none; }
         tbody tr:hover td { background: #fafbfc; }
 
-        .ticket-id {
-            font-family: 'DM Mono', monospace;
-            font-size: 12px;
-            color: var(--accent);
-            font-weight: 500;
-        }
+        .ticket-id { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); font-weight: 500; }
         .ticket-subject { font-weight: 500; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .requester { display: flex; align-items: center; gap: 7px; }
         .avatar-sm {
-            width: 24px; height: 24px;
-            border-radius: 50%;
+            width: 24px; height: 24px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 9px; font-weight: 600;
-            flex-shrink: 0;
+            font-size: 9px; font-weight: 600; flex-shrink: 0;
             background: var(--blue-bg); color: var(--blue);
         }
 
         /* BADGES */
-        .badge {
-            display: inline-flex; align-items: center; gap: 4px;
-            padding: 3px 9px; border-radius: 20px;
-            font-size: 11px; font-weight: 500;
-        }
-        .badge-open       { background: var(--blue-bg);   color: var(--blue); }
-        .badge-in_progress{ background: var(--amber-bg);  color: var(--amber); }
-        .badge-on_hold    { background: #fff7ed;           color: #c2410c; }
-        .badge-completed  { background: var(--green-bg);  color: var(--green); }
-        .badge-closed     { background: #f1f5f9;           color: #475569; }
-        .badge-urgent     { background: var(--red-bg);    color: var(--red); }
-        .badge-high       { background: var(--orange-bg); color: var(--orange); }
-        .badge-medium     { background: var(--amber-bg);  color: var(--amber); }
-        .badge-low        { background: var(--green-bg);  color: var(--green); }
+        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+        .badge-open        { background: var(--blue-bg);   color: var(--blue); }
+        .badge-in_progress { background: var(--amber-bg);  color: var(--amber); }
+        .badge-on_hold     { background: #fff7ed;           color: #c2410c; }
+        .badge-completed   { background: var(--green-bg);  color: var(--green); }
+        .badge-closed      { background: #f1f5f9;           color: #475569; }
+        .badge-urgent      { background: var(--red-bg);    color: var(--red); }
+        .badge-high        { background: var(--orange-bg); color: var(--orange); }
+        .badge-medium      { background: var(--amber-bg);  color: var(--amber); }
+        .badge-low         { background: var(--green-bg);  color: var(--green); }
 
         /* PRIORITY BARS */
         .priority-section { padding: 0 20px 20px; }
@@ -333,119 +261,145 @@
         /* SLA */
         .sla-body { padding: 16px 20px 20px; display: flex; flex-direction: column; align-items: center; }
         .sla-ring { position: relative; width: 110px; height: 110px; margin-bottom: 12px; }
-        .sla-center {
-            position: absolute; inset: 0;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
+        .sla-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .sla-pct  { font-size: 22px; font-weight: 600; color: var(--text-primary); font-family: 'DM Mono', monospace; }
         .sla-lbl  { font-size: 10px; color: var(--text-muted); }
         .sla-stat { font-size: 12px; color: var(--text-muted); text-align: center; }
         .sla-stat span { font-weight: 600; color: var(--text-primary); }
         .sla-badge { margin-top: 8px; font-size: 11px; color: var(--green); background: var(--green-bg); padding: 3px 10px; border-radius: 20px; }
 
-        /* TFOOT */
-        .tbl-footer {
-            padding: 10px 16px;
-            border-top: 1px solid var(--border);
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* ROLE BADGE */
-        .role-pill {
-            font-size: 11px; font-weight: 600;
-            padding: 3px 10px; border-radius: 20px;
-            text-transform: uppercase; letter-spacing: .4px;
-        }
-        .role-pill.admin { background: var(--amber-bg); color: var(--amber); }
-        .role-pill.user  { background: var(--blue-bg);  color: var(--blue); }
-
-        /* EMPTY STATE */
+        .tbl-footer { padding: 10px 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); }
         .empty-row td { text-align: center; color: var(--text-muted); padding: 28px; font-size: 13px; }
+
+        /* VIEW ALL LINK */
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 6px 12px; border-radius: var(--radius-sm);
+            font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+            cursor: pointer; border: 1px solid var(--border);
+            background: transparent; color: var(--text-muted);
+            text-decoration: none; transition: all .15s;
+        }
+        .btn-ghost:hover { background: var(--bg-page); }
     </style>
 </head>
 <body>
 
-<!-- ══ SIDEBAR ══════════════════════════════════════ -->
-<aside class="sidebar">
-    <div class="sidebar-brand">
-        <div class="brand-icon"><i class="fas fa-headset"></i></div>
-        <span class="brand-name">SEEL SUPPORT</span>
+{{-- ══ SIDEBAR (ticket system style) ══ --}}
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-icon"><i class="fas fa-headset"></i></div>
+        <div class="logo-text">Ticket<br>System</div>
     </div>
 
-    <nav class="nav-section">
-        <div class="nav-section-label">Main</div>
-        <a class="nav-item active" href="#">
-            <i class="fas fa-th-large"></i> Dashboard
-        </a>
-        <a class="nav-item" href="{{ route('admin.tickets.index') }}">
-            <i class="fas fa-ticket-alt"></i> Tickets
-            @if($inProgressCount > 0)
-                <span class="nav-badge">{{ $inProgressCount }}</span>
-            @endif
-        </a>
-        
-    </nav>
+    <nav class="sidebar-nav">
 
-    <nav class="nav-section" style="padding-top:4px">
-        <div class="nav-section-label">Manage</div>
+        <div class="nav-section-title">
+            {{ Auth::user()->role === 'admin' ? 'Admin' : (Auth::user()->role === 'support' ? 'Support' : 'Menu') }}
+        </div>
+
+        {{-- Dashboard link — active on this page --}}
+        <div class="nav-section-header">
+            <i class="fas fa-th-large"></i> Main
+        </div>
+        <a href="{{ route('dashboard') }}"
+           class="nav-link active">
+            <i class="fas fa-chart-pie"></i> Dashboard
+        </a>
+
+        {{-- Tickets --}}
+        <div class="nav-section-header" style="margin-top:4px">
+            <i class="fas fa-ticket-alt"></i> Tickets
+        </div>
         @if(Auth::user()->role === 'admin')
-        <a class="nav-item" href="{{ route('admin.support-team.index') }}">
-            <i class="fas fa-users"></i> Support Team
-        </a>
-        <a class="nav-item" href="{{ route('admin.ticket-categories.index') }}">
-            <i class="fas fa-tags"></i> Categories
-        </a>
+            <a href="{{ route('admin.tickets.index') }}" class="nav-link">
+                <i class="fas fa-list-ul"></i> All Tickets
+                @if($inProgressCount > 0)
+                    <span class="nav-badge">{{ $inProgressCount }}</span>
+                @endif
+            </a>
+            <a href="{{ route('ticketsystem.assigned') }}" class="nav-link">
+                <i class="fas fa-user-check"></i> Assigned To Me
+            </a>
         @endif
-        
+        @if(Auth::user()->role === 'support')
+            <a href="{{ route('support.tickets') }}" class="nav-link">
+                <i class="fas fa-user-check"></i> Assigned To Me
+            </a>
+        @endif
+        <a href="{{ route('ticketsystem.my') }}" class="nav-link">
+            <i class="fas fa-ticket-alt"></i> My Tickets
+        </a>
+
+        {{-- Admin-only sections --}}
+        @if(Auth::user()->role === 'admin')
+            <div class="nav-section-header" style="margin-top:4px">
+                <i class="fas fa-tags"></i> Categories
+            </div>
+            <a href="{{ route('admin.ticket-categories.index') }}" class="nav-link">
+                <i class="fas fa-th-list"></i> All Categories
+            </a>
+
+            <div class="nav-section-header" style="margin-top:4px">
+                <i class="fas fa-users"></i> Support Team
+            </div>
+            <a href="{{ route('admin.support-team.index') }}" class="nav-link">
+                <i class="fas fa-users"></i> All Members
+            </a>
+
+            <div class="nav-section-header" style="margin-top:4px">
+                <i class="fas fa-sliders-h"></i> Settings
+            </div>
+            <a href="{{ route('admin.ticket-options.index') }}" class="nav-link">
+                <i class="fas fa-sliders-h"></i> Ticket Options
+            </a>
+            <a href="{{ route('admin.tickets.duedates') }}" class="nav-link">
+                <i class="fas fa-calendar-alt"></i> Edit Due Dates
+            </a>
+        @endif
+
     </nav>
 
     <div class="sidebar-footer">
-        <div class="sidebar-user">
-            <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
-            <div class="user-info">
-                <div class="user-name">{{ Auth::user()->name }}</div>
-                <div class="user-role">{{ ucfirst(Auth::user()->role) }}</div>
-            </div>
-        </div>
-        <form action="{{ route('logout') }}" method="POST" style="margin-top:6px">
+        <form action="{{ route('logout') }}" method="POST" style="margin:0">
             @csrf
-            <button class="btn btn-ghost" style="width:100%; justify-content:center; font-size:12px; padding:7px">
+            <button type="submit" class="logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </form>
     </div>
-</aside>
+</div>
 
-<!-- ══ MAIN ══════════════════════════════════════════ -->
+{{-- ══ MAIN ══ --}}
 <div class="main">
 
-    <!-- TOPBAR -->
-    <header class="topbar">
+    {{-- TOPBAR --}}
+    <div class="topbar">
         <div class="topbar-left">
-            <h2>Ticket Dashboard</h2>
-            <p>Overview of all support tickets and their status</p>
+            <div>
+                <h2>Ticket Dashboard</h2>
+                <p>Overview of all support tickets and their status</p>
+            </div>
         </div>
         <div class="topbar-right">
-    @if(Auth::user()->role === 'admin')
-        <span class="role-pill admin"><i class="fas fa-shield-alt" style="margin-right:4px"></i>Admin</span>
-    @else
-        <span class="role-pill user"><i class="fas fa-user" style="margin-right:4px"></i>User</span>
-    @endif
-
-    <div style="display:flex; align-items:center; gap:8px; margin-left:6px;">
-        <div style="width:30px; height:30px; border-radius:50%; background:#dbeafe; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#1d4ed8;">
-            {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+            @if(Auth::user()->role === 'admin')
+                <span class="admin-badge"><i class="fas fa-shield-alt"></i> Admin</span>
+            @elseif(Auth::user()->role === 'support')
+                <span class="support-badge"><i class="fas fa-headset"></i> Support</span>
+            @else
+                <span class="user-badge-role"><i class="fas fa-user"></i> User</span>
+            @endif
+            <div class="user-badge">
+                <div class="avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
+                <span>{{ Auth::user()->name }}</span>
+            </div>
         </div>
-        <span style="font-size:13px; color:#374151; font-weight:500;">{{ Auth::user()->name }}</span>
     </div>
-</div>
-    </header>
 
-    <!-- CONTENT -->
-    <main class="content">
+    {{-- CONTENT --}}
+    <div class="content">
 
-        <!-- METRIC CARDS -->
+        {{-- METRIC CARDS --}}
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-icon blue"><i class="fas fa-layer-group"></i></div>
@@ -477,14 +431,12 @@
             </div>
         </div>
 
-        <!-- CHARTS ROW -->
+        {{-- CHARTS ROW --}}
         <div class="charts-row">
-            <!-- Line Chart -->
+            {{-- Line Chart --}}
             <div class="card">
                 <div class="card-header">
-                    <div>
-                        <div class="card-title">Tickets Over Time</div>
-                    </div>
+                    <div class="card-title">Tickets Over Time</div>
                     <span style="font-size:11px;color:var(--text-muted);background:var(--bg-page);border:1px solid var(--border);padding:4px 10px;border-radius:20px;">
                         <i class="fas fa-calendar-alt" style="font-size:10px"></i> Last 7 Days
                     </span>
@@ -496,7 +448,7 @@
                 </div>
             </div>
 
-            <!-- Donut Chart -->
+            {{-- Donut Chart --}}
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Tickets by Status</div>
@@ -531,14 +483,14 @@
             </div>
         </div>
 
-        <!-- BOTTOM ROW -->
+        {{-- BOTTOM ROW --}}
         <div class="bottom-row">
 
-            <!-- RECENT TICKETS TABLE -->
+            {{-- RECENT TICKETS TABLE --}}
             <div class="card" style="overflow:hidden">
                 <div class="tbl-header">
                     <div class="card-title">Recent Tickets</div>
-                    <a href="{{ route('admin.tickets.index') }}" class="btn btn-ghost" style="font-size:12px; padding:6px 12px">View All</a>
+                    <a href="{{ route('admin.tickets.index') }}" class="btn-ghost">View All</a>
                 </div>
                 <table>
                     <thead>
@@ -595,7 +547,7 @@
                 </div>
             </div>
 
-            <!-- TICKETS BY PRIORITY -->
+            {{-- TICKETS BY PRIORITY --}}
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Tickets by Priority</div>
@@ -638,7 +590,7 @@
                 </div>
             </div>
 
-            <!-- SLA COMPLIANCE -->
+            {{-- SLA COMPLIANCE --}}
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">SLA Compliance</div>
@@ -684,14 +636,14 @@
                 </div>
             </div>
 
-        </div><!-- /bottom-row -->
-    </main>
-</div>
+        </div>{{-- /bottom-row --}}
+    </div>{{-- /content --}}
+</div>{{-- /main --}}
 
 <script>
 // ── LINE CHART ──────────────────────────────────────────────
-const lineLabels   = @json($lineLabels);
-const lineCreated  = @json($lineCreated);
+const lineLabels    = @json($lineLabels);
+const lineCreated   = @json($lineCreated);
 const lineCompleted = @json($lineCompleted);
 
 const lineCtx = document.getElementById('lineChart').getContext('2d');
@@ -705,51 +657,29 @@ new Chart(lineCtx, {
                 data: lineCreated,
                 borderColor: '#2563eb',
                 backgroundColor: 'rgba(37,99,235,0.08)',
-                fill: true,
-                tension: 0.45,
-                borderWidth: 2,
-                pointBackgroundColor: '#2563eb',
-                pointRadius: 3,
-                pointHoverRadius: 5,
+                fill: true, tension: 0.45, borderWidth: 2,
+                pointBackgroundColor: '#2563eb', pointRadius: 3, pointHoverRadius: 5,
             },
             {
                 label: 'Completed',
                 data: lineCompleted,
                 borderColor: '#16a34a',
                 backgroundColor: 'rgba(22,163,74,0.06)',
-                fill: true,
-                tension: 0.45,
-                borderWidth: 2,
-                pointBackgroundColor: '#16a34a',
-                pointRadius: 3,
-                pointHoverRadius: 5,
+                fill: true, tension: 0.45, borderWidth: 2,
+                pointBackgroundColor: '#16a34a', pointRadius: 3, pointHoverRadius: 5,
                 borderDash: [5, 3],
             }
         ]
     },
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         plugins: {
             legend: { display: false },
-            tooltip: {
-                backgroundColor: '#1a202c',
-                titleColor: '#fff',
-                bodyColor: 'rgba(255,255,255,.75)',
-                padding: 10,
-                cornerRadius: 6,
-            }
+            tooltip: { backgroundColor: '#1a202c', titleColor: '#fff', bodyColor: 'rgba(255,255,255,.75)', padding: 10, cornerRadius: 6 }
         },
         scales: {
-            x: {
-                grid: { display: false },
-                ticks: { font: { size: 11 }, color: '#94a3b8' }
-            },
-            y: {
-                grid: { color: 'rgba(0,0,0,.04)' },
-                ticks: { font: { size: 11 }, color: '#94a3b8', stepSize: 1, precision: 0 },
-                beginAtZero: true
-            }
+            x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#94a3b8' } },
+            y: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { size: 11 }, color: '#94a3b8', stepSize: 1, precision: 0 }, beginAtZero: true }
         }
     }
 });
@@ -774,24 +704,14 @@ new Chart(donutCtx, {
         datasets: [{
             data: statusData,
             backgroundColor: ['#2563eb', '#7c3aed', '#f59e0b', '#16a34a', '#94a3b8'],
-            borderWidth: 2,
-            borderColor: '#ffffff',
-            hoverOffset: 4
+            borderWidth: 2, borderColor: '#ffffff', hoverOffset: 4
         }]
     },
     options: {
-        cutout: '72%',
-        responsive: true,
-        maintainAspectRatio: false,
+        cutout: '72%', responsive: true, maintainAspectRatio: false,
         plugins: {
             legend: { display: false },
-            tooltip: {
-                backgroundColor: '#1a202c',
-                titleColor: '#fff',
-                bodyColor: 'rgba(255,255,255,.75)',
-                padding: 10,
-                cornerRadius: 6,
-            }
+            tooltip: { backgroundColor: '#1a202c', titleColor: '#fff', bodyColor: 'rgba(255,255,255,.75)', padding: 10, cornerRadius: 6 }
         }
     }
 });
@@ -805,13 +725,11 @@ new Chart(slaCtx, {
         datasets: [{
             data: [slaPercent, 100 - slaPercent],
             backgroundColor: [slaPercent >= 90 ? '#16a34a' : '#dc2626', '#f0fdf4'],
-            borderWidth: 0,
-            hoverOffset: 0
+            borderWidth: 0, hoverOffset: 0
         }]
     },
     options: {
-        cutout: '82%',
-        responsive: false,
+        cutout: '82%', responsive: false,
         plugins: { legend: { display: false }, tooltip: { enabled: false } }
     }
 });
