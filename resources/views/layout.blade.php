@@ -102,6 +102,40 @@
         .notif-item-msg { font-size: 12px; color: #6b7280; margin-top: 2px; }
         .notif-item-time { font-size: 11px; color: #9ca3af; margin-top: 4px; }
         .notif-empty { padding: 24px; text-align: center; color: #9ca3af; font-size: 13px; }
+
+.ticket-tabs{
+    display:flex;
+    gap:12px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.ticket-tab{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    text-decoration:none;
+    color:#6b7280;
+    font-size:13px;
+    font-weight:500;
+    transition:all .15s ease;
+}
+
+.ticket-tab:hover{
+    background:#f9fafb;
+    color:#111827;
+}
+
+.ticket-tab.active{
+    background:#dbeafe;
+    color:#1d4ed8;
+    border-color:#93c5fd;
+}
+
     </style>
     @yield('styles')
 </head>
@@ -123,31 +157,7 @@
             <i class="fas fa-ticket-alt"></i> Tickets
         </div>
 
-        {{-- Admin links --}}
-        @if(Auth::user()->role === 'admin')
-            <a href="{{ route('admin.tickets.index') }}"
-               class="nav-link {{ request()->routeIs('admin.tickets.index') ? 'active' : '' }}">
-                <i class="fas fa-list-ul"></i> All Tickets
-            </a>
-            <a href="{{ route('ticketsystem.assigned') }}"
-               class="nav-link {{ request()->routeIs('ticketsystem.assigned') ? 'active' : '' }}">
-                <i class="fas fa-user-check"></i> Assigned to Me
-            </a>
-        @endif
-
-        {{-- Support links --}}
-        @if(Auth::user()->role === 'support')
-            <a href="{{ route('support.tickets') }}"
-               class="nav-link {{ request()->routeIs('support.tickets') ? 'active' : '' }}">
-                <i class="fas fa-user-check"></i> Assigned to Me
-            </a>
-        @endif
-
-        {{-- All roles --}}
-        <a href="{{ route('ticketsystem.my') }}"
-           class="nav-link {{ request()->routeIs('ticketsystem.my') ? 'active' : '' }}">
-            <i class="fas fa-ticket-alt"></i> My Ticket
-        </a>
+        
 
         {{-- Admin only sections --}}
         @if(Auth::user()->role === 'admin')
@@ -238,15 +248,64 @@
     </div>
 
     <div class="content">
-        @if(session('success'))
-            <div class="alert-success"><i class="fas fa-check-circle"></i> {{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert-error"><i class="fas fa-exclamation-circle"></i> {{ session('error') }}</div>
+
+    {{-- TICKET TABS --}}
+    <div class="ticket-tabs">
+
+        {{-- ADMIN --}}
+        @if(Auth::user()->role === 'admin')
+
+            <a href="{{ route('admin.tickets.index') }}"
+               class="ticket-tab {{ request()->routeIs('admin.tickets.index') ? 'active' : '' }}">
+                <i class="fas fa-list-ul"></i>
+                All Tickets
+            </a>
+
+            <a href="{{ route('ticketsystem.assigned') }}"
+               class="ticket-tab {{ request()->routeIs('ticketsystem.assigned') ? 'active' : '' }}">
+                <i class="fas fa-user-check"></i>
+                Assigned To Me
+            </a>
+
         @endif
 
-        @yield('content')
+        {{-- SUPPORT --}}
+        @if(Auth::user()->role === 'support')
+
+            <a href="{{ route('support.tickets') }}"
+               class="ticket-tab {{ request()->routeIs('support.tickets') ? 'active' : '' }}">
+                <i class="fas fa-user-check"></i>
+                Assigned To Me
+            </a>
+
+        @endif
+
+        {{-- ALL USERS --}}
+        <a href="{{ route('ticketsystem.my') }}"
+           class="ticket-tab {{ request()->routeIs('ticketsystem.my') ? 'active' : '' }}">
+            <i class="fas fa-ticket-alt"></i>
+            My Tickets
+        </a>
+
     </div>
+
+
+    @if(session('success'))
+        <div class="alert-success">
+            <i class="fas fa-check-circle"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @yield('content')
+
 </div>
 
 @yield('scripts')
