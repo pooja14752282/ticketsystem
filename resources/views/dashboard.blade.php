@@ -433,12 +433,49 @@
         <span class="role-pill user"><i class="fas fa-user" style="margin-right:4px"></i>User</span>
     @endif
 
-    <div style="display:flex; align-items:center; gap:8px; margin-left:6px;">
+    <div style="position:relative; display:inline-block;" id="userDropdown">
+
+    <!-- Clickable user section -->
+    <div onclick="toggleDropdown()" style="display:flex; align-items:center; gap:8px; margin-left:6px; cursor:pointer;">
         <div style="width:30px; height:30px; border-radius:50%; background:#dbeafe; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#1d4ed8;">
             {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
         </div>
-        <span style="font-size:13px; color:#374151; font-weight:500;">{{ Auth::user()->name }}</span>
+        <span style="font-size:13px; color:#374151; font-weight:500;">
+            {{ Auth::user()->name }}
+        </span>
     </div>
+
+    <!-- Dropdown -->
+    <div id="dropdownMenu" style="
+        display:none;
+        position:absolute;
+        right:0;
+        top:40px;
+        background:#fff;
+        border:1px solid #e5e7eb;
+        border-radius:8px;
+        width:180px;
+        box-shadow:0 6px 16px rgba(0,0,0,0.08);
+        z-index:1000;
+    ">
+
+        <a href="{{ route('profile') }}"
+           style="display:block; padding:10px; font-size:13px; color:#374151; text-decoration:none;">
+            Profile
+        </a>
+
+        <a href="{{ route('logout') }}"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+           style="display:block; padding:10px; font-size:13px; color:#dc2626; text-decoration:none;">
+            Sign out
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+            @csrf
+        </form>
+
+    </div>
+</div>
 </div>
     </header>
 
@@ -688,6 +725,8 @@
     </main>
 </div>
 
+
+
 <script>
 // ── LINE CHART ──────────────────────────────────────────────
 const lineLabels   = @json($lineLabels);
@@ -815,6 +854,24 @@ new Chart(slaCtx, {
         plugins: { legend: { display: false }, tooltip: { enabled: false } }
     }
 });
+
+
+function toggleDropdown() {
+    const menu = document.getElementById('dropdownMenu');
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+}
+
+// close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('userDropdown');
+    const menu = document.getElementById('dropdownMenu');
+
+    if (!dropdown.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
+
+
 </script>
 
 </body>

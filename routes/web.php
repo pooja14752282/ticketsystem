@@ -8,6 +8,9 @@ use App\Http\Controllers\TicketCategoryController;
 use App\Http\Controllers\SupportTeamController;
 use App\Http\Controllers\TicketOptionController;
 use App\Http\Controllers\notificationcontroller;
+use App\Http\Controllers\ProfileController;
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 Route::get('/', function () {
     return view('welcome');
