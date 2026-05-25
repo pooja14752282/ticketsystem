@@ -171,13 +171,7 @@
     <div class="info-box">
         <div class="info-label">Assigned Project</div>
         <div class="info-value">
-            @php
-                $projects = $user->tickets->pluck('app_name')->unique();
-            @endphp
-
-            @foreach($projects as $project)
-                {{ $project }}<br>
-            @endforeach
+            {{ $category ?? 'No Project Assigned' }}
         </div>
     </div>
 </div>
