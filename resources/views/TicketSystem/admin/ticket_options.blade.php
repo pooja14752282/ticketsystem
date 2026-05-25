@@ -12,240 +12,291 @@
 
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-    .card {
-        background: #fff; border-radius: 10px; border: 1px solid #e5e7eb;
-        overflow: hidden;
+    .section-card {
+        background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; overflow: hidden;
     }
-    .card-header {
-        background: #1d4ed8; padding: 12px 18px;
-        display: flex; align-items: center; justify-content: space-between;
+    .section-header {
+        padding: 14px 18px; border-bottom: 1px solid #e5e7eb;
+        display: flex; align-items: center; gap: 8px;
     }
-    .card-header h2 { font-size: 14px; font-weight: 600; color: #fff; }
-    .card-body { padding: 18px; }
+    .section-header h2 { font-size: 15px; font-weight: 600; color: #111827; }
+    .section-header span {
+        font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600;
+    }
 
     /* Add form */
-    .add-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .add-form { padding: 16px 18px; border-bottom: 1px solid #f3f4f6; background: #f9fafb; }
+    .add-form-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 8px; align-items: end; }
+    .add-form label { font-size: 11px; color: #6b7280; display: block; margin-bottom: 4px; }
     .add-form input[type="text"] {
-        padding: 8px 10px; font-size: 13px;
-        border: 1px solid #d1d5db; border-radius: 6px;
-        background: #fff; color: #111827; width: 100%;
+        width: 100%; padding: 7px 10px; font-size: 13px;
+        border: 1px solid #d1d5db; border-radius: 6px; background: #fff; color: #111827;
     }
     .add-form input[type="text"]:focus { outline: none; border-color: #3b82f6; }
-    .color-row { display: flex; gap: 10px; align-items: center; }
-    .color-row label { font-size: 12px; color: #6b7280; white-space: nowrap; }
-    .color-row input[type="color"] {
-        width: 40px; height: 32px; border: 1px solid #d1d5db;
+    .color-group { display: flex; flex-direction: column; }
+    .color-group input[type="color"] {
+        width: 44px; height: 34px; border: 1px solid #d1d5db;
         border-radius: 6px; cursor: pointer; padding: 2px;
-    }
-    .color-preview {
-        flex: 1; padding: 4px 12px; border-radius: 20px;
-        font-size: 12px; font-weight: 600; text-align: center;
-        transition: all 0.2s;
     }
     .btn-add {
         background: #1d4ed8; color: #fff; border: none;
-        padding: 9px 16px; border-radius: 6px; font-size: 13px;
-        font-weight: 500; cursor: pointer; display: inline-flex;
-        align-items: center; gap: 6px; width: 100%; justify-content: center;
+        padding: 7px 14px; border-radius: 6px; font-size: 12px;
+        font-weight: 500; cursor: pointer; white-space: nowrap;
+        display: inline-flex; align-items: center; gap: 5px; height: 34px;
     }
     .btn-add:hover { background: #1e40af; }
 
     /* Options list */
-    .options-list { display: flex; flex-direction: column; gap: 8px; }
+    .options-list { padding: 0; }
     .option-row {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 8px 12px; border-radius: 8px; border: 1px solid #f3f4f6;
-        background: #f9fafb;
+        padding: 10px 18px; border-bottom: 1px solid #f3f4f6;
     }
-    .option-row.inactive { opacity: 0.45; }
+    .option-row:last-child { border-bottom: none; }
+    .option-left { display: flex; align-items: center; gap: 10px; }
     .badge-preview {
         display: inline-block; padding: 3px 12px; border-radius: 20px;
-        font-size: 12px; font-weight: 600;
+        font-size: 11px; font-weight: 600;
     }
-    .option-actions { display: flex; gap: 6px; }
-    .btn-toggle {
+    .option-value { font-size: 11px; color: #9ca3af; font-family: monospace; }
+    .option-actions { display: flex; gap: 6px; align-items: center; }
+
+    .btn-toggle-on {
+        background: #dcfce7; color: #166534; border: none;
+        padding: 4px 10px; border-radius: 5px; font-size: 11px; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn-toggle-on:hover { background: #bbf7d0; }
+    .btn-toggle-off {
         background: #fef3c7; color: #92400e; border: none;
-        padding: 3px 10px; border-radius: 5px; font-size: 11px;
-        cursor: pointer; white-space: nowrap;
+        padding: 4px 10px; border-radius: 5px; font-size: 11px; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 4px;
     }
-    .btn-toggle:hover { background: #fde68a; }
-    .btn-toggle.active-btn { background: #dcfce7; color: #166534; }
-    .btn-toggle.active-btn:hover { background: #bbf7d0; }
+    .btn-toggle-off:hover { background: #fde68a; }
     .btn-del {
         background: #fee2e2; color: #991b1b; border: none;
-        padding: 3px 10px; border-radius: 5px; font-size: 11px;
-        cursor: pointer; white-space: nowrap;
+        padding: 4px 10px; border-radius: 5px; font-size: 11px; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 4px;
     }
     .btn-del:hover { background: #fecaca; }
 
-    .empty-msg { font-size: 13px; color: #9ca3af; text-align: center; padding: 20px 0; }
+    .empty-opts { padding: 30px; text-align: center; color: #9ca3af; font-size: 13px; }
 
     .alert-success {
         background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;
-        padding: 10px 16px; border-radius: 8px; font-size: 13px;
-        margin-bottom: 16px;
+        padding: 10px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;
+        display: flex; align-items: center; gap: 8px;
     }
     .alert-error {
         background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;
-        padding: 10px 16px; border-radius: 8px; font-size: 13px;
-        margin-bottom: 16px;
+        padding: 10px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;
+        display: flex; align-items: center; gap: 8px;
     }
-    .divider { border: none; border-top: 1px solid #e5e7eb; margin: 16px 0; }
+
+    /* Ticket Tabs */
+    .ticket-tabs {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 20px;
+    }
+    .ticket-tab {
+        padding: 8px 16px;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #6b7280;
+        text-decoration: none;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.15s;
+    }
+    .ticket-tab:hover {
+        background: #f3f4f6;
+        color: #111827;
+    }
+    .ticket-tab.active {
+        background: #1d4ed8;
+        color: #fff;
+        border-color: #1d4ed8;
+    }
 </style>
 @endsection
 
 @section('content')
 
+<div class="ticket-tabs">
+    <a href="{{ route('admin.ticket-options.index') }}"
+       class="ticket-tab {{ request()->routeIs('admin.ticket-options.*') ? 'active' : '' }}">
+        <i class="fas fa-sliders-h"></i> Ticket Options
+    </a>
+    <a href="{{ route('admin.tickets.duedates') }}"
+       class="ticket-tab {{ request()->routeIs('admin.tickets.duedates') ? 'active' : '' }}">
+        <i class="fas fa-calendar-alt"></i> Edit Due Dates
+    </a>
+</div>
+
 <div class="page-header">
     <div>
         <h1>⚙️ Ticket Options <span style="font-size:13px;font-weight:400;color:#9ca3af;">— Status & Priority</span></h1>
-        <p>Add new statuses and priorities. They appear everywhere instantly.</p>
+        <p>Add and manage status and priority options used across all tickets</p>
     </div>
 </div>
 
 @if(session('success'))
-    <div class="alert-success">✓ {{ session('success') }}</div>
+    <div class="alert-success"><i class="fas fa-check-circle"></i> {{ session('success') }}</div>
 @endif
 @if(session('error'))
-    <div class="alert-error">✗ {{ session('error') }}</div>
+    <div class="alert-error"><i class="fas fa-exclamation-circle"></i> {{ session('error') }}</div>
 @endif
 
 <div class="two-col">
 
-    {{-- ── STATUS COLUMN ── --}}
-    <div class="card">
-        <div class="card-header">
-            <h2>🔵 Statuses</h2>
-            <span style="font-size:12px;color:#bfdbfe;">{{ $statuses->count() }} total</span>
+    {{-- ── STATUS ── --}}
+    <div class="section-card">
+        <div class="section-header">
+            <i class="fas fa-tag" style="color:#1d4ed8;"></i>
+            <h2>Status Options</h2>
+            <span style="background:#dbeafe;color:#1e40af;">{{ $statuses->count() }} options</span>
         </div>
-        <div class="card-body">
 
-            {{-- Add Status Form --}}
-            <form method="POST" action="{{ route('admin.ticket-options.store') }}">
-                @csrf
-                <input type="hidden" name="type" value="status">
-                <div class="add-form">
-                    <input type="text" name="label" placeholder="Status name e.g. In Review" required>
-                    <div class="color-row">
-                        <label>Background</label>
-                        <input type="color" name="color" id="status-bg" value="#dbeafe" oninput="updateStatusPreview()">
-                        <label>Text</label>
-                        <input type="color" name="text_color" id="status-text" value="#1e40af" oninput="updateStatusPreview()">
-                        <span class="color-preview" id="status-preview" style="background:#dbeafe;color:#1e40af;">Preview</span>
-                    </div>
-                    <button type="submit" class="btn-add">
-                        <i class="fas fa-plus"></i> Add Status
-                    </button>
+        {{-- Add Status Form --}}
+        <form method="POST" action="{{ route('admin.ticket-options.store') }}" class="add-form">
+            @csrf
+            <input type="hidden" name="type" value="status">
+            <div class="add-form-row">
+                <div>
+                    <label>Status Label</label>
+                    <input type="text" name="label" placeholder="e.g. In Review" required>
                 </div>
-            </form>
-
-            <hr class="divider">
-
-            {{-- Existing Statuses --}}
-            <div class="options-list">
-                @forelse($statuses as $s)
-                <div class="option-row {{ $s->is_active ? '' : 'inactive' }}">
-                    <span class="badge-preview" style="background:{{ $s->color }};color:{{ $s->text_color }};">
-                        {{ $s->label }}
-                    </span>
-                    <div class="option-actions">
-                        <form method="POST" action="{{ route('admin.ticket-options.toggle', $s) }}" style="margin:0">
-                            @csrf @method('PATCH')
-                            <button type="submit" class="btn-toggle {{ $s->is_active ? '' : 'active-btn' }}">
-                                {{ $s->is_active ? 'Disable' : 'Enable' }}
-                            </button>
-                        </form>
-                        <form method="POST" action="{{ route('admin.ticket-options.destroy', $s) }}"
-                              onsubmit="return confirm('Delete this status?')" style="margin:0">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn-del">Delete</button>
-                        </form>
-                    </div>
+                <div class="color-group">
+                    <label>Background</label>
+                    <input type="color" name="color" value="#dbeafe" title="Badge background color">
                 </div>
-                @empty
-                <p class="empty-msg">No statuses yet. Add one above.</p>
-                @endforelse
+                <div class="color-group">
+                    <label>Text</label>
+                    <input type="color" name="text_color" value="#1e40af" title="Badge text color">
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn-add"><i class="fas fa-plus"></i> Add</button>
+                </div>
             </div>
+        </form>
+
+        {{-- Status List --}}
+        <div class="options-list">
+            @forelse($statuses as $option)
+            <div class="option-row">
+                <div class="option-left">
+                    <span class="badge-preview"
+                          style="background:{{ $option->color }};color:{{ $option->text_color }};">
+                        {{ $option->label }}
+                    </span>
+                    <span class="option-value">{{ $option->value }}</span>
+                    @if(!$option->is_active)
+                        <span style="font-size:10px;color:#9ca3af;">(inactive)</span>
+                    @endif
+                </div>
+                <div class="option-actions">
+                    <form method="POST" action="{{ route('admin.ticket-options.toggle', $option) }}" style="margin:0">
+                        @csrf @method('PATCH')
+                        @if($option->is_active)
+                            <button type="submit" class="btn-toggle-on" title="Deactivate">
+                                <i class="fas fa-eye"></i> Active
+                            </button>
+                        @else
+                            <button type="submit" class="btn-toggle-off" title="Activate">
+                                <i class="fas fa-eye-slash"></i> Inactive
+                            </button>
+                        @endif
+                    </form>
+                    <form method="POST" action="{{ route('admin.ticket-options.destroy', $option) }}"
+                          onsubmit="return confirm('Delete this status option?')" style="margin:0">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn-del"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+            @empty
+                <div class="empty-opts">No status options yet. Add one above.</div>
+            @endforelse
         </div>
     </div>
 
-    {{-- ── PRIORITY COLUMN ── --}}
-    <div class="card">
-        <div class="card-header">
-            <h2>🔴 Priorities</h2>
-            <span style="font-size:12px;color:#bfdbfe;">{{ $priorities->count() }} total</span>
+    {{-- ── PRIORITY ── --}}
+    <div class="section-card">
+        <div class="section-header">
+            <i class="fas fa-flag" style="color:#d97706;"></i>
+            <h2>Priority Options</h2>
+            <span style="background:#fef3c7;color:#92400e;">{{ $priorities->count() }} options</span>
         </div>
-        <div class="card-body">
 
-            {{-- Add Priority Form --}}
-            <form method="POST" action="{{ route('admin.ticket-options.store') }}">
-                @csrf
-                <input type="hidden" name="type" value="priority">
-                <div class="add-form">
-                    <input type="text" name="label" placeholder="Priority name e.g. Critical" required>
-                    <div class="color-row">
-                        <label>Background</label>
-                        <input type="color" name="color" id="priority-bg" value="#fee2e2" oninput="updatePriorityPreview()">
-                        <label>Text</label>
-                        <input type="color" name="text_color" id="priority-text" value="#991b1b" oninput="updatePriorityPreview()">
-                        <span class="color-preview" id="priority-preview" style="background:#fee2e2;color:#991b1b;">Preview</span>
-                    </div>
-                    <button type="submit" class="btn-add">
-                        <i class="fas fa-plus"></i> Add Priority
-                    </button>
+        {{-- Add Priority Form --}}
+        <form method="POST" action="{{ route('admin.ticket-options.store') }}" class="add-form">
+            @csrf
+            <input type="hidden" name="type" value="priority">
+            <div class="add-form-row">
+                <div>
+                    <label>Priority Label</label>
+                    <input type="text" name="label" placeholder="e.g. Critical" required>
                 </div>
-            </form>
-
-            <hr class="divider">
-
-            {{-- Existing Priorities --}}
-            <div class="options-list">
-                @forelse($priorities as $p)
-                <div class="option-row {{ $p->is_active ? '' : 'inactive' }}">
-                    <span class="badge-preview" style="background:{{ $p->color }};color:{{ $p->text_color }};">
-                        {{ $p->label }}
-                    </span>
-                    <div class="option-actions">
-                        <form method="POST" action="{{ route('admin.ticket-options.toggle', $p) }}" style="margin:0">
-                            @csrf @method('PATCH')
-                            <button type="submit" class="btn-toggle {{ $p->is_active ? '' : 'active-btn' }}">
-                                {{ $p->is_active ? 'Disable' : 'Enable' }}
-                            </button>
-                        </form>
-                        <form method="POST" action="{{ route('admin.ticket-options.destroy', $p) }}"
-                              onsubmit="return confirm('Delete this priority?')" style="margin:0">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn-del">Delete</button>
-                        </form>
-                    </div>
+                <div class="color-group">
+                    <label>Background</label>
+                    <input type="color" name="color" value="#fee2e2" title="Badge background color">
                 </div>
-                @empty
-                <p class="empty-msg">No priorities yet. Add one above.</p>
-                @endforelse
+                <div class="color-group">
+                    <label>Text</label>
+                    <input type="color" name="text_color" value="#991b1b" title="Badge text color">
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn-add"><i class="fas fa-plus"></i> Add</button>
+                </div>
             </div>
+        </form>
+
+        {{-- Priority List --}}
+        <div class="options-list">
+            @forelse($priorities as $option)
+            <div class="option-row">
+                <div class="option-left">
+                    <span class="badge-preview"
+                          style="background:{{ $option->color }};color:{{ $option->text_color }};">
+                        {{ $option->label }}
+                    </span>
+                    <span class="option-value">{{ $option->value }}</span>
+                    @if(!$option->is_active)
+                        <span style="font-size:10px;color:#9ca3af;">(inactive)</span>
+                    @endif
+                </div>
+                <div class="option-actions">
+                    <form method="POST" action="{{ route('admin.ticket-options.toggle', $option) }}" style="margin:0">
+                        @csrf @method('PATCH')
+                        @if($option->is_active)
+                            <button type="submit" class="btn-toggle-on" title="Deactivate">
+                                <i class="fas fa-eye"></i> Active
+                            </button>
+                        @else
+                            <button type="submit" class="btn-toggle-off" title="Activate">
+                                <i class="fas fa-eye-slash"></i> Inactive
+                            </button>
+                        @endif
+                    </form>
+                    <form method="POST" action="{{ route('admin.ticket-options.destroy', $option) }}"
+                          onsubmit="return confirm('Delete this priority option?')" style="margin:0">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn-del"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+            @empty
+                <div class="empty-opts">No priority options yet. Add one above.</div>
+            @endforelse
         </div>
     </div>
 
 </div>
-
-@endsection
-
-@section('scripts')
-<script>
-function updateStatusPreview() {
-    const bg   = document.getElementById('status-bg').value;
-    const text = document.getElementById('status-text').value;
-    const prev = document.getElementById('status-preview');
-    prev.style.background = bg;
-    prev.style.color = text;
-}
-
-function updatePriorityPreview() {
-    const bg   = document.getElementById('priority-bg').value;
-    const text = document.getElementById('priority-text').value;
-    const prev = document.getElementById('priority-preview');
-    prev.style.background = bg;
-    prev.style.color = text;
-}
-</script>
 @endsection
