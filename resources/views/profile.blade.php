@@ -168,13 +168,19 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="info-box">
-                        <div class="info-label">Assigned Project</div>
-                        <div class="info-value">
-                            {{ Auth::user()->project ?? 'No Project Assigned' }}
-                        </div>
-                    </div>
-                </div>
+    <div class="info-box">
+        <div class="info-label">Assigned Project</div>
+        <div class="info-value">
+            @php
+                $projects = $user->tickets->pluck('app_name')->unique();
+            @endphp
+
+            @foreach($projects as $project)
+                {{ $project }}<br>
+            @endforeach
+        </div>
+    </div>
+</div>
 
             </div>
 
@@ -189,11 +195,6 @@
 
                     <form method="POST" action="#">
                         @csrf
-
-                        <div class="mb-3">
-                            <label class="form-label">Current Password</label>
-                            <input type="password" class="form-control">
-                        </div>
 
                         <div class="mb-3">
                             <label class="form-label">New Password</label>

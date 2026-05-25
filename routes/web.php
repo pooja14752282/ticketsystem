@@ -10,6 +10,7 @@ use App\Http\Controllers\TicketOptionController;
 use App\Http\Controllers\notificationcontroller;
 use App\Http\Controllers\ProfileController;
 
+// Profile routes
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 Route::get('/', function () {
