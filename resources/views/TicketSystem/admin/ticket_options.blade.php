@@ -158,7 +158,7 @@
     <div class="section-card">
         <div class="section-header">
             <i class="fas fa-tag" style="color:#1d4ed8;"></i>
-            <h2>Status Options</h2>
+            <h2>Manage Status</h2>
             <span style="background:#dbeafe;color:#1e40af;">{{ $statuses->count() }} options</span>
         </div>
 
@@ -230,7 +230,7 @@
     <div class="section-card">
         <div class="section-header">
             <i class="fas fa-flag" style="color:#d97706;"></i>
-            <h2>Priority Options</h2>
+            <h2>Manage Priority</h2>
             <span style="background:#fef3c7;color:#92400e;">{{ $priorities->count() }} options</span>
         </div>
 
