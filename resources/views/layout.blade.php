@@ -63,6 +63,12 @@
         .ticket-tab { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; text-decoration: none; color: #6b7280; font-size: 13px; font-weight: 500; transition: all .15s ease; }
         .ticket-tab:hover { background: #f9fafb; color: #111827; }
         .ticket-tab.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        .active-tab {
+            background: #dbeafe !important;
+            color: #1d4ed8 !important;
+            border-color: #93c5fd !important;
+            font-weight: 600;
+        }
     </style>
     @yield('styles')
 </head>
@@ -101,22 +107,20 @@
             </div>
         </div>
         @endif
-
-        
-</div>
-
-        
     </div>
 </div>
 
 {{-- ══ CONTENT ══ --}}
 <div class="content">
 
-    {{-- SHOW TABS ONLY FOR TICKET PAGES --}}
+    {{-- SHOW TABS ONLY FOR TICKET PAGES — but NOT on the due dates page --}}
     @if(
-        request()->routeIs('admin.tickets.*') ||
-        request()->routeIs('ticketsystem.*') ||
-        request()->routeIs('support.tickets')
+        (
+            request()->routeIs('admin.tickets.*') ||
+            request()->routeIs('ticketsystem.*') ||
+            request()->routeIs('support.tickets')
+        )
+        && !request()->routeIs('admin.tickets.duedates')
     )
 
         {{-- TICKET TABS --}}

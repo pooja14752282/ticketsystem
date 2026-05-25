@@ -73,6 +73,19 @@
 
 @section('content')
 
+<div class="ticket-tabs" style="margin-bottom: 20px;">
+    <a href="{{ route('admin.ticket-options.index') }}"
+       class="ticket-tab {{ request()->routeIs('admin.ticket-options.*') ? 'active' : '' }}">
+        <i class="fas fa-sliders-h"></i> Ticket Options
+    </a>
+    <a href="{{ route('admin.tickets.duedates') }}"
+       class="ticket-tab {{ request()->routeIs('admin.tickets.duedates') ? 'active' : '' }}">
+        <i class="fas fa-calendar-alt"></i> Edit Due Dates
+    </a>
+</div>
+
+{{-- rest of your existing content here --}}
+
 <div class="page-header">
     <h1>📅 Edit Due Dates</h1>
     <p>Set or update due dates for any ticket</p>
