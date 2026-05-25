@@ -299,52 +299,30 @@
 
         {{-- Dashboard link — active on this page --}}
         <div class="nav-section-header">
-            <i class="fas fa-th-large"></i> Main
-        </div>
         <a href="{{ route('dashboard') }}"
            class="nav-link active">
             <i class="fas fa-chart-pie"></i> Dashboard
         </a>
+</div>
 
         {{-- Tickets --}}
         <div class="nav-section-header" style="margin-top:4px">
+            <a href="{{ route('admin.tickets.index') }}" class="nav-link">
             <i class="fas fa-ticket-alt"></i> Tickets
         </div>
-        @if(Auth::user()->role === 'admin')
-            <a href="{{ route('admin.tickets.index') }}" class="nav-link">
-                <i class="fas fa-list-ul"></i> All Tickets
-                @if($inProgressCount > 0)
-                    <span class="nav-badge">{{ $inProgressCount }}</span>
-                @endif
-            </a>
-            <a href="{{ route('ticketsystem.assigned') }}" class="nav-link">
-                <i class="fas fa-user-check"></i> Assigned To Me
-            </a>
-        @endif
-        @if(Auth::user()->role === 'support')
-            <a href="{{ route('support.tickets') }}" class="nav-link">
-                <i class="fas fa-user-check"></i> Assigned To Me
-            </a>
-        @endif
-        <a href="{{ route('ticketsystem.my') }}" class="nav-link">
-            <i class="fas fa-ticket-alt"></i> My Tickets
-        </a>
+        
 
         {{-- Admin-only sections --}}
         @if(Auth::user()->role === 'admin')
             <div class="nav-section-header" style="margin-top:4px">
+                <a href="{{ route('admin.ticket-categories.index') }}" class="nav-link">
                 <i class="fas fa-tags"></i> Categories
             </div>
-            <a href="{{ route('admin.ticket-categories.index') }}" class="nav-link">
-                <i class="fas fa-th-list"></i> All Categories
-            </a>
 
             <div class="nav-section-header" style="margin-top:4px">
+                <a href="{{ route('admin.support-team.index') }}" class="nav-link">
                 <i class="fas fa-users"></i> Support Team
             </div>
-            <a href="{{ route('admin.support-team.index') }}" class="nav-link">
-                <i class="fas fa-users"></i> All Members
-            </a>
 
             <div class="nav-section-header" style="margin-top:4px">
                 <i class="fas fa-sliders-h"></i> Settings
