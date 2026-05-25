@@ -290,52 +290,46 @@
         <div class="logo-icon"><i class="fas fa-headset"></i></div>
         <div class="logo-text">Ticket<br>System</div>
     </div>
+<nav class="sidebar-nav">
 
-    <nav class="sidebar-nav">
+    <div class="nav-section-title">
+        {{ Auth::user()->role === 'admin' ? 'Admin' : (Auth::user()->role === 'support' ? 'Support' : 'Menu') }}
+    </div>
 
-        <div class="nav-section-title">
-            {{ Auth::user()->role === 'admin' ? 'Admin' : (Auth::user()->role === 'support' ? 'Support' : 'Menu') }}
-        </div>
+    {{-- Dashboard --}}
+    <a href="{{ route('dashboard') }}" class="nav-link active">
+        <i class="fas fa-chart-pie"></i> Dashboard
+    </a>
 
-        {{-- Dashboard link — active on this page --}}
-        <div class="nav-section-header">
-        <a href="{{ route('dashboard') }}"
-           class="nav-link active">
-            <i class="fas fa-chart-pie"></i> Dashboard
+    {{-- Tickets --}}
+    <a href="{{ route('admin.tickets.index') }}" class="nav-link">
+        <i class="fas fa-ticket-alt"></i> Tickets
+    </a>
+
+    {{-- Admin-only sections --}}
+    @if(Auth::user()->role === 'admin')
+
+        <a href="{{ route('admin.ticket-categories.index') }}" class="nav-link">
+            <i class="fas fa-tags"></i> Categories
         </a>
-</div>
 
-        {{-- Tickets --}}
-        <div class="nav-section-header" style="margin-top:4px">
-            <a href="{{ route('admin.tickets.index') }}" class="nav-link">
-            <i class="fas fa-ticket-alt"></i> Tickets
-        </div>
-        
+        <a href="{{ route('admin.support-team.index') }}" class="nav-link">
+            <i class="fas fa-users"></i> Support Team
+        </a>
 
-        {{-- Admin-only sections --}}
-        @if(Auth::user()->role === 'admin')
-            <div class="nav-section-header" style="margin-top:4px">
-                <a href="{{ route('admin.ticket-categories.index') }}" class="nav-link">
-                <i class="fas fa-tags"></i> Categories
-            </div>
+        <div class="nav-section-title" style="margin-top:8px">Settings</div>
 
-            <div class="nav-section-header" style="margin-top:4px">
-                <a href="{{ route('admin.support-team.index') }}" class="nav-link">
-                <i class="fas fa-users"></i> Support Team
-            </div>
+        <a href="{{ route('admin.ticket-options.index') }}" class="nav-link">
+            <i class="fas fa-sliders-h"></i> Ticket Options
+        </a>
 
-            <div class="nav-section-header" style="margin-top:4px">
-                <i class="fas fa-sliders-h"></i> Settings
-            </div>
-            <a href="{{ route('admin.ticket-options.index') }}" class="nav-link">
-                <i class="fas fa-sliders-h"></i> Ticket Options
-            </a>
-            <a href="{{ route('admin.tickets.duedates') }}" class="nav-link">
-                <i class="fas fa-calendar-alt"></i> Edit Due Dates
-            </a>
-        @endif
+        <a href="{{ route('admin.tickets.duedates') }}" class="nav-link">
+            <i class="fas fa-calendar-alt"></i> Edit Due Dates
+        </a>
 
-    </nav>
+    @endif
+
+</nav>
 
     <div class="sidebar-footer">
         <form action="{{ route('logout') }}" method="POST" style="margin:0">
