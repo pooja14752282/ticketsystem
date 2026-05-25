@@ -288,7 +288,7 @@
 <div class="sidebar">
     <div class="sidebar-logo">
         <div class="logo-icon"><i class="fas fa-headset"></i></div>
-        <div class="logo-text">Seel Support</div>
+        <div class="logo-text">SEEL Support</div>
     </div>
 <nav class="sidebar-nav">
 
@@ -333,7 +333,6 @@
     <header class="topbar">
         <div class="topbar-left">
             <h2>Ticket Dashboard</h2>
-            <p>Overview of all support tickets and their status</p>
         </div>
         <div class="topbar-right">
     @if(Auth::user()->role === 'admin')

@@ -6,9 +6,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin — Ticket System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f1f3f6; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f1f3f6;
+    color: #1a202c;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    font-size: 14px;
+}
 
         .topbar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 0 20px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
@@ -24,6 +33,95 @@
         .dashboard-btn:hover { background: #f3f4f6; color: #111827; }
         .logout-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #dc2626; padding: 6px 10px; border-radius: 6px; border: none; background: none; cursor: pointer; }
         .logout-btn:hover { background: #fef2f2; }
+
+        /* ══ SIDEBAR ══ */
+.sidebar {
+    width: 220px;
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-logo {
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    width: 36px;
+    height: 36px;
+    background: #dbeafe;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1d4ed8;
+    font-size: 16px;
+}
+
+.logo-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 8px 0;
+    overflow-y: auto;
+}
+
+.nav-section-title {
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-top: 6px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px 9px 32px;
+    font-size: 13px;
+    color: #6b7280;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all .15s;
+}
+
+.nav-link:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.nav-link.active {
+    color: #1d4ed8;
+    background: #dbeafe;
+    border-left-color: #1d4ed8;
+    font-weight: 500;
+}
+
+.nav-link i {
+    width: 16px;
+    text-align: center;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 
         /* Notification Bell */
         #notif-wrapper { position: relative; }
@@ -74,41 +172,60 @@
 </head>
 <body>
 
-{{-- ══ TOPBAR ONLY (no sidebar) ══ --}}
-<div class="topbar">
-    <div class="topbar-left">
-        <a href="{{ route('dashboard') }}" class="dashboard-btn">
-            <i class="fas fa-home"></i> Dashboard
-        </a>
+<div class="sidebar">
+
+    <div class="sidebar-logo">
+        <div class="logo-icon">
+            <i class="fas fa-headset"></i>
+        </div>
+        <div class="logo-text">SEEL Support</div>
     </div>
-    <div class="topbar-right">
+
+    <nav class="sidebar-nav">
+
+        <div class="nav-section-title">
+            {{ Auth::user()->role === 'admin' ? 'Admin' : (Auth::user()->role === 'support' ? 'Support' : 'Menu') }}
+        </div>
+
+        <a href="{{ route('dashboard') }}"
+           class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <i class="fas fa-chart-pie"></i>
+            Dashboard
+        </a>
+
+        <a href="{{ route('admin.tickets.index') }}"
+           class="nav-link {{ request()->routeIs('admin.tickets.*') ? 'active' : '' }}">
+            <i class="fas fa-ticket-alt"></i>
+            Tickets
+        </a>
+
         @if(Auth::user()->role === 'admin')
-            <span class="admin-badge"><i class="fas fa-shield-alt"></i> Admin</span>
-        @elseif(Auth::user()->role === 'support')
-            <span class="support-badge"><i class="fas fa-headset"></i> Support</span>
-        @else
-            <span class="user-badge-role"><i class="fas fa-user"></i> User</span>
+
+            <a href="{{ route('admin.ticket-categories.index') }}"
+               class="nav-link {{ request()->routeIs('admin.ticket-categories.*') ? 'active' : '' }}">
+                <i class="fas fa-tags"></i>
+                Categories
+            </a>
+
+            <a href="{{ route('admin.support-team.index') }}"
+               class="nav-link {{ request()->routeIs('admin.support-team.*') ? 'active' : '' }}">
+                <i class="fas fa-users"></i>
+                Support Team
+            </a>
+
+            <a href="{{ route('admin.ticket-options.index') }}"
+               class="nav-link {{ request()->routeIs('admin.ticket-options.*') ? 'active' : '' }}">
+                <i class="fas fa-sliders-h"></i>
+                Settings
+            </a>
+
         @endif
 
-        @if(Auth::user()->role === 'support')
-        <div id="notif-wrapper">
-            <button class="notif-btn" id="notif-bell-btn" onclick="toggleNotifDropdown()">
-                <i class="fas fa-bell"></i>
-                <span id="notif-badge"></span>
-            </button>
-            <div id="notif-dropdown">
-                <div class="notif-header">
-                    <span>Notifications</span>
-                    <button class="notif-mark-all" onclick="markAllRead()">Mark all as read</button>
-                </div>
-                <div id="notif-list">
-                    <div class="notif-empty">Loading...</div>
-                </div>
-            </div>
-        </div>
-        @endif
-    </div>
+    </nav>
+
 </div>
+
+<div class="main">
 
 {{-- ══ CONTENT ══ --}}
 <div class="content">
