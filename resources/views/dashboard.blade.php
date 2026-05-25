@@ -17,6 +17,7 @@
             --text-muted:   #64748b;
             --text-light:   #94a3b8;
             --border:       #e5e7eb;
+
             --radius-sm:    6px;
             --radius-md:    10px;
             --radius-lg:    14px;
@@ -288,12 +289,12 @@
 <div class="sidebar">
     <div class="sidebar-logo">
         <div class="logo-icon"><i class="fas fa-headset"></i></div>
-        <div class="logo-text">SEEL Support</div>
+        <div class="logo-text">Seel Support</div>
     </div>
 <nav class="sidebar-nav">
 
     <div class="nav-section-title">
-        {{ Auth::user()->role === 'admin' ? 'Admin' : (Auth::user()->role === 'support' ? 'Support' : 'Menu') }}
+        {{ Auth::user()->role === 'admin' ? 'Admin' : (Auth::user()->role === 'Support' ? 'Support' : 'Menu') }}
     </div>
 
     {{-- Dashboard --}}
@@ -333,12 +334,26 @@
     <header class="topbar">
         <div class="topbar-left">
             <h2>Ticket Dashboard</h2>
+            <p>Overview of all support tickets and their status</p>
         </div>
         <div class="topbar-right">
     @if(Auth::user()->role === 'admin')
-        <span class="role-pill admin"><i class="fas fa-shield-alt" style="margin-right:4px"></i>Admin</span>
+        <span class="role-pill badge-admin">
+            <i class="fas fa-shield-alt"></i>
+            Admin
+        </span>
+
+    @elseif(Auth::user()->role === 'support')
+        <span class="role-pill badge-support">
+            <i class="fas fa-headset"></i>
+            Support
+        </span>
+
     @else
-        <span class="role-pill user"><i class="fas fa-user" style="margin-right:4px"></i>User</span>
+        <span class="role-pill badge-user">
+            <i class="fas fa-user"></i>
+            User
+        </span>
     @endif
 
     <div style="position:relative; display:inline-block;" id="userDropdown">
