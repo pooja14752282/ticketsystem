@@ -288,7 +288,7 @@
 <div class="sidebar">
     <div class="sidebar-logo">
         <div class="logo-icon"><i class="fas fa-headset"></i></div>
-        <div class="logo-text">Ticket<br>System</div>
+        <div class="logo-text">Seel Support</div>
     </div>
 <nav class="sidebar-nav">
 
@@ -331,14 +331,7 @@
 
 </nav>
 
-    <div class="sidebar-footer">
-        <form action="{{ route('logout') }}" method="POST" style="margin:0">
-            @csrf
-            <button type="submit" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </form>
-    </div>
+    
 </div>
 
 
