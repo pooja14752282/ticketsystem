@@ -102,17 +102,10 @@
         </div>
         @endif
 
-        <div class="user-badge">
-            <div class="avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
-            <span>{{ Auth::user()->name }}</span>
-        </div>
+        
+</div>
 
-        <form action="{{ route('logout') }}" method="POST" style="margin:0">
-            @csrf
-            <button type="submit" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </form>
+        
     </div>
 </div>
 

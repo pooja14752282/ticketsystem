@@ -317,11 +317,12 @@
             <i class="fas fa-users"></i> Support Team
         </a>
 
-        <div class="nav-section-title" style="margin-top:8px">Settings</div>
+        <div class="nav-section-title" style="margin-top:8px">
 
         <a href="{{ route('admin.ticket-options.index') }}" class="nav-link">
-            <i class="fas fa-sliders-h"></i> Ticket Options
+            <i class="fas fa-sliders-h"></i>Settings
         </a>
+        </div>
 
         <a href="{{ route('admin.tickets.duedates') }}" class="nav-link">
             <i class="fas fa-calendar-alt"></i> Edit Due Dates
