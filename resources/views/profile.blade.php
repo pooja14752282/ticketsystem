@@ -171,8 +171,16 @@
     <div class="info-box">
         <div class="info-label">Assigned Project</div>
         <div class="info-value">
-            {{ $user->tickets->last()->category ?? 'No Project Assigned' }}
-                </div>
+
+            @php
+                $categories = $user->tickets->pluck('category')->filter()->unique();
+            @endphp
+
+            @foreach($categories as $category)
+                {{ $category }} <br>
+            @endforeach
+
+        </div>
     </div>
 </div>
 
