@@ -118,15 +118,15 @@
         <div class="profile-header">
 
             <div class="profile-avatar">
-                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                {{ strtoupper(substr($user->name, 0, 2)) }}
             </div>
 
             <h3 class="mb-1">
-                {{ Auth::user()->name }}
+                {{ $user->name }}
             </h3>
 
             <p class="mb-0 opacity-75">
-                {{ Auth::user()->email }}
+                {{ $user->email }}
             </p>
 
         </div>
@@ -144,7 +144,7 @@
                     <div class="info-box">
                         <div class="info-label">Name</div>
                         <div class="info-value">
-                            {{ Auth::user()->name }}
+                            {{ $user->name }}
                         </div>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                     <div class="info-box">
                         <div class="info-label">Email</div>
                         <div class="info-value">
-                            {{ Auth::user()->email }}
+                            {{ $user->email }}
                         </div>
                     </div>
                 </div>
@@ -167,20 +167,20 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-    <div class="info-box">
-        <div class="info-label">Assigned Project</div>
-        <div class="info-value">
+                <div class="info-box">
+    <div class="info-label">Assigned Project</div>
+    <div class="info-value">
 
-            @php
-                $categories = $user->tickets->pluck('category')->filter()->unique();
-            @endphp
+        @php
+            $categories = $user->tickets->pluck('category')->unique();
+        @endphp
 
-            @foreach($categories as $category)
-                {{ $category }} <br>
-            @endforeach
+        @forelse($categories as $category)
+            {{ $category }} <br>
+        @empty
+            No Project Assigned
+        @endforelse
 
-        </div>
     </div>
 </div>
 
