@@ -171,8 +171,8 @@
     <div class="info-box">
         <div class="info-label">Assigned Project</div>
         <div class="info-value">
-            {{ $category ?? 'No Project Assigned' }}
-        </div>
+            {{ $user->tickets->last()->category ?? 'No Project Assigned' }}
+                </div>
     </div>
 </div>
 
