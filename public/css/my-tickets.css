@@ -1,0 +1,109 @@
+
+    .stats-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+        margin-bottom: 24px;
+    }
+    .stat-card {
+        background: white; border-radius: 10px; padding: 20px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+        border-left: 4px solid transparent;
+    }
+    .stat-card.high   { border-left-color: #e53e3e; }
+    .stat-card.open   { border-left-color: #3182ce; }
+    .stat-card.onhold { border-left-color: #d69e2e; }
+    .stat-card.urgent { border-left-color: #805ad5; }
+    .stat-card .label { font-size: 12px; color: #718096; margin-bottom: 6px; }
+    .stat-card .value { font-size: 28px; font-weight: 600; color: #2d3748; }
+
+    .page-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 24px;
+    }
+    .page-header h2 { font-size: 20px; color: #2d3748; font-weight: 600; }
+
+    .btn-create {
+        background: #1d4ed8; color: white; border: none;
+        padding: 10px 20px; border-radius: 6px; cursor: pointer;
+        font-size: 13px; text-decoration: none;
+    }
+    .btn-create:hover { background: #1e40af; }
+
+    .filters {
+        background: white; border-radius: 10px; padding: 16px 20px;
+        display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .filters input, .filters select {
+        padding: 8px 12px; border: 1px solid #e2e8f0;
+        border-radius: 6px; font-size: 13px; color: #4a5568; outline: none;
+    }
+    .filters input { flex: 1; min-width: 160px; }
+
+    .table-card {
+        background: white; border-radius: 10px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.07); overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: #f7fafc; }
+    thead th {
+        padding: 12px 16px; text-align: left;
+        font-size: 12px; font-weight: 600; color: #718096;
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    tbody tr { border-top: 1px solid #f0f0f0; }
+    tbody tr:hover { background: #f7fafc; }
+    tbody td { padding: 13px 16px; font-size: 13px; color: #4a5568; }
+
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+
+    .empty-state { text-align: center; padding: 60px 20px; color: #a0aec0; }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; }
+
+    .modal-overlay {
+        display: none; position: fixed; inset: 0;
+        background: rgba(0,0,0,0.5); z-index: 999;
+        justify-content: center; align-items: center;
+    }
+    .modal-box {
+        background: white; border-radius: 12px; padding: 32px;
+        width: 480px; max-width: 95%;
+        max-height: 90vh; overflow-y: auto;
+    }
+    .modal-box h3 { margin-bottom: 20px; color: #2d3748; font-size: 16px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { font-size: 13px; color: #4a5568; display: block; margin-bottom: 5px; font-weight: 500; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%; padding: 9px 12px;
+        border: 1px solid #e2e8f0; border-radius: 6px;
+        font-size: 13px; outline: none; font-family: inherit;
+    }
+    .form-group textarea { resize: vertical; }
+    .file-upload-area {
+        border: 2px dashed #e2e8f0; border-radius: 8px;
+        padding: 20px; text-align: center; cursor: pointer;
+        transition: border-color 0.2s;
+    }
+    .file-upload-area:hover { border-color: #1d4ed8; }
+    .file-upload-area i { font-size: 24px; color: #a0aec0; margin-bottom: 8px; display: block; }
+    .file-upload-area p { font-size: 13px; color: #718096; margin: 0; }
+    .file-upload-area span { font-size: 11px; color: #a0aec0; }
+    .file-name { font-size: 12px; color: #1d4ed8; margin-top: 6px; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+    .btn-cancel {
+        padding: 9px 20px; border: 1px solid #e2e8f0;
+        border-radius: 6px; background: white; cursor: pointer; font-size: 13px;
+    }
+    .btn-submit {
+        padding: 9px 20px; background: #1d4ed8; color: white;
+        border: none; border-radius: 6px; cursor: pointer; font-size: 13px;
+    }
+    .btn-submit:hover { background: #1e40af; }
+    .auto-assign-info {
+        background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px;
+        padding: 10px 12px; font-size: 12px; color: #1d4ed8; margin-top: 8px;
+        display: none;
+    }
+    .auto-assign-info i { margin-right: 6px; }

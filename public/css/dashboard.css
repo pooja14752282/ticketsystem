@@ -1,0 +1,55 @@
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.metric-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    padding: 18px;
+    display: flex;
+    gap: 12px;
+}
+
+.metric-value {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+}
+
+.card-header {
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.card-body {
+    padding: 16px;
+}
+
+.charts-row {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 220px 220px;
+    gap: 16px;
+}
+
+/* badges */
+
+.badge-open { background: #dbeafe; color: #2563eb; }
+.badge-in_progress { background: #ede9fe; color: #7c3aed; }
+.badge-completed { background: #dcfce7; color: #16a34a; }
+.badge-closed { background: #f1f5f9; color: #64748b; }

@@ -7,39 +7,31 @@
 
     <title>@yield('title', 'Admin — Ticket System')</title>
 
-    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-@stack('styles')
+    @stack('styles')
 </head>
 
 <body>
 
-    <div class="app-wrapper">
+@include('components.sidebar')
 
-        @include('components.sidebar')
+<div class="main">
 
-        <div class="main">
+    @include('components.topbar')
 
-            @include('components.topbar')
+    <div class="content">
 
-            <div class="content">
+        @include('components.alerts')
+        @include('components.ticket-tabs')
 
-                @include('components.alerts')
-
-                @include('components.ticket-tabs')
-
-                @yield('content')
-
-            </div>
-
-        </div>
+        @yield('content')
 
     </div>
+
+</div>
 
 @stack('scripts')
 
