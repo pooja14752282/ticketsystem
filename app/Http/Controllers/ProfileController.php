@@ -11,4 +11,17 @@ class ProfileController extends Controller
         $user = Auth::user()->load('tickets');
         return view('profile', compact('user'));
     }
+    public function updatePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => ['required', 'current_password'],
+        'password'         => ['required', 'min:8', 'confirmed'],
+    ]);
+
+    $request->user()->update([
+        'password' => bcrypt($request->password),
+    ]);
+
+    return back()->with('success', 'Password updated successfully.');
+}
 }

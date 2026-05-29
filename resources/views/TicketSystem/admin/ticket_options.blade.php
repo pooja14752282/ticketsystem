@@ -1,302 +1,354 @@
 @extends('layout')
 
+@section('title', 'Ticket Options')
+
 @section('styles')
 <style>
-    .page-header {
-        display: flex; align-items: flex-start; justify-content: space-between;
-        background: #fff; border-radius: 10px; border: 1px solid #e5e7eb;
-        padding: 16px 20px; margin-bottom: 16px;
-    }
-    .page-header h1 { font-size: 18px; font-weight: 600; color: #111827; }
-    .page-header p  { font-size: 13px; color: #6b7280; margin-top: 4px; }
-
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-    .section-card {
-        background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; overflow: hidden;
-    }
-    .section-header {
-        padding: 14px 18px; border-bottom: 1px solid #e5e7eb;
-        display: flex; align-items: center; gap: 8px;
-    }
-    .section-header h2 { font-size: 15px; font-weight: 600; color: #111827; }
-    .section-header span {
-        font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600;
+    .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 16px;
     }
 
-    /* Add form */
-    .add-form { padding: 16px 18px; border-bottom: 1px solid #f3f4f6; background: #f9fafb; }
-    .add-form-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 8px; align-items: end; }
-    .add-form label { font-size: 11px; color: #6b7280; display: block; margin-bottom: 4px; }
-    .add-form input[type="text"] {
-        width: 100%; padding: 7px 10px; font-size: 13px;
-        border: 1px solid #d1d5db; border-radius: 6px; background: #fff; color: #111827;
-    }
-    .add-form input[type="text"]:focus { outline: none; border-color: #3b82f6; }
-    .color-group { display: flex; flex-direction: column; }
-    .color-group input[type="color"] {
-        width: 44px; height: 34px; border: 1px solid #d1d5db;
-        border-radius: 6px; cursor: pointer; padding: 2px;
-    }
-    .btn-add {
-        background: #1d4ed8; color: #fff; border: none;
-        padding: 7px 14px; border-radius: 6px; font-size: 12px;
-        font-weight: 500; cursor: pointer; white-space: nowrap;
-        display: inline-flex; align-items: center; gap: 5px; height: 34px;
-    }
-    .btn-add:hover { background: #1e40af; }
-
-    /* Options list */
-    .options-list { padding: 0; }
-    .option-row {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 10px 18px; border-bottom: 1px solid #f3f4f6;
-    }
-    .option-row:last-child { border-bottom: none; }
-    .option-left { display: flex; align-items: center; gap: 10px; }
-    .badge-preview {
-        display: inline-block; padding: 3px 12px; border-radius: 20px;
-        font-size: 11px; font-weight: 600;
-    }
-    .option-value { font-size: 11px; color: #9ca3af; font-family: monospace; }
-    .option-actions { display: flex; gap: 6px; align-items: center; }
-
-    .btn-toggle-on {
-        background: #dcfce7; color: #166534; border: none;
-        padding: 4px 10px; border-radius: 5px; font-size: 11px; cursor: pointer;
-        display: inline-flex; align-items: center; gap: 4px;
-    }
-    .btn-toggle-on:hover { background: #bbf7d0; }
-    .btn-toggle-off {
-        background: #fef3c7; color: #92400e; border: none;
-        padding: 4px 10px; border-radius: 5px; font-size: 11px; cursor: pointer;
-        display: inline-flex; align-items: center; gap: 4px;
-    }
-    .btn-toggle-off:hover { background: #fde68a; }
-    .btn-del {
-        background: #fee2e2; color: #991b1b; border: none;
-        padding: 4px 10px; border-radius: 5px; font-size: 11px; cursor: pointer;
-        display: inline-flex; align-items: center; gap: 4px;
-    }
-    .btn-del:hover { background: #fecaca; }
-
-    .empty-opts { padding: 30px; text-align: center; color: #9ca3af; font-size: 13px; }
-
-    .alert-success {
-        background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;
-        padding: 10px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;
-        display: flex; align-items: center; gap: 8px;
-    }
-    .alert-error {
-        background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;
-        padding: 10px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;
-        display: flex; align-items: center; gap: 8px;
-    }
-
-    /* Ticket Tabs */
-    .ticket-tabs {
-        display: flex;
-        gap: 4px;
-        margin-bottom: 20px;
-    }
-    .ticket-tab {
-        padding: 8px 16px;
-        border-radius: 7px;
-        font-size: 13px;
-        font-weight: 500;
-        color: #6b7280;
-        text-decoration: none;
+    .option-section {
         background: #fff;
         border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 24px;
+    }
+
+    .option-section h2 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 4px;
+    }
+
+    .option-section p {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 20px;
+    }
+
+    .option-form {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        gap: 10px;
+        align-items: end;
+        margin-bottom: 20px;
+    }
+
+    .option-form .form-group label {
+        font-size: 12px;
+        color: #6b7280;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .option-form .form-group input[type="text"] {
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 13px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        color: #111827;
+    }
+
+    .option-form .form-group input[type="text"]:focus {
+        outline: none;
+        border-color: #3b82f6;
+    }
+
+    .color-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .color-group label {
+        font-size: 12px;
+        color: #6b7280;
+        white-space: nowrap;
+    }
+
+    .color-group input[type="color"] {
+        width: 44px;
+        height: 36px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        cursor: pointer;
+        padding: 2px;
+    }
+
+    .btn-add {
+        background: #1d4ed8;
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        white-space: nowrap;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        transition: all 0.15s;
+        height: 36px;
     }
-    .ticket-tab:hover {
-        background: #f3f4f6;
-        color: #111827;
+
+    .btn-add:hover { background: #1e40af; }
+
+    .options-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        overflow: hidden;
     }
-    .ticket-tab.active {
-        background: #1d4ed8;
+
+    .options-table thead { background: #1d4ed8; }
+
+    .options-table thead th {
+        padding: 10px 12px;
+        font-size: 12px;
+        font-weight: 600;
         color: #fff;
-        border-color: #1d4ed8;
+        text-align: left;
+    }
+
+    .options-table tbody tr { border-bottom: 1px solid #f3f4f6; }
+    .options-table tbody tr:last-child { border-bottom: none; }
+    .options-table tbody tr:hover { background: #f9fafb; }
+
+    .options-table tbody td {
+        padding: 10px 12px;
+        font-size: 13px;
+        color: #374151;
+        vertical-align: middle;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .action-btns { display: flex; gap: 4px; }
+
+    .btn-edit {
+        background: #dbeafe; color: #1d4ed8;
+        padding: 4px 10px; border-radius: 5px;
+        font-size: 12px; border: none; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn-edit:hover { background: #bfdbfe; }
+
+    .btn-delete {
+        background: #fee2e2; color: #991b1b;
+        padding: 4px 10px; border-radius: 5px;
+        font-size: 12px; border: none; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn-delete:hover { background: #fecaca; }
+
+    .btn-toggle-on {
+        background: #dcfce7; color: #166534;
+        padding: 4px 10px; border-radius: 5px;
+        font-size: 12px; border: none; cursor: pointer;
+    }
+    .btn-toggle-off {
+        background: #f3f4f6; color: #6b7280;
+        padding: 4px 10px; border-radius: 5px;
+        font-size: 12px; border: none; cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+        .options-grid { grid-template-columns: 1fr; }
     }
 </style>
 @endsection
 
 @section('content')
 
-<div class="ticket-tabs">
-    <a href="{{ route('admin.ticket-options.index') }}"
-       class="ticket-tab {{ request()->routeIs('admin.ticket-options.*') ? 'active' : '' }}">
-        <i class="fas fa-sliders-h"></i> Ticket Options
-    </a>
-    <a href="{{ route('admin.tickets.duedates') }}"
-       class="ticket-tab {{ request()->routeIs('admin.tickets.duedates') ? 'active' : '' }}">
-        <i class="fas fa-calendar-alt"></i> Edit Due Dates
-    </a>
-</div>
-
 <div class="page-header">
     <div>
-        <h1>⚙️ Ticket Options <span style="font-size:13px;font-weight:400;color:#9ca3af;">— Status & Priority</span></h1>
+        <h1>⚙️ Ticket Options</h1>
         <p>Add and manage status and priority options used across all tickets</p>
     </div>
 </div>
 
 @if(session('success'))
-    <div class="alert-success"><i class="fas fa-check-circle"></i> {{ session('success') }}</div>
+    <div style="background:#dcfce7;color:#166534;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px;">
+        <i class="fas fa-check-circle"></i> {{ session('success') }}
+    </div>
 @endif
+
 @if(session('error'))
-    <div class="alert-error"><i class="fas fa-exclamation-circle"></i> {{ session('error') }}</div>
+    <div style="background:#fee2e2;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px;">
+        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+    </div>
 @endif
 
-<div class="two-col">
+<div class="options-grid">
 
-    {{-- ── STATUS ── --}}
-    <div class="section-card">
-        <div class="section-header">
-            <i class="fas fa-tag" style="color:#1d4ed8;"></i>
-            <h2>Manage Status</h2>
-            <span style="background:#dbeafe;color:#1e40af;">{{ $statuses->count() }} options</span>
-        </div>
+    {{-- ── STATUS SECTION ── --}}
+    <div class="option-section">
 
-        {{-- Add Status Form --}}
-        <form method="POST" action="{{ route('admin.ticket-options.store') }}" class="add-form">
+        <h2><i class="fas fa-circle-dot" style="color:#3b82f6;margin-right:6px;"></i> Manage Status</h2>
+        <p>Create and manage ticket statuses</p>
+
+        <form method="POST" action="{{ route('admin.ticket-options.store') }}">
             @csrf
             <input type="hidden" name="type" value="status">
-            <div class="add-form-row">
-                <div>
+            <div class="option-form">
+                <div class="form-group">
                     <label>Status Label</label>
                     <input type="text" name="label" placeholder="e.g. In Review" required>
                 </div>
                 <div class="color-group">
-                    <label>Background</label>
-                    <input type="color" name="color" value="#dbeafe" title="Badge background color">
+                    <label>BG Color</label>
+                    <input type="color" name="color" value="#dbeafe">
                 </div>
                 <div class="color-group">
-                    <label>Text</label>
-                    <input type="color" name="text_color" value="#1e40af" title="Badge text color">
+                    <label>Text Color</label>
+                    <input type="color" name="text_color" value="#1d4ed8">
                 </div>
-                <div>
-                    <label>&nbsp;</label>
-                    <button type="submit" class="btn-add"><i class="fas fa-plus"></i> Add</button>
-                </div>
+                <button type="submit" class="btn-add">
+                    <i class="fas fa-plus"></i> Add
+                </button>
             </div>
         </form>
 
-        {{-- Status List --}}
-        <div class="options-list">
-            @forelse($statuses as $option)
-            <div class="option-row">
-                <div class="option-left">
-                    <span class="badge-preview"
-                          style="background:{{ $option->color }};color:{{ $option->text_color }};">
-                        {{ $option->label }}
-                    </span>
-                    <span class="option-value">{{ $option->value }}</span>
-                    @if(!$option->is_active)
-                        <span style="font-size:10px;color:#9ca3af;">(inactive)</span>
-                    @endif
-                </div>
-                <div class="option-actions">
-                    <form method="POST" action="{{ route('admin.ticket-options.toggle', $option) }}" style="margin:0">
-                        @csrf @method('PATCH')
-                        @if($option->is_active)
-                            <button type="submit" class="btn-toggle-on" title="Deactivate">
-                                <i class="fas fa-eye"></i> Active
+        <table class="options-table">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Preview</th>
+                    <th>State</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($statuses as $status)
+                <tr>
+                    <td>{{ $status->label }}</td>
+                    <td>
+                        <span class="badge" style="background:{{ $status->color }};color:{{ $status->text_color }};">
+                            {{ $status->label }}
+                        </span>
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ route('admin.ticket-options.toggle', $status->id) }}" style="margin:0">
+                            @csrf @method('PATCH')
+                            <button type="submit" class="{{ $status->is_active ? 'btn-toggle-on' : 'btn-toggle-off' }}">
+                                {{ $status->is_active ? 'Active' : 'Inactive' }}
                             </button>
-                        @else
-                            <button type="submit" class="btn-toggle-off" title="Activate">
-                                <i class="fas fa-eye-slash"></i> Inactive
-                            </button>
-                        @endif
-                    </form>
-                    <form method="POST" action="{{ route('admin.ticket-options.destroy', $option) }}"
-                          onsubmit="return confirm('Delete this status option?')" style="margin:0">
-                        @csrf @method('DELETE')
-                        <button type="submit" class="btn-del"><i class="fas fa-trash"></i></button>
-                    </form>
-                </div>
-            </div>
-            @empty
-                <div class="empty-opts">No status options yet. Add one above.</div>
-            @endforelse
-        </div>
+                        </form>
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <form method="POST" action="{{ route('admin.ticket-options.destroy', $status->id) }}"
+                                  onsubmit="return confirm('Delete this status?')" style="margin:0">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn-delete">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" style="text-align:center;padding:20px;color:#9ca3af;font-size:13px;">
+                        No statuses yet
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+
     </div>
 
-    {{-- ── PRIORITY ── --}}
-    <div class="section-card">
-        <div class="section-header">
-            <i class="fas fa-flag" style="color:#d97706;"></i>
-            <h2>Manage Priority</h2>
-            <span style="background:#fef3c7;color:#92400e;">{{ $priorities->count() }} options</span>
-        </div>
+    {{-- ── PRIORITY SECTION ── --}}
+    <div class="option-section">
 
-        {{-- Add Priority Form --}}
-        <form method="POST" action="{{ route('admin.ticket-options.store') }}" class="add-form">
+        <h2><i class="fas fa-flag" style="color:#ef4444;margin-right:6px;"></i> Manage Priority</h2>
+        <p>Create and manage ticket priorities</p>
+
+        <form method="POST" action="{{ route('admin.ticket-options.store') }}">
             @csrf
             <input type="hidden" name="type" value="priority">
-            <div class="add-form-row">
-                <div>
+            <div class="option-form">
+                <div class="form-group">
                     <label>Priority Label</label>
                     <input type="text" name="label" placeholder="e.g. Critical" required>
                 </div>
                 <div class="color-group">
-                    <label>Background</label>
-                    <input type="color" name="color" value="#fee2e2" title="Badge background color">
+                    <label>BG Color</label>
+                    <input type="color" name="color" value="#fee2e2">
                 </div>
                 <div class="color-group">
-                    <label>Text</label>
-                    <input type="color" name="text_color" value="#991b1b" title="Badge text color">
+                    <label>Text Color</label>
+                    <input type="color" name="text_color" value="#b91c1c">
                 </div>
-                <div>
-                    <label>&nbsp;</label>
-                    <button type="submit" class="btn-add"><i class="fas fa-plus"></i> Add</button>
-                </div>
+                <button type="submit" class="btn-add">
+                    <i class="fas fa-plus"></i> Add
+                </button>
             </div>
         </form>
 
-        {{-- Priority List --}}
-        <div class="options-list">
-            @forelse($priorities as $option)
-            <div class="option-row">
-                <div class="option-left">
-                    <span class="badge-preview"
-                          style="background:{{ $option->color }};color:{{ $option->text_color }};">
-                        {{ $option->label }}
-                    </span>
-                    <span class="option-value">{{ $option->value }}</span>
-                    @if(!$option->is_active)
-                        <span style="font-size:10px;color:#9ca3af;">(inactive)</span>
-                    @endif
-                </div>
-                <div class="option-actions">
-                    <form method="POST" action="{{ route('admin.ticket-options.toggle', $option) }}" style="margin:0">
-                        @csrf @method('PATCH')
-                        @if($option->is_active)
-                            <button type="submit" class="btn-toggle-on" title="Deactivate">
-                                <i class="fas fa-eye"></i> Active
+        <table class="options-table">
+            <thead>
+                <tr>
+                    <th>Priority</th>
+                    <th>Preview</th>
+                    <th>State</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($priorities as $priority)
+                <tr>
+                    <td>{{ $priority->label }}</td>
+                    <td>
+                        <span class="badge" style="background:{{ $priority->color }};color:{{ $priority->text_color }};">
+                            {{ $priority->label }}
+                        </span>
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ route('admin.ticket-options.toggle', $priority->id) }}" style="margin:0">
+                            @csrf @method('PATCH')
+                            <button type="submit" class="{{ $priority->is_active ? 'btn-toggle-on' : 'btn-toggle-off' }}">
+                                {{ $priority->is_active ? 'Active' : 'Inactive' }}
                             </button>
-                        @else
-                            <button type="submit" class="btn-toggle-off" title="Activate">
-                                <i class="fas fa-eye-slash"></i> Inactive
-                            </button>
-                        @endif
-                    </form>
-                    <form method="POST" action="{{ route('admin.ticket-options.destroy', $option) }}"
-                          onsubmit="return confirm('Delete this priority option?')" style="margin:0">
-                        @csrf @method('DELETE')
-                        <button type="submit" class="btn-del"><i class="fas fa-trash"></i></button>
-                    </form>
-                </div>
-            </div>
-            @empty
-                <div class="empty-opts">No priority options yet. Add one above.</div>
-            @endforelse
-        </div>
+                        </form>
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <form method="POST" action="{{ route('admin.ticket-options.destroy', $priority->id) }}"
+                                  onsubmit="return confirm('Delete this priority?')" style="margin:0">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn-delete">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" style="text-align:center;padding:20px;color:#9ca3af;font-size:13px;">
+                        No priorities yet
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+
     </div>
 
 </div>
+
 @endsection

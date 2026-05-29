@@ -9,39 +9,52 @@
 
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-@stack('styles')
+    <!-- CSS -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @yield('styles')   
+    @stack('styles')   
 </head>
 
 <body>
 
-    <div class="app-wrapper">
+<div class="app-wrapper">
 
-        @include('components.sidebar')
+    {{-- SIDEBAR --}}
+    @include('components.sidebar')
 
-        <div class="main">
+    {{-- MAIN AREA --}}
+    <div class="main">
 
-            @include('components.topbar')
+        {{-- TOPBAR --}}
+        @include('components.topbar')
 
-            <div class="content">
-
-                @include('components.alerts')
-
-                @include('components.ticket-tabs')
-
-                @yield('content')
-
-            </div>
-
+        {{-- PAGE CONTENT --}}
+        <div class="content">
+            @include('components.alerts')
+            @include('components.ticket-tabs')
+            @yield('content')
         </div>
 
     </div>
 
-@stack('scripts')
+</div>
+
+@stack('scripts')  {{-- ← removed duplicate --}}
+
+<script>
+function toggleDropdown() {
+    const menu = document.getElementById('dropdownMenu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('userDropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+        document.getElementById('dropdownMenu').style.display = 'none';
+    }
+});
+</script>
 
 </body>
 </html>

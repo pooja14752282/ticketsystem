@@ -43,6 +43,9 @@ Route::post('/reset-password', [AuthController::class, 'resetPasswordStore'])->n
 // All auth protected routes in ONE group
 Route::middleware(['auth'])->group(function () {
 
+    // Profile
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
     // Ticket System
     Route::get('/ticketsystem/my',                [TicketController::class, 'myTickets'])      ->name('ticketsystem.my');
     Route::get('/ticketsystem/assigned',          [TicketController::class, 'assignedTickets'])->name('ticketsystem.assigned');
@@ -79,41 +82,30 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/support/tickets',          [SupportTeamController::class, 'myAssignedTickets'])->name('support.tickets');
     Route::get('/support/tickets/{ticket}', [SupportTeamController::class, 'showTicket'])       ->name('support.ticket.show');
 
-    
+    // Due Dates
+    Route::get('/tickets/due-dates',                [TicketController::class, 'dueDatesPage'])  ->name('admin.tickets.duedates');
+    Route::patch('/tickets/{ticket}/due-date',      [TicketController::class, 'updateDueDate']) ->name('tickets.updateDueDate');
+    Route::patch('/ticketsystem/{ticket}/due-date', [TicketController::class, 'updateDueDate']) ->name('ticketsystem.updateDueDate');
 
-    
-    Route::patch('/ticketsystem/{ticket}/due-date', [TicketController::class, 'updateDueDate'])->name('ticketsystem.updateDueDate');
+    // Ticket Status / Priority / Reassign
+    Route::patch('/tickets/{ticket}/status',   [TicketController::class, 'updateStatus']);
+    Route::patch('/tickets/{ticket}/priority', [TicketController::class, 'updatePriority']);
+    Route::patch('/tickets/{ticket}/reassign', [TicketController::class, 'reassign'])->name('tickets.reassign');
+    Route::patch('/tickets/{ticket}/reassign', [AdminTicketController::class, 'reassign'])->name('admin.tickets.reassign');
 
-    Route::patch('/tickets/{ticket}/due-date', [TicketController::class, 'updateDueDate'])
-    ->name('tickets.updateDueDate')
-    ->middleware(['auth', 'admin']); // or your existing admin middleware
-    // ✅ Correct
-Route::get('/tickets/due-dates', [TicketController::class, 'dueDatesPage'])
-    ->name('admin.tickets.duedates')
-    ->middleware(['auth']);
+    // Ticket Options (Status & Priority)
+    Route::get('/admin/ticket-options',                         [TicketOptionController::class, 'index'])     ->name('admin.ticket-options.index');
+    Route::post('/admin/ticket-options',                        [TicketOptionController::class, 'store'])     ->name('admin.ticket-options.store');
+    Route::patch('/admin/ticket-options/{ticketOption}/toggle', [TicketOptionController::class, 'toggle'])   ->name('admin.ticket-options.toggle');
+    Route::delete('/admin/ticket-options/{ticketOption}',       [TicketOptionController::class, 'destroy'])  ->name('admin.ticket-options.destroy');
+    Route::get('/ticket-options/{type}',                        [TicketOptionController::class, 'getOptions'])->name('ticket-options.get');
 
-Route::patch('/tickets/{ticket}/due-date', [TicketController::class, 'updateDueDate'])
-    ->name('tickets.updateDueDate')
-    ->middleware(['auth']);
-Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])
-    ->name('tickets.updateStatus')
-    ->middleware(['auth']);
-Route::patch('/tickets/{ticket}/reassign', [AdminTicketController::class, 'reassign'])->name('admin.tickets.reassign');
-// Ticket Options (Status & Priority)
-Route::get('/admin/ticket-options',                        [TicketOptionController::class, 'index']) ->name('admin.ticket-options.index');
-Route::post('/admin/ticket-options',                       [TicketOptionController::class, 'store']) ->name('admin.ticket-options.store');
-Route::patch('/admin/ticket-options/{ticketOption}/toggle',[TicketOptionController::class, 'toggle'])->name('admin.ticket-options.toggle');
-Route::delete('/admin/ticket-options/{ticketOption}',      [TicketOptionController::class, 'destroy'])->name('admin.ticket-options.destroy');
-Route::get('/ticket-options/{type}',                       [TicketOptionController::class, 'getOptions'])->name('ticket-options.get');
+    // Notifications
+    Route::get('/notifications',                [notificationcontroller::class, 'index'])      ->name('notifications.index');
+    Route::post('/notifications/{id}/read',     [notificationcontroller::class, 'markAsRead']) ->name('notifications.read');
+    Route::post('/notifications/mark-all-read', [notificationcontroller::class, 'markAllRead'])->name('notifications.markAllRead');
 
-Route::patch('/tickets/{ticket}/priority', [TicketController::class, 'updatePriority']);
-// Notifications
-Route::get('/notifications',                    [notificationcontroller::class, 'index'])      ->name('notifications.index');
-Route::post('/notifications/{id}/read',         [notificationcontroller::class, 'markAsRead']) ->name('notifications.read');
-Route::post('/notifications/mark-all-read',     [notificationcontroller::class, 'markAllRead'])->name('notifications.markAllRead');
-
-Route::patch('/tickets/{id}/reassign', [TicketController::class, 'reassign'])
-    ->name('tickets.reassign');
-
+    // Ticket Review
     Route::post('/ticketsystem/branch/{ticket}/review', [App\Http\Controllers\TicketReviewController::class, 'store'])->name('ticket.review.store');
-}); // ← single closing brace for everything
+
+}); 

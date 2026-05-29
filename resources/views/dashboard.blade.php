@@ -2,11 +2,11 @@
 
 @section('title', 'Support Dashboard')
 
-@section('content')
-
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 @endpush
+
+@section('content')
 
 <!-- METRIC CARDS -->
 <div class="metrics-grid">
@@ -17,7 +17,6 @@
             <div class="metric-label">Total Tickets</div>
         </div>
     </div>
-
     <div class="metric-card">
         <div class="metric-icon amber"><i class="fas fa-folder-open"></i></div>
         <div class="metric-body">
@@ -25,7 +24,6 @@
             <div class="metric-label">Open Tickets</div>
         </div>
     </div>
-
     <div class="metric-card">
         <div class="metric-icon green"><i class="fas fa-check-circle"></i></div>
         <div class="metric-body">
@@ -33,7 +31,6 @@
             <div class="metric-label">Completed Tickets</div>
         </div>
     </div>
-
     <div class="metric-card">
         <div class="metric-icon red"><i class="fas fa-exclamation-circle"></i></div>
         <div class="metric-body">
@@ -43,17 +40,20 @@
     </div>
 </div>
 
-<!-- CHARTS -->
+<!-- CHARTS ROW -->
 <div class="charts-row">
-
     <!-- LINE CHART -->
     <div class="card">
         <div class="card-header">
             <div class="card-title">Tickets Over Time</div>
+            <div class="chart-legend">
+                <span class="legend-line blue-line"></span> Created
+                <span class="legend-line green-line"></span> Completed
+            </div>
+            <div class="chip">Last 7 Days</div>
         </div>
-
-        <div class="card-body" style="padding-top:12px">
-            <div style="position:relative; height:200px">
+        <div class="card-body">
+            <div style="position:relative; height:300px;">
                 <canvas id="lineChart"></canvas>
             </div>
         </div>
@@ -64,12 +64,10 @@
         <div class="card-header">
             <div class="card-title">Tickets by Status</div>
         </div>
-
-        <div class="card-body" style="padding-top:12px">
-            <div style="position:relative; height:140px; width:140px; margin:0 auto">
+        <div class="card-body">
+            <div style="position:relative; height:180px; width:180px; margin:0 auto 16px;">
                 <canvas id="donutChart"></canvas>
             </div>
-
             @php
                 $total = array_sum($statusData) ?: 1;
                 $statusConfig = [
@@ -80,7 +78,6 @@
                     'closed'      => ['color' => '#94a3b8', 'label' => 'Closed'],
                 ];
             @endphp
-
             <div class="status-legend">
                 @foreach($statusConfig as $key => $cfg)
                     @php $cnt = $statusCounts[$key] ?? 0; @endphp
@@ -89,9 +86,7 @@
                             <div class="legend-dot" style="background:{{ $cfg['color'] }}"></div>
                             <span class="legend-name">{{ $cfg['label'] }}</span>
                         </div>
-                        <span class="legend-right">
-                            {{ $cnt }} ({{ round($cnt/$total*100,1) }}%)
-                        </span>
+                        <span class="legend-right">{{ $cnt }} ({{ round($cnt/$total*100,1) }}%)</span>
                     </div>
                 @endforeach
             </div>
@@ -99,13 +94,14 @@
     </div>
 </div>
 
-<!-- BOTTOM SECTION -->
+<!-- BOTTOM ROW -->
 <div class="bottom-row">
 
-    <!-- RECENT TICKETS -->
-    <div class="card">
+    <!-- RECENT TICKETS (left, full height) -->
+    <div class="card tickets-card">
         <div class="tbl-header">
             <div class="card-title">Recent Tickets</div>
+            <a href="#" class="view-all-btn">View All</a>
         </div>
 
         <table>
@@ -120,18 +116,15 @@
                     <th>Created</th>
                 </tr>
             </thead>
-
             <tbody>
                 @forelse($recentTickets as $ticket)
                     <tr>
                         <td class="ticket-id">{{ $ticket->id }}</td>
-
                         <td>
                             <div class="ticket-subject" title="{{ $ticket->description }}">
                                 {{ $ticket->description }}
                             </div>
                         </td>
-
                         <td>
                             <div class="requester">
                                 <div class="avatar-sm">
@@ -140,24 +133,18 @@
                                 <span>{{ $ticket->createdBy->name ?? '—' }}</span>
                             </div>
                         </td>
-
                         <td>{{ $ticket->assignedTo->name ?? '—' }}</td>
-
                         <td>
                             <span class="badge badge-{{ str_replace(' ', '_', strtolower($ticket->status)) }}">
                                 {{ ucfirst(str_replace('_', ' ', $ticket->status)) }}
                             </span>
                         </td>
-
                         <td>
                             <span class="badge badge-{{ strtolower($ticket->priority) }}">
                                 {{ ucfirst($ticket->priority) }}
                             </span>
                         </td>
-
-                        <td style="color:var(--text-muted); font-size:11.5px; white-space:nowrap">
-                            {{ $ticket->created_at->format('d M, h:i A') }}
-                        </td>
+                        <td class="date-cell">{{ $ticket->created_at->format('d M, h:i A') }}</td>
                     </tr>
                 @empty
                     <tr class="empty-row">
@@ -166,79 +153,126 @@
                 @endforelse
             </tbody>
         </table>
+
+        {{-- ── QUICK STATS BAR — fills space below the table ── --}}
+        @php
+            $priTotal  = max($totalTickets, 1);
+            $resolvedRate = $priTotal > 0 ? round(($completedTickets / $priTotal) * 100) : 0;
+            $pendingCount = ($statusCounts['open'] ?? 0) + ($statusCounts['in_progress'] ?? 0) + ($statusCounts['on_hold'] ?? 0);
+        @endphp
+        <div class="quick-stats-bar">
+            <div class="qs-item">
+                <span class="qs-label">Resolution Rate</span>
+                <span class="qs-value">{{ $resolvedRate }}%</span>
+                <span class="qs-sub qs-up">↑ of all tickets</span>
+            </div>
+            <div class="qs-item">
+                <span class="qs-label">Pending</span>
+                <span class="qs-value">{{ $pendingCount }}</span>
+                <span class="qs-sub qs-neutral">open + in progress</span>
+            </div>
+            <div class="qs-item">
+                <span class="qs-label">Overdue</span>
+                <span class="qs-value">{{ $overdueTickets }}</span>
+                <span class="qs-sub qs-down">{{ $totalTickets > 0 ? round($overdueTickets/$totalTickets*100,1) : 0 }}% of total</span>
+            </div>
+            <div class="qs-item">
+                <span class="qs-label">Within SLA</span>
+                <span class="qs-value">{{ $slaPercent }}%</span>
+                <span class="qs-sub qs-up">{{ $withinSla }} of {{ $totalWithDue }}</span>
+            </div>
+        </div>
     </div>
 
-    <!-- PRIORITY -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">Tickets by Priority</div>
-        </div>
+    <!-- RIGHT COLUMN -->
+    <div class="right-col">
 
-        <div class="priority-section">
-
-            @php
-                $priTotal = max($totalTickets, 1);
-                $priorities = [
-                    'urgent' => ['color' => 'var(--red)', 'label' => 'Urgent', 'count' => $urgentCount],
-                    'high'   => ['color' => 'var(--orange)', 'label' => 'High', 'count' => $highCount],
-                    'medium' => ['color' => 'var(--amber)', 'label' => 'Medium', 'count' => $mediumCount],
-                    'low'    => ['color' => 'var(--green)', 'label' => 'Low', 'count' => $lowCount],
-                ];
-            @endphp
-
-            @foreach($priorities as $pri)
-                <div class="pri-row">
-                    <div class="pri-meta">
-                        <span class="pri-label" style="color:{{ $pri['color'] }}">
-                            ● {{ $pri['label'] }}
-                        </span>
-
-                        <span class="pri-count">
-                            {{ $pri['count'] }} ({{ round($pri['count']/$priTotal*100,1) }}%)
-                        </span>
-                    </div>
-
-                    <div class="bar-track">
-                        <div class="bar-fill"
-                             style="width:{{ round($pri['count']/$priTotal*100) }}%;
-                                    background:{{ $pri['color'] }}">
+        <!-- PRIORITY + TOP CATEGORIES -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Tickets by Priority</div>
+            </div>
+            <div class="priority-section">
+                @php
+                    $priTotal = max($totalTickets, 1);
+                    $priorities = [
+                        ['color' => '#dc2626', 'label' => 'Urgent',  'count' => $urgentCount],
+                        ['color' => '#ea580c', 'label' => 'High',    'count' => $highCount],
+                        ['color' => '#f59e0b', 'label' => 'Medium',  'count' => $mediumCount],
+                        ['color' => '#16a34a', 'label' => 'Low',     'count' => $lowCount],
+                    ];
+                @endphp
+                @foreach($priorities as $pri)
+                    <div class="pri-row">
+                        <div class="pri-meta">
+                            <span class="pri-label" style="color:{{ $pri['color'] }}">● {{ $pri['label'] }}</span>
+                            <span class="pri-count">{{ $pri['count'] }} ({{ round($pri['count']/$priTotal*100,1) }}%)</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width:{{ round($pri['count']/$priTotal*100) }}%; background:{{ $pri['color'] }}"></div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-
-        </div>
-    </div>
-
-    <!-- SLA -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">SLA Compliance</div>
-        </div>
-
-        <div class="sla-body">
-            <div class="sla-ring">
-                <canvas id="slaChart" width="110" height="110"></canvas>
-                <div class="sla-center">
-                    <span class="sla-pct">{{ $slaPercent }}%</span>
-                    <span class="sla-lbl">Within SLA</span>
-                </div>
+                @endforeach
             </div>
 
-            <div class="sla-stat">
-                <span>{{ $withinSla }}</span> of {{ $totalWithDue }} tickets within SLA
+            <hr class="inner-divider">
+            <div class="inner-section-title">Top Categories</div>
+            <div class="categories-section">
+                @forelse($topCategories ?? [] as $cat)
+                    <div class="cat-row">
+                        <span>{{ $cat->name ?? $cat->category ?? '—' }}</span>
+                        <span class="cat-count">{{ $cat->total }}</span>
+                    </div>
+                @empty
+                    <div style="font-size:12px; color:#9ca3af; padding:6px 0;">No categories yet</div>
+                @endforelse
             </div>
         </div>
-    </div>
 
+        <!-- SLA + TICKET BREAKDOWN -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">SLA Compliance</div>
+            </div>
+            <div class="sla-body">
+                <div class="sla-ring">
+                    <canvas id="slaChart" width="130" height="130"></canvas>
+                    <div class="sla-center">
+                        <span class="sla-pct">{{ $slaPercent }}%</span>
+                        <span class="sla-lbl">Within SLA</span>
+                    </div>
+                </div>
+                <div class="sla-stat">{{ $withinSla }} of {{ $totalWithDue }} tickets<br>within SLA target</div>
+            </div>
+
+            <hr class="inner-divider">
+            <div class="inner-section-title">Ticket Breakdown</div>
+            <div class="breakdown-section">
+                @php
+                    $breakdownItems = [
+                        ['label' => 'Open',        'count' => $statusCounts['open']        ?? 0, 'color' => '#2563eb'],
+                        ['label' => 'In Progress',  'count' => $statusCounts['in_progress'] ?? 0, 'color' => '#7c3aed'],
+                        ['label' => 'On Hold',      'count' => $statusCounts['on_hold']     ?? 0, 'color' => '#f59e0b'],
+                        ['label' => 'Completed',    'count' => $statusCounts['completed']   ?? 0, 'color' => '#16a34a'],
+                        ['label' => 'Closed',       'count' => $statusCounts['closed']      ?? 0, 'color' => '#94a3b8'],
+                    ];
+                @endphp
+                @foreach($breakdownItems as $item)
+                    <div class="breakdown-row">
+                        <span>{{ $item['label'] }}</span>
+                        <span class="breakdown-count" style="color:{{ $item['color'] }}">{{ $item['count'] }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+    </div>
 </div>
 
 @endsection
 
-
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -258,17 +292,28 @@ document.addEventListener("DOMContentLoaded", function () {
                         label: 'Created',
                         data: lineCreated,
                         borderColor: '#2563eb',
-                        tension: 0.4,
-                        fill: false
+                        backgroundColor: 'rgba(37,99,235,0.08)',
+                        tension: 0.4, fill: true,
+                        pointBackgroundColor: '#2563eb', pointRadius: 4,
                     },
                     {
                         label: 'Completed',
                         data: lineCompleted,
                         borderColor: '#16a34a',
-                        tension: 0.4,
-                        fill: false
+                        backgroundColor: 'rgba(22,163,74,0.06)',
+                        tension: 0.4, fill: true,
+                        pointBackgroundColor: '#16a34a', pointRadius: 4,
+                        borderDash: [5, 3],
                     }
                 ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#9ca3af' } },
+                    y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 11 }, color: '#9ca3af', stepSize: 1 } }
+                }
             }
         });
     }
@@ -282,14 +327,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 labels: ['Open','In Progress','On Hold','Completed','Closed'],
                 datasets: [{
                     data: @json($statusData ?? []),
-                    backgroundColor: [
-                        '#2563eb',
-                        '#7c3aed',
-                        '#f59e0b',
-                        '#16a34a',
-                        '#94a3b8'
-                    ]
+                    backgroundColor: ['#2563eb','#7c3aed','#f59e0b','#16a34a','#94a3b8'],
+                    borderWidth: 2, borderColor: '#fff',
                 }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: { legend: { display: false } },
+                responsive: true, maintainAspectRatio: false,
             }
         });
     }
@@ -298,18 +343,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const slaCtx = document.getElementById('slaChart');
     if (slaCtx) {
         const slaPercent = {{ $slaPercent ?? 0 }};
-
         new Chart(slaCtx, {
             type: 'doughnut',
             data: {
                 datasets: [{
                     data: [slaPercent, 100 - slaPercent],
-                    backgroundColor: ['#16a34a', '#f1f5f9']
+                    backgroundColor: ['#16a34a', '#f1f5f9'],
+                    borderWidth: 0,
                 }]
             },
-            options: {
-                cutout: '75%'
-            }
+            options: { cutout: '78%', plugins: { legend: { display: false } } }
         });
     }
 

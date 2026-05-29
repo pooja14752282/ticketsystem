@@ -1,5 +1,98 @@
 @extends('layout')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/assigned-tickets.css') }}">
+<style>
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-overlay.active {
+        display: flex;
+    }
+    .modal-box {
+        background: #fff;
+        border-radius: 12px;
+        width: 600px;
+        max-width: 90vw;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid #e5e7eb;
+        font-weight: 600;
+        font-size: 15px;
+        color: #111827;
+    }
+    .modal-header button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #6b7280;
+        font-size: 16px;
+        padding: 4px 8px;
+        border-radius: 6px;
+    }
+    .modal-header button:hover { background: #f3f4f6; color: #111827; }
+    .modal-body { padding: 20px; }
+    .modal-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 16px;
+    }
+    .modal-box-item {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 10px 14px;
+    }
+    .modal-box-item label {
+        font-size: 11px;
+        color: #6b7280;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 4px;
+    }
+    .modal-box-item div { font-size: 13px; color: #111827; font-weight: 500; }
+    .modal-section { margin-bottom: 16px; }
+    .modal-section label {
+        font-size: 11px;
+        color: #6b7280;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 6px;
+    }
+    .modal-description {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 13px;
+        color: #374151;
+        line-height: 1.6;
+    }
+    .modal-loading {
+        text-align: center;
+        padding: 40px;
+        color: #6b7280;
+        font-size: 14px;
+    }
+</style>
+@endpush
+
 @section('content')
 
 {{-- Page Header --}}
@@ -245,6 +338,48 @@
 
 @endsection
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/assigned-tickets.css') }}">
+@push('scripts')
+<script>
+function openTicketModal(id) {
+    document.getElementById('ticketModalOverlay').classList.add('active');
+    document.getElementById('modal-ticket-id').textContent = '#' + id;
+    document.getElementById('modal-loading').style.display = 'block';
+    document.getElementById('modal-content').style.display = 'none';
+
+    fetch('/ticketsystem/' + id, {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('modal-category').textContent    = data.category    ?? '—';
+        document.getElementById('modal-priority').textContent    = data.priority    ?? '—';
+        document.getElementById('modal-status').textContent      = data.status      ?? '—';
+        document.getElementById('modal-created').textContent     = data.created_at  ?? '—';
+        document.getElementById('modal-description').textContent = data.description ?? '—';
+
+        const attach = document.getElementById('modal-attachment');
+        if (data.attachment) {
+            attach.innerHTML = `<a href="${data.attachment}" target="_blank">View Attachment</a>`;
+        } else {
+            attach.textContent = 'No attachment';
+        }
+
+        document.getElementById('modal-loading').style.display = 'none';
+        document.getElementById('modal-content').style.display = 'block';
+    })
+    .catch(() => {
+        document.getElementById('modal-loading').innerHTML =
+            '<span style="color:#991b1b;">Failed to load ticket details.</span>';
+    });
+}
+
+function closeTicketModal() {
+    document.getElementById('ticketModalOverlay').classList.remove('active');
+}
+
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeTicketModal();
+});
+</script>
 @endpush

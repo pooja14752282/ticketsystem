@@ -94,7 +94,6 @@
     tbody tr:hover { background: #f9fafb; }
     tbody td { padding: 11px 14px; font-size: 13px; color: #374151; vertical-align: middle; }
     tbody td:last-child { white-space: nowrap; }
-    thead th:last-child { white-space: nowrap; }
 
     .sno-col  { width: 48px; text-align: center; color: #9ca3af; font-size: 12px; }
     .date-col { white-space: nowrap; font-size: 12px; color: #6b7280; }
@@ -110,11 +109,6 @@
         display: inline-block; padding: 3px 10px; border-radius: 20px;
         font-size: 11px; font-weight: 600;
     }
-
-    /* ── Due date ── */
-    .due-cell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .d-none { display: none !important; }
-    .due-flash { font-size: 11px; color: #16a34a; white-space: nowrap; }
 
     /* ── Action buttons ── */
     .action-btns { display: flex; gap: 4px; flex-wrap: nowrap; align-items: center; }
@@ -164,7 +158,15 @@
         background: #fff; color: #111827; margin-bottom: 20px;
     }
     .modal-select:focus { outline: none; border-color: #3b82f6; }
-    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; }
+    .modal-textarea {
+        width: 100%; padding: 9px 10px; font-size: 13px;
+        border: 1px solid #d1d5db; border-radius: 7px;
+        background: #fff; color: #111827; margin-bottom: 20px;
+        resize: vertical; min-height: 80px; font-family: inherit;
+    }
+    .modal-textarea:focus { outline: none; border-color: #3b82f6; }
+    .reason-note { font-size: 11px; color: #d97706; margin-left: 4px; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
     .btn-modal-cancel {
         background: #fff; color: #6b7280; border: 1px solid #d1d5db;
         padding: 8px 16px; border-radius: 7px; font-size: 13px; cursor: pointer;
@@ -183,17 +185,9 @@
     }
     .modal-close:hover { color: #374151; }
     .reassign-flash {
-    display: none; font-size: 12px; color: #16a34a;
-    margin-top: 6px; text-align: right;
-}
-.modal-textarea {
-    width: 100%; padding: 9px 10px; font-size: 13px;
-    border: 1px solid #d1d5db; border-radius: 7px;
-    background: #fff; color: #111827; margin-bottom: 20px;
-    resize: vertical; min-height: 80px; font-family: inherit;
-}
-.modal-textarea:focus { outline: none; border-color: #3b82f6; }
-.reason-note { font-size: 11px; color: #d97706; margin-left: 4px; }
+        display: none; font-size: 12px; color: #16a34a;
+        margin-top: 10px; text-align: right;
+    }
 </style>
 @endsection
 
@@ -202,8 +196,13 @@
 {{-- Page Header --}}
 <div class="page-header">
     <div>
-        <h1>🎫 All Tickets <span style="font-size:13px;font-weight:400;color:#9ca3af;">— Admin View</span></h1>
-        <p>Track and manage all support tickets across the system</p>
+        @if($isAdmin)
+            <h1>🎫 All Tickets <span style="font-size:13px;font-weight:400;color:#9ca3af;">— Admin View</span></h1>
+            <p>Track and manage all support tickets across the system</p>
+        @else
+            <h1>🎫 My Tickets</h1>
+            <p>Tickets you have submitted</p>
+        @endif
     </div>
     <a href="{{ route('ticketsystem.create') }}" class="btn-create">
         <i class="fas fa-plus"></i> Create New Ticket
@@ -302,7 +301,9 @@
                 <th>Created On</th>
                 <th>Description</th>
                 <th>Category</th>
+                @if($isAdmin)
                 <th>Created By</th>
+                @endif
                 <th>Assigned To</th>
                 <th>Status</th>
                 <th>Priority</th>
@@ -314,7 +315,6 @@
         <tbody>
             @forelse($tickets as $i => $ticket)
             @php
-                $isAdmin        = auth()->user()->role === 'admin';
                 $statusOption   = $statuses->firstWhere('value', $ticket->status);
                 $priorityOption = $priorities->firstWhere('value', $ticket->priority);
             @endphp
@@ -331,12 +331,14 @@
                     {{ $ticket->ticketCategory->name ?? $ticket->category ?? '—' }}
                 </td>
 
+                @if($isAdmin)
                 <td>
                     <span class="user-name">{{ optional($ticket->creator)->name ?? '—' }}</span>
                     @if($ticket->creator)
                         <span class="user-email">{{ $ticket->creator->email }}</span>
                     @endif
                 </td>
+                @endif
 
                 <td id="assignee-cell-{{ $ticket->id }}">
                     @if($ticket->assignedTeamMember)
@@ -351,14 +353,12 @@
                     @endif
                 </td>
 
-                {{-- Status — dynamic color from ticket_options --}}
                 <td>
                     <span class="badge" style="background:{{ $statusOption->color ?? '#f3f4f6' }};color:{{ $statusOption->text_color ?? '#374151' }};">
                         {{ $statusOption->label ?? ucfirst(str_replace('_',' ',$ticket->status)) }}
                     </span>
                 </td>
 
-                {{-- Priority — dynamic color from ticket_options --}}
                 <td>
                     <span class="badge" style="background:{{ $priorityOption->color ?? '#f3f4f6' }};color:{{ $priorityOption->text_color ?? '#374151' }};">
                         {{ $priorityOption->label ?? ucfirst($ticket->priority) }}
@@ -388,7 +388,6 @@
                             title="Reassign ticket">
                             <i class="fas fa-user-edit"></i> Reassign
                         </button>
-                        @endif
 
                         <form method="POST" action="{{ route('admin.tickets.destroy', $ticket->id) }}"
                               onsubmit="return confirm('Delete this ticket?')" style="margin:0">
@@ -398,12 +397,13 @@
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </form>
+                        @endif
                     </div>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="11">
+                <td colspan="{{ $isAdmin ? 11 : 10 }}">
                     <div class="empty-state">
                         <i class="fas fa-ticket-alt"></i>
                         <p>No tickets found</p>
@@ -415,6 +415,7 @@
     </table>
 </div>
 
+@if($isAdmin)
 {{-- ── Reassign Modal ── --}}
 <div class="modal-overlay" id="reassignModal">
     <div class="modal-box">
@@ -441,8 +442,6 @@
             placeholder="e.g. Aliya is on leave, please handle this urgently..."></textarea>
 
         <div class="modal-footer">
-
-        <div class="modal-footer">
             <button class="btn-modal-cancel" onclick="closeReassign()">Cancel</button>
             <button class="btn-modal-confirm" onclick="submitReassign()">
                 <i class="fas fa-check"></i> Confirm Reassign
@@ -451,10 +450,12 @@
         <div class="reassign-flash" id="reassign-flash">✓ Ticket reassigned successfully</div>
     </div>
 </div>
+@endif
 
 @endsection
 
-@section('scripts')
+@push('scripts')
+@if($isAdmin)
 <script>
 let _reassignTicketId = null;
 
@@ -522,4 +523,5 @@ document.getElementById('reassignModal').addEventListener('click', function(e) {
     if (e.target === this) closeReassign();
 });
 </script>
-@endsection
+@endif
+@endpush

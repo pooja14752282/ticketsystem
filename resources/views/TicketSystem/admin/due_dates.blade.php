@@ -28,12 +28,12 @@
         display: inline-block; padding: 3px 10px; border-radius: 20px;
         font-size: 11px; font-weight: 600;
     }
-    .badge-open    { background: #dcfce7; color: #166534; }
-    .badge-on_hold { background: #fef3c7; color: #92400e; }
-    .badge-closed  { background: #f3f4f6; color: #374151; }
-    .badge-low     { background: #f0fdf4; color: #166634; }
-    .badge-high    { background: #dbeafe; color: #1e40af; }
-    .badge-urgent  { background: #fee2e2; color: #991b1b; }
+    .badge-open      { background: #dcfce7; color: #166534; }
+    .badge-on_hold   { background: #fef3c7; color: #92400e; }
+    .badge-closed    { background: #f3f4f6; color: #374151; }
+    .badge-low       { background: #f0fdf4; color: #166634; }
+    .badge-high      { background: #dbeafe; color: #1e40af; }
+    .badge-urgent    { background: #fee2e2; color: #991b1b; }
 
     .due-cell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .due-input {
@@ -64,7 +64,6 @@
     }
     .btn-cancel-due:hover { background: #f3f4f6; }
     .due-flash { font-size: 11px; color: #16a34a; }
-
     .no-due { color: #9ca3af; font-size: 12px; }
     .overdue { color: #991b1b; font-weight: 600; font-size: 12px; }
     .empty-state { padding: 60px 20px; text-align: center; color: #6b7280; }
@@ -72,19 +71,6 @@
 @endsection
 
 @section('content')
-
-<div class="ticket-tabs" style="margin-bottom: 20px;">
-    <a href="{{ route('admin.ticket-options.index') }}"
-       class="ticket-tab {{ request()->routeIs('admin.ticket-options.*') ? 'active' : '' }}">
-        <i class="fas fa-sliders-h"></i> Ticket Options
-    </a>
-    <a href="{{ route('admin.tickets.duedates') }}"
-       class="ticket-tab {{ request()->routeIs('admin.tickets.duedates') ? 'active' : '' }}">
-        <i class="fas fa-calendar-alt"></i> Edit Due Dates
-    </a>
-</div>
-
-{{-- rest of your existing content here --}}
 
 <div class="page-header">
     <h1>📅 Edit Due Dates</h1>
@@ -140,7 +126,6 @@
                 <td>
                     <div class="due-cell" id="due-cell-{{ $ticket->id }}">
 
-                        {{-- Display --}}
                         <span id="due-display-{{ $ticket->id }}">
                             @if($ticket->due_date)
                                 @php $due = \Carbon\Carbon::parse($ticket->due_date); @endphp
@@ -155,7 +140,6 @@
                             @endif
                         </span>
 
-                        {{-- Edit button --}}
                         <button class="btn-edit-due" id="edit-btn-{{ $ticket->id }}"
                                 onclick="startEdit({{ $ticket->id }})" title="Edit due date">
                             <i class="fas fa-calendar-alt" style="font-size:13px;"></i>
@@ -163,7 +147,6 @@
 
                         <span class="due-flash d-none" id="flash-{{ $ticket->id }}">✓ Saved</span>
 
-                        {{-- Edit form (hidden by default) --}}
                         <div class="d-none" id="due-edit-{{ $ticket->id }}" style="width:100%;margin-top:4px;">
                             <input type="date" class="due-input" id="due-input-{{ $ticket->id }}"
                                    value="{{ $ticket->due_date ? \Carbon\Carbon::parse($ticket->due_date)->format('Y-m-d') : '' }}" />
@@ -193,7 +176,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
 function startEdit(id) {
     document.getElementById('due-display-' + id).classList.add('d-none');
@@ -238,4 +221,4 @@ function saveDate(id) {
     .catch(() => alert('Failed to update. Please try again.'));
 }
 </script>
-@endsection
+@endpush
