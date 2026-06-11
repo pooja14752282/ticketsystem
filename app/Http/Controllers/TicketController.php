@@ -385,5 +385,22 @@ class TicketController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function downloadAttachment($id)
+{
+    $ticket = Ticket::findOrFail($id);
+
+    if (!$ticket->attachment) {
+        abort(404, 'No attachment found.');
+    }
+
+    $path = storage_path('app/public/' . $ticket->attachment);
+
+    if (!file_exists($path)) {
+        abort(404, 'File not found.');
+    }
+
+    return response()->download($path);
+}
     
 }

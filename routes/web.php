@@ -108,4 +108,8 @@ Route::middleware(['auth'])->group(function () {
     // Ticket Review
     Route::post('/ticketsystem/branch/{ticket}/review', [App\Http\Controllers\TicketReviewController::class, 'store'])->name('ticket.review.store');
 
+
+    Route::get('/tickets/{id}/download', [TicketController::class, 'downloadAttachment'])
+    ->name('tickets.download')
+    ->middleware('auth');
 }); 

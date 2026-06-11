@@ -394,15 +394,15 @@ table {
 
                 <td class="age-col">{{ $ticket->age }}hr</td>
 
-                <td>
-                     @if($ticket->attachment)
-                        <a href="{{ asset('storage/' . $ticket->attachment) }}" target="_blank" class="btn-view">
-                           <i class="fas fa-paperclip"></i> View
-                        </a>
-                     @else
-                         <span style="color:#9ca3af;">—</span>
-                     @endif
-                </td>
+               <td>
+    @if($ticket->attachment)
+        <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-view">
+            <i class="fas fa-paperclip"></i> Download
+        </a>
+    @else
+        <span style="color:#9ca3af;">—</span>
+    @endif
+</td>
 
                 <td>
                     <div class="action-btns">

@@ -199,12 +199,11 @@
             <img src="{{ asset('storage/' . $ticket->attachment) }}" alt="Attachment">
         </div>
         <div class="img-footer">
-            <span><i class="fas fa-image" style="margin-right:5px;"></i>{{ basename($ticket->attachment) }}</span>
-            <a href="{{ asset('storage/' . $ticket->attachment) }}"
-               download="{{ basename($ticket->attachment) }}" class="btn-dl">
-                <i class="fas fa-download"></i> Download
-            </a>
-        </div>
+    <span><i class="fas fa-image" style="margin-right:5px;"></i>{{ basename($ticket->attachment) }}</span>
+    <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-dl">
+        <i class="fas fa-download"></i> Download
+    </a>
+</div>
     @else
         @php
             $ext      = strtolower(pathinfo($ticket->attachment, PATHINFO_EXTENSION));
