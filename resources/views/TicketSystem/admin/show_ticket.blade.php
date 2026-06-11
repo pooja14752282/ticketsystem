@@ -138,7 +138,7 @@
             </div>
         </div>
         <div class="meta-cell">
-            <div class="meta-label">Category</div>
+            <div class="meta-label">App Name</div>
             <div class="meta-val">{{ $ticket->ticketCategory->name ?? $ticket->category ?? '-' }}</div>
         </div>
         <div class="meta-cell">

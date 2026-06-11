@@ -300,7 +300,7 @@
                 <th>#</th>
                 <th>Created On</th>
                 <th>Description</th>
-                <th>Category</th>
+                <th>App Name</th>
                 @if($isAdmin)
                 <th>Created By</th>
                 @endif
