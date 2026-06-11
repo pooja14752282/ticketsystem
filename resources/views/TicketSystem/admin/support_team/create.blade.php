@@ -72,6 +72,23 @@
                 @enderror
             </div>
 
+            <div>
+                <label style="font-size:13px;font-weight:500;color:#374151;display:block;margin-bottom:6px;">Role</label>
+                <select name="role"
+                  style="width:100%;padding:9px 12px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;outline:none;box-sizing:border-box;"
+                  required>
+                  <option value="">-- Select Role --</option>
+                 @foreach($roles as $role)
+                      <option value="{{ $role->value }}" {{ old('role') == $role->value ? 'selected' : '' }}>
+                      {{ $role->label }}
+                     </option>
+                 @endforeach
+                </select>
+                @error('role')
+                    <small style="color:#dc2626;font-size:12px;">{{ $message }}</small>
+                @enderror
+            </div>
+
         </div>
 
         <div style="display:flex;gap:10px;margin-top:8px;">

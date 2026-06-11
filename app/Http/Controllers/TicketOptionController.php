@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\TicketOption;
+
 use Illuminate\Http\Request;
 
 class TicketOptionController extends Controller
 {
     public function index()
-    {
-        $statuses   = TicketOption::where('type', 'status')->orderBy('sort_order')->get();
-        $priorities = TicketOption::where('type', 'priority')->orderBy('sort_order')->get();
+{
+    $statuses   = TicketOption::where('type', 'status')->orderBy('sort_order')->get();
+    $priorities = TicketOption::where('type', 'priority')->orderBy('sort_order')->get();
+    $roles      = TicketOption::where('type', 'role')->orderBy('sort_order')->get();
 
-        return view('ticketsystem.admin.ticket_options', compact('statuses', 'priorities'));
-    }
+    return view('ticketsystem.admin.ticket_options', compact('statuses', 'priorities', 'roles'));
+}
 
     public function store(Request $request)
     {
@@ -24,10 +26,8 @@ class TicketOptionController extends Controller
             'text_color' => 'required|string',
         ]);
 
-        // Auto-generate value from label e.g. "In Review" -> "in_review"
         $value = strtolower(str_replace(' ', '_', trim($request->label)));
 
-        // Check duplicate
         if (TicketOption::where('type', $request->type)->where('value', $value)->exists()) {
             return back()->with('error', 'A ' . $request->type . ' with this name already exists.');
         }
@@ -59,7 +59,6 @@ class TicketOptionController extends Controller
         return back()->with('success', 'Option deleted.');
     }
 
-    // Called via JS to get active options — used by dropdowns across the app
     public function getOptions($type)
     {
         $options = TicketOption::where('type', $type)
@@ -69,4 +68,37 @@ class TicketOptionController extends Controller
 
         return response()->json($options);
     }
+
+    // --- Role methods ---
+
+    public function storeRole(Request $request)
+{
+    $request->validate(['role_name' => 'required|string|max:50']);
+
+    $value = strtolower(str_replace(' ', '_', trim($request->role_name)));
+
+    if (TicketOption::where('type', 'role')->where('value', $value)->exists()) {
+        return back()->with('error', 'This role already exists.');
+    }
+
+    $maxOrder = TicketOption::where('type', 'role')->max('sort_order') ?? 0;
+
+    TicketOption::create([
+        'type'       => 'role',
+        'value'      => $value,
+        'label'      => $request->role_name,
+        'color'      => '#f3f4f6',
+        'text_color' => '#374151',
+        'is_active'  => true,
+        'sort_order' => $maxOrder + 1,
+    ]);
+
+    return back()->with('success', 'Role "' . $request->role_name . '" added.');
+}
+
+public function destroyRole($id)
+{
+    TicketOption::findOrFail($id)->delete();
+    return back()->with('success', 'Role deleted.');
+}
 }

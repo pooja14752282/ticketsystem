@@ -351,4 +351,63 @@
 
 </div>
 
+
+{{-- ── ROLES SECTION ── --}}
+<div class="options-grid" style="margin-top:24px;">
+    <div class="option-section">
+
+        <h2><i class="fas fa-user-tag" style="color:#8b5cf6;margin-right:6px;"></i> Manage Roles</h2>
+        <p>Create and manage support team roles</p>
+
+        <form method="POST" action="{{ route('roles.store') }}">
+            @csrf
+            <div class="option-form" style="grid-template-columns: 1fr auto;">
+                <div class="form-group">
+                    <label>Role Name</label>
+                    <input type="text" name="role_name" placeholder="e.g. Admin" required>
+                </div>
+                <button type="submit" class="btn-add">
+                    <i class="fas fa-plus"></i> Add
+                </button>
+            </div>
+        </form>
+
+        <table class="options-table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($roles as $index => $role)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $role->label }}</td>
+                    <td>
+                        <div class="action-btns">
+                            <form method="POST" action="{{ route('roles.destroy', $role->id) }}"
+                                  onsubmit="return confirm('Delete this role?')" style="margin:0">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn-delete">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="3" style="text-align:center;padding:20px;color:#9ca3af;font-size:13px;">
+                        No roles yet
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
 @endsection

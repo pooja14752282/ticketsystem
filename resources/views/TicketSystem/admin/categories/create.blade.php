@@ -3,7 +3,7 @@
 
 @section('styles')
 <style>
-    .form-card { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; padding: 28px 32px; max-width: 600px; }
+    .form-card { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; padding: 28px 32px; .form-card; }
     .form-card h2 { font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
     .form-group { margin-bottom: 18px; }
     .form-group label { font-size: 12px; font-weight: 600; color: #374151; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }

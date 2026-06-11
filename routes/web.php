@@ -10,6 +10,10 @@ use App\Http\Controllers\TicketOptionController;
 use App\Http\Controllers\notificationcontroller;
 use App\Http\Controllers\ProfileController;
 
+
+Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
 // Profile routes
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
@@ -112,4 +116,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tickets/{id}/download', [TicketController::class, 'downloadAttachment'])
     ->name('tickets.download')
     ->middleware('auth');
+
+Route::post('/roles', [TicketOptionController::class, 'storeRole'])->name('roles.store');
+Route::delete('/roles/{id}', [TicketOptionController::class, 'destroyRole'])->name('roles.destroy');
+   
 }); 

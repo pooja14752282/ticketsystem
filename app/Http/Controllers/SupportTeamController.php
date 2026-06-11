@@ -16,10 +16,15 @@ class SupportTeamController extends Controller
     }
 
     public function create()
-    {
-        $apps = SupportTeam::APPS;
-        return view('TicketSystem.admin.support_team.create', compact('apps'));
-    }
+{
+    $apps  = SupportTeam::APPS;
+    $roles = \App\Models\TicketOption::where('type', 'role')
+                                     ->where('is_active', true)
+                                     ->orderBy('sort_order')
+                                     ->get();
+
+    return view('TicketSystem.admin.support_team.create', compact('apps', 'roles'));
+}
 
     public function store(Request $request)
     {

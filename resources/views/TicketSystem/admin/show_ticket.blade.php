@@ -69,7 +69,7 @@
 
 {{-- Breadcrumb --}}
 <div style="font-size:12px;color:#9ca3af;margin-bottom:12px;">
-    <a href="{{ route('support.tickets') }}" style="color:#9ca3af;text-decoration:none;">My Assigned Tickets</a>
+    <a href="{{ route('admin.tickets.index') }}" style="color:#9ca3af;text-decoration:none;">All Tickets</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
     <span style="color:#374151;font-weight:500;">Ticket #{{ $ticket->id }}</span>
 </div>
@@ -80,7 +80,7 @@
         <h1>🎫 Ticket #{{ $ticket->id }}</h1>
         <p>Full details for this support ticket</p>
     </div>
-    <a href="{{ route('support.tickets') }}" class="btn-back">
+    <a href="{{ route('admin.tickets.index') }}" class="btn-back">
         <i class="fas fa-arrow-left"></i> Back
     </a>
 </div>
@@ -96,7 +96,6 @@
         <div class="meta-cell">
             <div class="meta-label">Ticket ID</div>
             <div class="meta-val">TKT-{{ $ticket->id }}</div><br>
-
             <div class="meta-label">Title</div>
             <div class="meta-val">{{ $ticket->title }}</div>
         </div>
@@ -202,11 +201,11 @@
             <img src="{{ asset('storage/' . $ticket->attachment) }}" alt="Attachment">
         </div>
         <div class="img-footer">
-    <span><i class="fas fa-image" style="margin-right:5px;"></i>{{ basename($ticket->attachment) }}</span>
-    <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-dl">
-        <i class="fas fa-download"></i> Download
-    </a>
-</div>
+            <span><i class="fas fa-image" style="margin-right:5px;"></i>{{ basename($ticket->attachment) }}</span>
+            <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-dl">
+                <i class="fas fa-download"></i> Download
+            </a>
+        </div>
     @else
         @php
             $ext      = strtolower(pathinfo($ticket->attachment, PATHINFO_EXTENSION));
@@ -219,8 +218,7 @@
                 <div class="file-name">{{ basename($ticket->attachment) }}</div>
                 <div class="file-ext">{{ strtoupper($ext) }} file</div>
             </div>
-            <a href="{{ asset('storage/' . $ticket->attachment) }}"
-               download="{{ basename($ticket->attachment) }}" class="btn-dl">
+            <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-dl">
                 <i class="fas fa-download"></i> Download
             </a>
         </div>
