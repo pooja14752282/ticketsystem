@@ -13,6 +13,7 @@ class AdminUserSeeder extends Seeder
         DB::table('users')->insertOrIgnore([
             'email'      => 'admin@research-internship.com',
             'password'   => Hash::make('123456'),
+            'role'       => 'admin', 
             'created_at' => now(),
             'updated_at' => now(),
         ]);
