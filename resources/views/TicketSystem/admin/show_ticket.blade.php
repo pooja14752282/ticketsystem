@@ -95,7 +95,10 @@
     <div class="meta-grid">
         <div class="meta-cell">
             <div class="meta-label">Ticket ID</div>
-            <div class="meta-val">#{{ $ticket->id }}</div>
+            <div class="meta-val">TKT-{{ $ticket->id }}</div><br>
+
+            <div class="meta-label">Title</div>
+            <div class="meta-val">{{ $ticket->title }}</div>
         </div>
 
         {{-- Status --}}

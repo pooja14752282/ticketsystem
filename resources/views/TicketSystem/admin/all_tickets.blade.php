@@ -315,9 +315,9 @@ table {
         <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Ticket ID</th>
                 <th>Created On</th>
-                <th>Description</th>
+                <th>Title</th>
                 <th>App Name</th>
                 @if($isAdmin)
                 <th>Created By</th>
@@ -343,7 +343,8 @@ table {
                 <td class="date-col">{{ $ticket->created_at->format('d M Y') }}</td>
 
                 <td class="desc-col" title="{{ $ticket->description }}">
-                    {{ $ticket->description }}
+                    <a href="{{ route('admin.tickets.show', $ticket->id) }}">
+                    {{ $ticket->title }}
                 </td>
 
                 <td class="cat-col">
@@ -406,10 +407,6 @@ table {
 
                 <td>
                     <div class="action-btns">
-                        <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="btn-view">
-                            <i class="fas fa-eye"></i> View
-                        </a>
-
                         @if($isAdmin)
                         <button
                             class="btn-reassign"
