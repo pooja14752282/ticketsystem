@@ -188,6 +188,23 @@
         display: none; font-size: 12px; color: #16a34a;
         margin-top: 10px; text-align: right;
     }
+
+    .table-responsive {
+    width: 100%;
+    overflow: hidden;
+}
+
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent columns from breaking */
+table {
+    min-width: 1100px; /* adjust based on columns */
+}
+
 </style>
 @endsection
 
@@ -293,8 +310,9 @@
 </form>
 
 {{-- Tickets Table --}}
-<div class="table-card">
-    <table>
+<div class="table-card table-responsive">
+    <div class="table-scroll">
+        <table>
         <thead>
             <tr>
                 <th>#</th>
@@ -309,6 +327,7 @@
                 <th>Priority</th>
                 <th>Due Date</th>
                 <th>Age</th>
+                <th>Attachment</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -376,6 +395,16 @@
                 <td class="age-col">{{ $ticket->age }}hr</td>
 
                 <td>
+                     @if($ticket->attachment)
+                        <a href="{{ asset('storage/' . $ticket->attachment) }}" target="_blank" class="btn-view">
+                           <i class="fas fa-paperclip"></i> View
+                        </a>
+                     @else
+                         <span style="color:#9ca3af;">—</span>
+                     @endif
+                </td>
+
+                <td>
                     <div class="action-btns">
                         <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="btn-view">
                             <i class="fas fa-eye"></i> View
@@ -412,7 +441,8 @@
             </tr>
             @endforelse
         </tbody>
-    </table>
+        </table>
+    </div>
 </div>
 
 @if($isAdmin)
