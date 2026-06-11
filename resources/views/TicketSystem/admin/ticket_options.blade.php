@@ -274,15 +274,15 @@
     {{-- ── PRIORITY SECTION ── --}}
     <div class="option-section">
 
-        <h2><i class="fas fa-flag" style="color:#ef4444;margin-right:6px;"></i> Manage Priority</h2>
-        <p>Create and manage ticket priorities</p>
+        <h2><i class="fas fa-flag" style="color:#ef4444;margin-right:6px;"></i> Manage SLA</h2>
+        <p>Create and manage ticket sla</p>
 
         <form method="POST" action="{{ route('admin.ticket-options.store') }}">
             @csrf
             <input type="hidden" name="type" value="priority">
             <div class="option-form">
                 <div class="form-group">
-                    <label>Priority Label</label>
+                    <label>SLA Label</label>
                     <input type="text" name="label" placeholder="e.g. Critical" required>
                 </div>
                 <div class="color-group">
@@ -302,7 +302,7 @@
         <table class="options-table">
             <thead>
                 <tr>
-                    <th>Priority</th>
+                    <th>SLA</th>
                     <th>Preview</th>
                     <th>State</th>
                     <th>Action</th>
