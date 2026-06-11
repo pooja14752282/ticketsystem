@@ -10,10 +10,13 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('users')->insertOrIgnore([
+        DB::table('users')->where('email', 'admin@research-internship.com')->delete();
+
+        DB::table('users')->insert([
+            'name'       => 'Admin',
             'email'      => 'admin@research-internship.com',
             'password'   => Hash::make('123456'),
-            'role'       => 'admin', 
+            'role'       => 'admin',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
