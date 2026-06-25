@@ -64,6 +64,20 @@ return [
             ]) : [],
         ],
 
+        'examai' => [
+    'driver' => 'mysql',
+    'host' => env('EXAM_DB_HOST', '127.0.0.1'),
+    'port' => env('EXAM_DB_PORT', '3306'),
+    'database' => env('EXAM_DB_DATABASE'),
+    'username' => env('EXAM_DB_USERNAME'),
+    'password' => env('EXAM_DB_PASSWORD'),
+    'charset' => 'utf8mb4',
+    'collation' => 'utf8mb4_unicode_ci',
+    'prefix' => '',
+    'strict' => true,
+    'engine' => null,
+], 
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

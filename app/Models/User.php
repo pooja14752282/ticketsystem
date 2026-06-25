@@ -10,38 +10,41 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $connection = 'examai';
+    protected $table = 'users';
+    protected $primaryKey = 'uid';  
+
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
-        'role',        // ✅ ADDED
         'password',
+        'gid',
+        'su',
     ];
 
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
-    protected function casts(): array
+    // Full name accessor
+    public function getNameAttribute()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-        ];
+        return $this->first_name . ' ' . $this->last_name;
     }
 
-    // ✅ Helper methods to check role
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->su == 1;  // su=1 means admin 
     }
 
     public function isUser(): bool
     {
-        return $this->role === 'user';
+        return $this->su == 2;
     }
+
     public function tickets()
-{
-    return $this->hasMany(Ticket::class, 'assigned_to');
-}
+    {
+        return $this->hasMany(Ticket::class, 'assigned_to');
+    }
 }

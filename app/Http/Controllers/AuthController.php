@@ -10,72 +10,42 @@ use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
-    public function register()
+    // Show login form
+    public function login()
     {
-        return view('auth.register');
+        return view('auth.login');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'role'     => 'required|in:user,admin',   // ✅ ADDED
-            'password' => 'required|min:6|confirmed',
-        ]);
+    // Handle login form submission
+    public function loginStore(Request $request)
+{
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required',
+    ]);
 
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'role'     => $request->role,             // ✅ ADDED
-            'password' => Hash::make($request->password),
-        ]);
-
-        Auth::login($user);
-
-        // ✅ Redirect based on role
-        return $this->redirectByRole($user);
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $request->session()->regenerate();
+        return redirect()->route('dashboard');
     }
 
+    return back()->with('error', 'Invalid email or password!');
+}
+
+    // Logout
     public function logout()
     {
         Auth::logout();
         return redirect()->route('login');
     }
 
-    public function login()
+    // Forgot password form
+    public function forgotPassword()
     {
-        return view('auth.login');
+        return view('auth.forgot-password');
     }
 
-    public function loginStore(Request $request)
-    {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required|min:6',
-        ]);
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // ✅ Redirect based on role after login too
-            return $this->redirectByRole(Auth::user());
-        }
-
-        return back()->with('error', 'Invalid email or password!');
-    }
-
-    // ✅ Role-based redirect helper
-    private function redirectByRole($user)
-{
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.tickets.index');
-    }
-
-    if ($user->role === 'support') {
-        return redirect()->route('support.tickets'); // ← new support route
-    }
-
-    return redirect()->route('dashboard');
-}
+    // Handle forgot password submission
     public function forgotPasswordStore(Request $request)
     {
         $request->validate([
@@ -91,11 +61,13 @@ class AuthController extends Controller
         return back()->with('error', 'Failed to send reset link. Try again!');
     }
 
+    // Show reset password form
     public function resetPassword($token)
     {
         return view('auth.reset-password', ['token' => $token]);
     }
 
+    // Handle reset password submission
     public function resetPasswordStore(Request $request)
     {
         $request->validate([

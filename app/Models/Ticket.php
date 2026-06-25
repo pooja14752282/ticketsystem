@@ -11,18 +11,24 @@ class Ticket extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'id',
         'ticket_id',                 // ← added: varchar NOT NULL, must be fillable
         'title',                     // ← added: varchar NOT NULL, must be fillable
+        'description',
+        'attachment',
         'creator_email',             // ← added: varchar NOT NULL, must be fillable
+        'type',
+        'priority',
+        'app_name',
         'created_by',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'status',
         'assigned_to',
         'assigned_team_member_id',
-        'description',
         'category',
         'category_id',
-        'status',
-        'priority',
-        'attachment',
         'due_date',
         'due_date_reason',
         'reassign_reason',
