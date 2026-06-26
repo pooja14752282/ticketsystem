@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
     public function index()
-    {
-        $user = Auth::user()->load('tickets');
-        return view('profile', compact('user'));
-    }
+{
+    $user = Auth::user();
+    return view('profile', compact('user'));
+}
     public function updatePassword(Request $request)
 {
     $request->validate([

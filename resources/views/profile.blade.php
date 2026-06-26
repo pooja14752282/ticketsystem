@@ -32,7 +32,7 @@
             <div class="info-box">
                 <div class="info-label">Role</div>
                 <div class="info-value">
-                    {{ ucfirst(auth()->user()->role ?? 'User') }}
+                    {{ auth()->user()->isAdmin() ? 'Admin' : (auth()->user()->isSupportTeam() ? 'Support' : 'User') }}
                 </div>
             </div>
 
