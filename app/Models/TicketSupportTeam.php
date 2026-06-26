@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SupportTeam extends Model
+
+class TicketSupportTeam extends Model
 {
-    protected $fillable = ['name', 'email', 'app_assigned', 'is_active'];
+    protected $table = 'ticket_support_teams';
+    public $timestamps = false;
+
+    protected $fillable = ['user_id', 'name', 'email', 'app_assigned', 'is_active'];
 
     const APPS = [
         'seelinfinity'   => 'SeelInfinity',

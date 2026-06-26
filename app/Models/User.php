@@ -13,6 +13,7 @@ class User extends Authenticatable
     protected $connection = 'examai';
     protected $table = 'users';
     protected $primaryKey = 'uid';  
+    public $timestamps = false;  
 
     protected $fillable = [
         'first_name',

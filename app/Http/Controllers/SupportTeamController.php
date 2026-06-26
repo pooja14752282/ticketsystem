@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SupportTeam;
+use App\Models\TicketSupportTeam;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ticket;
+use App\Models\TicketSupportTeam as SupportTeam;
 
 class SupportTeamController extends Controller
 {
@@ -44,7 +45,7 @@ class SupportTeamController extends Controller
         ]);
 
         // Create support team member linked to user
-        SupportTeam::create([
+        TicketSupportTeam::create([
             'user_id'      => $user->id,
             'name'         => $request->name,
             'email'        => $request->email,

@@ -73,7 +73,7 @@
 @section('content')
 
 <div class="page-header">
-    <h1>📅 Edit Due Dates</h1>
+    <h6>📅 Edit Due Dates</h6>
     <p>Set or update due dates for any ticket</p>
 </div>
 

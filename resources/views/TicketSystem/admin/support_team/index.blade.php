@@ -45,7 +45,7 @@
                 <td style="padding:11px 14px;font-size:13px;color:#374151;">{{ $member->email }}</td>
                 <td style="padding:11px 14px;font-size:13px;">
                     <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">
-                        {{ \App\Models\SupportTeam::APPS[$member->app_assigned] }}
+                        {{ \App\Models\TicketSupportTeam::APPS[$member->app_assigned] }}
                     </span>
                 </td>
 
