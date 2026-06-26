@@ -345,6 +345,7 @@ table {
                 <td class="desc-col" title="{{ $ticket->description }}">
                     <a href="{{ route('admin.tickets.show', $ticket->id) }}">
                     {{ $ticket->title }}
+                    </a>
                 </td>
 
                 <td class="cat-col">
@@ -364,7 +365,7 @@ table {
                     @if($ticket->assignedTeamMember)
                         <span class="user-name">{{ $ticket->assignedTeamMember->name }}</span>
                         <span class="user-email">
-                            {{ \App\Models\SupportTeam::APPS[$ticket->assignedTeamMember->app_assigned] ?? '' }}
+                            {{ \App\Models\TicketSupportTeam::APPS[$ticket->assignedTeamMember->app_assigned] ?? '' }}
                         </span>
                     @elseif(optional($ticket->assignee)->name)
                         <span class="user-name">{{ $ticket->assignee->name }}</span>
@@ -456,7 +457,7 @@ table {
             @foreach($members as $member)
                 <option value="{{ $member->id }}" data-name="{{ $member->name }}">
                     {{ $member->name }}
-                    ({{ \App\Models\SupportTeam::APPS[$member->app_assigned] ?? $member->app_assigned }})
+                    ({{ \App\Models\TicketSupportTeam::APPS[$member->app_assigned] ?? $member->app_assigned }})
                 </option>
             @endforeach
         </select>

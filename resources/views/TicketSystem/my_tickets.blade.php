@@ -106,7 +106,7 @@
 
                 <td>
                     <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">
-                        {{ \App\Models\SupportTeam::APPS[$ticket->category] ?? $ticket->category }}
+                        {{ \App\Models\TicketSupportTeam::APPS[$ticket->category] ?? $ticket->category }}
                     </span>
                 </td>
 

@@ -98,13 +98,13 @@ class TicketController extends Controller
     {
         $request->validate([
             'description' => 'required|string|max:500',
-            'category'    => 'required|in:' . implode(',', array_keys(\App\Models\SupportTeam::APPS)),
+            'category'    => 'required|in:' . implode(',', array_keys(\App\Models\TicketSupportTeam::APPS)),
             'priority'    => 'required|in:low,high,urgent',
             'due_date'    => 'nullable|date',
             'attachment'  => 'nullable|file|mimes:png,jpg,jpeg,pdf,doc,docx|max:10240',
         ]);
 
-        $supportMember = \App\Models\SupportTeam::where('app_assigned', $request->category)
+        $supportMember = \App\Models\TicketSupportTeam::where('app_assigned', $request->category)
                             ->where('is_active', true)
                             ->first();
 
@@ -159,9 +159,9 @@ class TicketController extends Controller
         ]);
 
         // Notify the assigned support member
-        if ($supportMember && $supportMember->user_id) {
+        if ($supportMember && $supportMember->uid) {
             \App\Models\Notification::create([
-                'user_id'   => $supportMember->user_id,
+                'user_id'   => $supportMember->uid,
                 'ticket_id' => $ticket->id,
                 'title'     => 'New Ticket Assigned',
                 'message'   => 'Ticket #' . $ticket->ticket_id . ' has been assigned to you.',
@@ -208,7 +208,7 @@ class TicketController extends Controller
 
         $ticket     = Ticket::findOrFail($id);
         $user       = auth()->user();
-        $teamMember = \App\Models\SupportTeam::where('email', $user->email)->first();
+        $teamMember = \App\Models\TicketSupportTeam::where('email', $user->email)->first();
 
         $isAdmin          = $user->role === 'admin';
         $isAssignedMember = $teamMember && $ticket->assigned_team_member_id === $teamMember->id;
@@ -241,7 +241,7 @@ class TicketController extends Controller
         $appName = $ticket->category->app_name ?? null;
 
         if ($appName) {
-            $member = SupportTeam::where('app_assigned', $appName)
+            $member = TicketSupportTeam::where('app_assigned', $appName)
                                  ->where('is_active', true)
                                  ->first();
 
@@ -317,7 +317,7 @@ class TicketController extends Controller
         $categories = \App\Models\TicketCategory::orderBy('name')->get();
         $statuses   = \App\Models\TicketOption::where('type', 'status')->where('is_active', true)->orderBy('sort_order')->get();
         $priorities = \App\Models\TicketOption::where('type', 'priority')->where('is_active', true)->orderBy('sort_order')->get();
-        $members    = \App\Models\SupportTeam::where('is_active', true)->orderBy('name')->get();
+        $members    = \App\Models\TicketSupportTeam::where('is_active', true)->orderBy('name')->get();
 
         return view('TicketSystem.admin.all_tickets', compact('tickets', 'stats', 'categories', 'statuses', 'priorities', 'members'));
     }
@@ -336,7 +336,7 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
         $user   = auth()->user();
 
-        $teamMember       = \App\Models\SupportTeam::where('email', $user->email)->first();
+        $teamMember       = \App\Models\TicketSupportTeam::where('email', $user->email)->first();
         $isAdmin          = $user->role === 'admin';
         $isAssignedMember = $teamMember && $ticket->assigned_team_member_id === $teamMember->id;
         $isAssignedUser   = $ticket->assigned_to === $user->id;
@@ -362,7 +362,7 @@ class TicketController extends Controller
         ]);
 
         $ticket    = Ticket::findOrFail($id);
-        $newMember = \App\Models\SupportTeam::findOrFail($request->member_id);
+        $newMember = \App\Models\TicketSupportTeam::findOrFail($request->member_id);
 
         $ticket->update([
             'assigned_team_member_id' => $newMember->id,
@@ -370,9 +370,9 @@ class TicketController extends Controller
         ]);
 
         // Notify the new support member
-        if ($newMember->user_id) {
+        if ($newMember->uid) {
             \App\Models\Notification::create([
-                'user_id'      => $newMember->user_id,
+                'user_id'      => $newMember->uid,
                 'ticket_id'    => $ticket->id,
                 'title'        => 'Ticket Reassigned to You',
                 'message'      => 'Ticket #' . $ticket->ticket_id . ' has been reassigned to you.'

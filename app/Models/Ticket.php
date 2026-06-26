@@ -61,7 +61,7 @@ class Ticket extends Model
     // Assigned support team member
     public function assignedTeamMember()
     {
-        return $this->belongsTo(SupportTeam::class, 'assigned_team_member_id');
+        return $this->belongsTo(TicketSupportTeam::class, 'assigned_team_member_id');
     }
 
     public function createdBy()

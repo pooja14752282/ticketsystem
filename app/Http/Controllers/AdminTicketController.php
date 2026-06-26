@@ -14,7 +14,7 @@ class AdminTicketController extends Controller
 {
     public function index(Request $request)
     {
-        $isAdmin = auth()->user()->role === 'admin';
+        $isAdmin = auth()->user()->su === 1;;
 
         // Admins see all tickets; others see only their own
         $query = $isAdmin
@@ -55,7 +55,7 @@ class AdminTicketController extends Controller
 
     public function show(Ticket $ticket)
     {
-        $isAdmin = auth()->user()->role === 'admin';
+        $isAdmin = auth()->user()->su === 1;;
 
         // Non-admins can only view their own tickets
         if (!$isAdmin && $ticket->created_by !== auth()->id()) {
