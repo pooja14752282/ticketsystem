@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use App\Models\TicketCategory;
-use App\Models\SupportTeam;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Models\TicketSupportTeam;
 
 class AdminTicketController extends Controller
 {
@@ -37,7 +37,7 @@ class AdminTicketController extends Controller
 
         $tickets    = $query->latest()->get();
         $categories = TicketCategory::where('status', 'active')->get();
-        $members    = SupportTeam::where('is_active', true)->get();
+        $members    = TicketSupportTeam::where('is_active', true)->get();
         $statuses   = \App\Models\TicketOption::where('type', 'status')->where('is_active', true)->orderBy('sort_order')->get();
         $priorities = \App\Models\TicketOption::where('type', 'priority')->where('is_active', true)->orderBy('sort_order')->get();
 

@@ -6,7 +6,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\SupportTeam;
+use App\Models\TicketSupportTeam;
 
 class TicketController extends Controller
 {
@@ -52,7 +52,7 @@ class TicketController extends Controller
     // Tickets assigned to me
     public function assignedTickets(Request $request)
     {
-        $teamMember = SupportTeam::where('email', Auth::user()->email)->first();
+        $teamMember = TicketSupportTeam::where('email', Auth::user()->email)->first();
 
         $query = Ticket::with(['creator']);
 
@@ -86,8 +86,8 @@ class TicketController extends Controller
     // Show create form
     public function create()
     {
-        $admins         = User::where('role', 'admin')->get();
-        $supportMembers = SupportTeam::where('is_active', true)->get();
+        $admins         = User::where('su', '1')->get();
+        $supportMembers = TicketSupportTeam::where('is_active', true)->get();
         $priorities     = \App\Models\TicketOption::where('type', 'priority')->where('is_active', true)->orderBy('sort_order')->get();
 
         return view('ticketsystem.create_ticket', compact('admins', 'supportMembers', 'priorities'));

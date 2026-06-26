@@ -15,7 +15,7 @@
                 <label>App *</label>
                 <select name="category" id="appSelect" required onchange="showAutoAssign()">
                     <option value="">-- Select App --</option>
-                    @foreach(\App\Models\SupportTeam::APPS as $key => $label)
+                    @foreach(\App\Models\TicketSupportTeam::APPS as $key => $label)
                         <option value="{{ $key }}">{{ $label }}</option>
                     @endforeach
                 </select>

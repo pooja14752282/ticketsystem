@@ -123,23 +123,15 @@
                     </optgroup>
                 @endif
 
-                @if($supportMembers->count())
-
-                    <optgroup label="👥 Support Team">
-
-                        @foreach($supportMembers as $member)
-
-                            <option value="team_{{ $member->id }}">
-                                {{ $member->name }}
-                                —
-                                {{ \App\Models\SupportTeam::APPS[$member->app_assigned] }}
-                            </option>
-
-                        @endforeach
-
-                    </optgroup>
-
-                @endif
+               @if($supportMembers->count())
+                   <optgroup label="👥 Support Team">
+                   @foreach($supportMembers as $member)
+                   <option value="team_{{ $member->id }}">
+                   {{ $member->name }} — {{ \App\Models\TicketSupportTeam::APPS[$member->app_assigned] ?? $member->app_assigned }}
+                   </option>
+                @endforeach
+                   </optgroup>
+                 @endif
 
             </select>
 

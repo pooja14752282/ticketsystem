@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TicketCategory;
 use App\Models\User;
-use App\Models\SupportTeam;
+use App\Models\TicketSupportTeam;
 use Illuminate\Http\Request;
 
 
@@ -26,7 +26,7 @@ class TicketCategoryController extends Controller
 
     public function create()
 {
-    $users = \App\Models\SupportTeam::where('is_active', true)->get(); // ✅ changed
+    $users = \App\Models\TicketSupportTeam::where('is_active', true)->get(); 
     return view('ticketsystem.admin.categories.create', compact('users'));
 }
 
@@ -37,10 +37,10 @@ class TicketCategoryController extends Controller
             'assign_to' => 'nullable|exists:users,id',
             'email'     => 'nullable|email|max:255',
             'status'    => 'required|in:active,inactive',
-            'app_name'  => 'required|in:' . implode(',', array_keys(SupportTeam::APPS)), // ✅ added
+            'app_name'  => 'required|in:' . implode(',', array_keys(SupportTeam::APPS)), 
         ]);
 
-        TicketCategory::create($request->only('name', 'assign_to', 'email', 'status', 'app_name')); // ✅ added app_name
+        TicketCategory::create($request->only('name', 'assign_to', 'email', 'status', 'app_name')); 
 
         return redirect()->route('admin.ticket-categories.index')
             ->with('success', 'Ticket Category created successfully.');
