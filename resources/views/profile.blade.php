@@ -130,7 +130,7 @@
 }
 
 .btn-brand {
-    background: #6366f1;
+    background: #6e70f5;
     color: white;
     padding: 10px 18px;
     border: none;

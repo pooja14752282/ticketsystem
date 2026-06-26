@@ -22,6 +22,6 @@ class ProfileController extends Controller
         'password' => bcrypt($request->password),
     ]);
 
-    return back()->with('success', 'Password updated successfully.');
+    return back()->with('success', 'Password updated successfully');
 }
 }
