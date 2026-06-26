@@ -6,19 +6,19 @@
     </div>
     <div class="topbar-right" style="display:flex; align-items:center; gap:12px;">
 
-        @if(Auth::user()->role === 'admin')
-            <span class="role-pill badge-admin">
-                <i class="fas fa-shield-alt"></i> Admin
-            </span>
-        @elseif(Auth::user()->role === 'support')
-            <span class="role-pill badge-support">
-                <i class="fas fa-headset"></i> Support
-            </span>
-        @else
-            <span class="role-pill badge-user">
-                <i class="fas fa-user"></i> User
-            </span>
-        @endif
+        @if(Auth::user()->isAdmin())
+    <span class="role-pill badge-admin">
+        <i class="fas fa-shield-alt"></i> Admin
+    </span>
+@elseif(Auth::user()->isSupportTeam())
+    <span class="role-pill badge-support">
+        <i class="fas fa-headset"></i> Support
+    </span>
+@else
+    <span class="role-pill badge-user">
+        <i class="fas fa-user"></i> User
+    </span>
+@endif
 
         <div style="position:relative; display:inline-block;" id="userDropdown">
             <div onclick="toggleDropdown()" style="display:flex; align-items:center; gap:8px; cursor:pointer;">

@@ -34,17 +34,21 @@ class User extends Authenticatable
     }
 
     public function isAdmin(): bool
-    {
-        return $this->su == 1;  // su=1 means admin 
-    }
+{
+    return $this->su == 1;
+}
 
-    public function isUser(): bool
-    {
-        return $this->su == 2;
-    }
+public function isSupportTeam(): bool
+{
+    return $this->su == 4;
+}
 
-    public function tickets()
-    {
-        return $this->hasMany(Ticket::class, 'assigned_to');
-    }
+public function hasRole(string $role): bool
+{
+    return match ($role) {
+        'admin'   => $this->su == 1,
+        'support' => $this->su == 4,
+        default   => false,
+    };
+}
 }

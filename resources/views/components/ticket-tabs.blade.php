@@ -22,7 +22,7 @@
 )
 <div class="ticket-tabs">
 
-    @if(Auth::user()->role === 'admin')
+    @if(Auth::user()->isAdmin())
         <a href="{{ route('admin.tickets.index') }}"
            class="ticket-tab {{ request()->routeIs('admin.tickets.index') ? 'active' : '' }}">
             <i class="fas fa-list-ul"></i> All Tickets

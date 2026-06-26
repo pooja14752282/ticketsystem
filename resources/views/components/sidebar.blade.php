@@ -11,10 +11,10 @@
     <nav class="sidebar-nav">
 
         <div class="nav-section-title">
-            {{ Auth::user()->role === 'admin'
-                ? 'Admin'
-                : (Auth::user()->role === 'support' ? 'Support' : 'Menu') }}
-        </div>
+    {{ Auth::user()->isAdmin()
+        ? 'Admin'
+        : (Auth::user()->isSupportTeam() ? 'Support' : 'Menu') }}
+</div>
 
         <a href="{{ route('dashboard') }}"
            class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -28,7 +28,7 @@
             Tickets
         </a>
 
-        @if(Auth::user()->role === 'admin')
+        @if(Auth::user()->isAdmin())
 
             <a href="{{ route('admin.ticket-categories.index') }}"
                class="nav-link {{ request()->routeIs('admin.ticket-categories.*') ? 'active' : '' }}">
