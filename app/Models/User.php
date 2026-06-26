@@ -46,10 +46,11 @@ public function isSupportTeam(): bool
 
 public function hasRole(string $role): bool
 {
-    return match ($role) {
-        'admin'   => $this->su == 1,
-        'support' => $this->su == 4,
-        default   => false,
-    };
+    $roleMap = [
+        'admin'   => 1,
+        'support' => 4,
+    ];
+
+    return isset($roleMap[$role]) && $this->su == $roleMap[$role];
 }
 }

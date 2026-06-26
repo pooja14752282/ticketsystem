@@ -17,15 +17,15 @@ class SupportTeamController extends Controller
     }
 
     public function create()
-{
-    $apps  = SupportTeam::APPS;
-    $roles = \App\Models\TicketOption::where('type', 'role')
-                                     ->where('is_active', true)
-                                     ->orderBy('sort_order')
-                                     ->get();
+    {
+        $apps  = SupportTeam::APPS;
+        $roles = \App\Models\TicketOption::where('type', 'role')
+                                         ->where('is_active', true)
+                                         ->orderBy('sort_order')
+                                         ->get();
 
-    return view('TicketSystem.admin.support_team.create', compact('apps', 'roles'));
-}
+        return view('TicketSystem.admin.support_team.create', compact('apps', 'roles'));
+    }
 
     public function store(Request $request)
     {
@@ -36,17 +36,18 @@ class SupportTeamController extends Controller
             'password'     => 'required|min:6|confirmed',
         ]);
 
-        // Create login account in users table
+        // Create login account — su = 4 marks them as support team
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => bcrypt($request->password),
-            'role'     => 'support',
+            'first_name' => explode(' ', $request->name)[0],
+            'last_name'  => explode(' ', $request->name, 2)[1] ?? '',
+            'email'      => $request->email,
+            'password'   => bcrypt($request->password),
+            'su'         => 4,  // ✅ support team role
         ]);
 
-        // Create support team member linked to user
+        // Create support team member linked to the new user
         TicketSupportTeam::create([
-            'user_id'      => $user->id,
+            'user_id'      => $user->uid,  // uid is the primary key
             'name'         => $request->name,
             'email'        => $request->email,
             'app_assigned' => $request->app_assigned,
@@ -67,7 +68,7 @@ class SupportTeamController extends Controller
     {
         $request->validate([
             'name'         => 'required|string|max:255',
-            'email'        => 'required|email|unique:support_teams,email,' . $supportTeam->id,
+            'email'        => 'required|email|unique:ticket_support_teams,email,' . $supportTeam->id,
             'app_assigned' => 'required|in:' . implode(',', array_keys(SupportTeam::APPS)),
         ]);
 
@@ -75,8 +76,12 @@ class SupportTeamController extends Controller
 
         // Also update the linked user record
         if ($supportTeam->user_id) {
-            User::where('id', $supportTeam->user_id)
-                ->update(['name' => $request->name, 'email' => $request->email]);
+            $nameParts = explode(' ', $request->name, 2);
+            User::where('uid', $supportTeam->user_id)->update([
+                'first_name' => $nameParts[0],
+                'last_name'  => $nameParts[1] ?? '',
+                'email'      => $request->email,
+            ]);
         }
 
         return redirect()->route('admin.support-team.index')
@@ -93,7 +98,13 @@ class SupportTeamController extends Controller
 
     public function destroy(SupportTeam $supportTeam)
     {
+        // Also reset su on the linked user so they lose support access
+        if ($supportTeam->user_id) {
+            User::where('uid', $supportTeam->user_id)->update(['su' => 2]);
+        }
+
         $supportTeam->delete();
+
         return redirect()->route('admin.support-team.index')
                          ->with('success', 'Team member removed.');
     }
@@ -103,13 +114,13 @@ class SupportTeamController extends Controller
         $user   = auth()->user();
         $member = SupportTeam::where('email', $user->email)->first();
 
-       if (!$member) {
-    return view('TicketSystem.support.tickets', [
-        'tickets'    => new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15),
-        'member'     => null,
-        'categories' => collect(),
-    ]);
-}
+        if (!$member) {
+            return view('TicketSystem.support.tickets', [
+                'tickets'    => new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15),
+                'member'     => null,
+                'categories' => collect(),
+            ]);
+        }
 
         $query = Ticket::where('assigned_team_member_id', $member->id);
 
@@ -133,12 +144,12 @@ class SupportTeamController extends Controller
         return view('TicketSystem.support.tickets', compact('tickets', 'member', 'categories'));
     }
 
-   public function showTicket(Ticket $ticket)
-{
-    $ticket->load('review.supportMember');
-    $statuses   = \App\Models\TicketOption::where('type', 'status')->where('is_active', true)->orderBy('sort_order')->get();
-    $priorities = \App\Models\TicketOption::where('type', 'priority')->where('is_active', true)->orderBy('sort_order')->get();
+    public function showTicket(Ticket $ticket)
+    {
+        $ticket->load('review.supportMember');
+        $statuses   = \App\Models\TicketOption::where('type', 'status')->where('is_active', true)->orderBy('sort_order')->get();
+        $priorities = \App\Models\TicketOption::where('type', 'priority')->where('is_active', true)->orderBy('sort_order')->get();
 
-    return view('TicketSystem.support.show_ticket', compact('ticket', 'statuses', 'priorities'));
-}
+        return view('TicketSystem.support.show_ticket', compact('ticket', 'statuses', 'priorities'));
+    }
 }

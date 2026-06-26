@@ -17,7 +17,7 @@ class AuthController extends Controller
     }
 
     // Handle login form submission
-    public function loginStore(Request $request)
+ public function loginStore(Request $request)
 {
     $request->validate([
         'email'    => 'required|email',
@@ -26,12 +26,19 @@ class AuthController extends Controller
 
     if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
         $request->session()->regenerate();
-        return redirect()->route('dashboard');
+
+        switch (Auth::user()->su) {
+            case 1:
+                return redirect()->route('admin.tickets.index');
+            case 4:
+                return redirect()->route('support.tickets');
+            default:
+                return redirect()->route('dashboard');
+        }
     }
 
     return back()->with('error', 'Invalid email or password!');
 }
-
     // Logout
     public function logout()
     {

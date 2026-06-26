@@ -13,7 +13,7 @@ use App\Http\Controllers\TicketReviewController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Register routes
@@ -33,7 +33,7 @@ Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword'])-
 Route::post('/reset-password', [AuthController::class, 'resetPasswordStore'])->name('password.update');
 
 // ===========================================================
-// AUTHENTICATED ROUTES — any logged-in user (admin/support/user)
+// AUTHENTICATED ROUTES
 // ===========================================================
 Route::middleware(['auth'])->group(function () {
 
@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/ticketsystem/{ticket}', [TicketController::class, 'destroy'])->name('ticketsystem.destroy');
     Route::patch('/ticketsystem/{ticket}/due-date', [TicketController::class, 'updateDueDate'])->name('ticketsystem.updateDueDate');
 
-    // Tickets assigned to the current user (any role can land here; controller scopes by user)
+    // Tickets assigned to the current user
     Route::get('/ticketsystem/assigned', [TicketController::class, 'assignedTickets'])->name('ticketsystem.assigned');
 
     // Attachment download
@@ -68,16 +68,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ticketsystem/branch/{ticket}/review', [TicketReviewController::class, 'store'])->name('ticket.review.store');
 
     // ===========================================================
-    // SHARED: ADMIN + SUPPORT — controller must check ownership for support
+    // SUPPORT TEAM ROUTES — su = 4
+    // ===========================================================
+    Route::get('/support/tickets',          [SupportTeamController::class, 'myAssignedTickets'])->name('support.tickets');
+    Route::get('/support/tickets/{ticket}', [SupportTeamController::class, 'showTicket'])->name('support.ticket.show');
+
+    // ===========================================================
+    // SHARED: ADMIN + SUPPORT
     // ===========================================================
     Route::middleware(['role:admin,support'])->group(function () {
         Route::patch('/ticketsystem/{ticket}/status', [TicketController::class, 'updateStatus'])->name('ticketsystem.updateStatus');
-        Route::patch('/tickets/{ticket}/status',       [TicketController::class, 'updateStatus']);
-        Route::patch('/tickets/{ticket}/priority',     [TicketController::class, 'updatePriority']);
-
-        // Support member's own assigned-ticket views
-        Route::get('/support/tickets',          [SupportTeamController::class, 'myAssignedTickets'])->name('support.tickets');
-        Route::get('/support/tickets/{ticket}', [SupportTeamController::class, 'showTicket'])->name('support.ticket.show');
+        Route::patch('/tickets/{ticket}/status',      [TicketController::class, 'updateStatus']);
+        Route::patch('/tickets/{ticket}/priority',    [TicketController::class, 'updatePriority']);
     });
 
     // ===========================================================
@@ -86,27 +88,26 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
 
         // All Tickets (admin view)
-        Route::get('/ticketsystem/branch',             [AdminTicketController::class, 'index'])->name('admin.tickets.index');
-        Route::get('/ticketsystem/branch/{ticket}',     [AdminTicketController::class, 'show'])->name('admin.tickets.show');
-        Route::delete('/ticketsystem/branch/{ticket}',  [AdminTicketController::class, 'destroy'])->name('admin.tickets.destroy');
+        Route::get('/ticketsystem/branch',            [AdminTicketController::class, 'index'])->name('admin.tickets.index');
+        Route::get('/ticketsystem/branch/{ticket}',    [AdminTicketController::class, 'show'])->name('admin.tickets.show');
+        Route::delete('/ticketsystem/branch/{ticket}', [AdminTicketController::class, 'destroy'])->name('admin.tickets.destroy');
 
         // Due Dates
         Route::get('/tickets/due-dates',           [TicketController::class, 'dueDatesPage'])->name('admin.tickets.duedates');
         Route::patch('/tickets/{ticket}/due-date', [TicketController::class, 'updateDueDate'])->name('tickets.updateDueDate');
 
         // Reassign
-        Route::patch('/tickets/{ticket}/reassign', [TicketController::class, 'reassign'])->name('tickets.reassign');
         Route::patch('/tickets/{ticket}/reassign', [AdminTicketController::class, 'reassign'])->name('admin.tickets.reassign');
 
         // Ticket Categories
-        Route::get('/ticketcategory',                       [TicketCategoryController::class, 'index'])->name('admin.ticket-categories.index');
-        Route::get('/ticketcategory/create',                [TicketCategoryController::class, 'create'])->name('admin.ticket-categories.create');
-        Route::post('/ticketcategory',                      [TicketCategoryController::class, 'store'])->name('admin.ticket-categories.store');
-        Route::get('/ticketcategory/{ticketCategory}',      [TicketCategoryController::class, 'show'])->name('admin.ticket-categories.show');
-        Route::get('/ticketcategory/{ticketCategory}/edit', [TicketCategoryController::class, 'edit'])->name('admin.ticket-categories.edit');
-        Route::put('/ticketcategory/{ticketCategory}',      [TicketCategoryController::class, 'update'])->name('admin.ticket-categories.update');
+        Route::get('/ticketcategory',                          [TicketCategoryController::class, 'index'])->name('admin.ticket-categories.index');
+        Route::get('/ticketcategory/create',                   [TicketCategoryController::class, 'create'])->name('admin.ticket-categories.create');
+        Route::post('/ticketcategory',                         [TicketCategoryController::class, 'store'])->name('admin.ticket-categories.store');
+        Route::get('/ticketcategory/{ticketCategory}',         [TicketCategoryController::class, 'show'])->name('admin.ticket-categories.show');
+        Route::get('/ticketcategory/{ticketCategory}/edit',    [TicketCategoryController::class, 'edit'])->name('admin.ticket-categories.edit');
+        Route::put('/ticketcategory/{ticketCategory}',         [TicketCategoryController::class, 'update'])->name('admin.ticket-categories.update');
         Route::post('/ticketcategory/{ticketCategory}/toggle', [TicketCategoryController::class, 'toggleStatus'])->name('admin.ticket-categories.toggle');
-        Route::delete('/ticketcategory/{ticketCategory}',   [TicketCategoryController::class, 'destroy'])->name('admin.ticket-categories.destroy');
+        Route::delete('/ticketcategory/{ticketCategory}',      [TicketCategoryController::class, 'destroy'])->name('admin.ticket-categories.destroy');
 
         // Support Team management
         Route::get('/admin/support-team',                        [SupportTeamController::class, 'index'])->name('admin.support-team.index');
@@ -117,17 +118,17 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/admin/support-team/{supportTeam}',          [SupportTeamController::class, 'update'])->name('admin.support-team.update');
         Route::patch('/admin/support-team/{supportTeam}/toggle', [SupportTeamController::class, 'toggle'])->name('admin.support-team.toggle');
 
-        // Ticket Options (Status & Priority)
-        Route::get('/admin/ticket-options',                          [TicketOptionController::class, 'index'])->name('admin.ticket-options.index');
-        Route::post('/admin/ticket-options',                         [TicketOptionController::class, 'store'])->name('admin.ticket-options.store');
+        // Ticket Options
+        Route::get('/admin/ticket-options',                         [TicketOptionController::class, 'index'])->name('admin.ticket-options.index');
+        Route::post('/admin/ticket-options',                        [TicketOptionController::class, 'store'])->name('admin.ticket-options.store');
         Route::patch('/admin/ticket-options/{ticketOption}/toggle', [TicketOptionController::class, 'toggle'])->name('admin.ticket-options.toggle');
         Route::delete('/admin/ticket-options/{ticketOption}',       [TicketOptionController::class, 'destroy'])->name('admin.ticket-options.destroy');
 
         // Roles
-        Route::post('/roles', [TicketOptionController::class, 'storeRole'])->name('roles.store');
+        Route::post('/roles',        [TicketOptionController::class, 'storeRole'])->name('roles.store');
         Route::delete('/roles/{id}', [TicketOptionController::class, 'destroyRole'])->name('roles.destroy');
     });
 
-    // Available to any authenticated user (used by ticket create/edit forms)
+    // Available to any authenticated user
     Route::get('/ticket-options/{type}', [TicketOptionController::class, 'getOptions'])->name('ticket-options.get');
 });

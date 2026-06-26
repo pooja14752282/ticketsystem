@@ -11,10 +11,10 @@
     <nav class="sidebar-nav">
 
         <div class="nav-section-title">
-    {{ Auth::user()->isAdmin()
-        ? 'Admin'
-        : (Auth::user()->isSupportTeam() ? 'Support' : 'Menu') }}
-</div>
+            {{ Auth::user()->isAdmin()
+                ? 'Admin'
+                : (Auth::user()->isSupportTeam() ? 'Support' : 'Menu') }}
+        </div>
 
         <a href="{{ route('dashboard') }}"
            class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -22,11 +22,26 @@
             Dashboard
         </a>
 
-        <a href="{{ route('admin.tickets.index') }}"
-           class="nav-link {{ request()->routeIs('admin.tickets.*') && !request()->routeIs('admin.tickets.duedates') ? 'active' : '' }}">
-            <i class="fas fa-ticket-alt"></i>
-            Tickets
-        </a>
+        {{-- Tickets link — admin goes to all tickets, support goes to assigned tickets --}}
+        @if(Auth::user()->isAdmin())
+            <a href="{{ route('admin.tickets.index') }}"
+               class="nav-link {{ request()->routeIs('admin.tickets.*') && !request()->routeIs('admin.tickets.duedates') ? 'active' : '' }}">
+                <i class="fas fa-ticket-alt"></i>
+                Tickets
+            </a>
+        @elseif(Auth::user()->isSupportTeam())
+            <a href="{{ route('support.tickets') }}"
+               class="nav-link {{ request()->routeIs('support.tickets*') ? 'active' : '' }}">
+                <i class="fas fa-ticket-alt"></i>
+                Tickets
+            </a>
+        @else
+            <a href="{{ route('ticketsystem.my') }}"
+               class="nav-link {{ request()->routeIs('ticketsystem.*') ? 'active' : '' }}">
+                <i class="fas fa-ticket-alt"></i>
+                My Tickets
+            </a>
+        @endif
 
         @if(Auth::user()->isAdmin())
 
