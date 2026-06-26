@@ -13,7 +13,7 @@
         <div class="nav-section-title">
             {{ Auth::user()->isAdmin()
                 ? 'Admin'
-                : (Auth::user()->isSupportTeam() ? 'Support' : 'Menu') }}
+                : (Auth::user()->isTicketSupportTeam() ? 'Support' : 'Menu') }}
         </div>
 
         <a href="{{ route('dashboard') }}"
@@ -29,7 +29,7 @@
                 <i class="fas fa-ticket-alt"></i>
                 Tickets
             </a>
-        @elseif(Auth::user()->isSupportTeam())
+        @elseif(Auth::user()->isTicketSupportTeam())
             <a href="{{ route('support.tickets') }}"
                class="nav-link {{ request()->routeIs('support.tickets*') ? 'active' : '' }}">
                 <i class="fas fa-ticket-alt"></i>

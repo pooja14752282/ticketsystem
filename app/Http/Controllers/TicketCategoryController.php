@@ -37,7 +37,7 @@ class TicketCategoryController extends Controller
             'assign_to' => 'nullable|exists:users,id',
             'email'     => 'nullable|email|max:255',
             'status'    => 'required|in:active,inactive',
-            'app_name'  => 'required|in:' . implode(',', array_keys(SupportTeam::APPS)), 
+            'app_name'  => 'required|in:' . implode(',', array_keys(TicketSupportTeam::APPS)), 
         ]);
 
         TicketCategory::create($request->only('name', 'assign_to', 'email', 'status', 'app_name')); 
@@ -54,7 +54,7 @@ class TicketCategoryController extends Controller
 
     public function edit(TicketCategory $ticketCategory)
 {
-    $users = \App\Models\SupportTeam::where('is_active', true)->get(); // ✅ changed
+    $users = \App\Models\TicketSupportTeam::where('is_active', true)->get(); // ✅ changed
     return view('ticketsystem.admin.categories.edit', compact('ticketCategory', 'users'));
 }
     public function update(Request $request, TicketCategory $ticketCategory)
@@ -64,7 +64,7 @@ class TicketCategoryController extends Controller
             'assign_to' => 'nullable|exists:users,id',
             'email'     => 'nullable|email|max:255',
             'status'    => 'required|in:active,inactive',
-            'app_name'  => 'nullable|in:' . implode(',', array_keys(SupportTeam::APPS)), // ✅ added
+            'app_name'  => 'nullable|in:' . implode(',', array_keys(TicketSupportTeam::APPS)), // ✅ added
         ]);
 
         $ticketCategory->update($request->only('name', 'assign_to', 'email', 'status', 'app_name')); // ✅ added app_name

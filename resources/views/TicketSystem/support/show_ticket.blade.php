@@ -61,7 +61,7 @@
 @php
     $authUser   = auth()->user();
     $isAdmin    = $authUser->role === 'admin';
-    $teamMember = \App\Models\SupportTeam::where('email', $authUser->email)->first();
+    $teamMember = \App\Models\TicketSupportTeam::where('email', $authUser->email)->first();
     $canEdit    = $isAdmin
         || ($teamMember && $ticket->assigned_team_member_id === $teamMember->id)
         || $ticket->assigned_to === $authUser->id;
@@ -161,7 +161,7 @@
                 @if($ticket->assignedTeamMember)
                     {{ $ticket->assignedTeamMember->name }}
                     <div style="font-size:11px;color:#6b7280;font-weight:400;margin-top:2px;">
-                        {{ \App\Models\SupportTeam::APPS[$ticket->assignedTeamMember->app_assigned] ?? '' }}
+                        {{ \App\Models\TicketSupportTeam::APPS[$ticket->assignedTeamMember->app_assigned] ?? '' }}
                     </div>
                 @else
                     {{ optional($ticket->assignee)->name ?? '—' }}

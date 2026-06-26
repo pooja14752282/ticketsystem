@@ -99,7 +99,7 @@ class AdminTicketController extends Controller
         ]);
 
         $oldMember = $ticket->assignedTeamMember;
-        $newMember = SupportTeam::find($request->assigned_team_member_id);
+        $newMember = TicketSupportTeam::find($request->assigned_team_member_id);
 
         $ticket->update([
             'assigned_team_member_id' => $newMember->id,

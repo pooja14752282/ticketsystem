@@ -10,7 +10,7 @@
     <span class="role-pill badge-admin">
         <i class="fas fa-shield-alt"></i> Admin
     </span>
-@elseif(Auth::user()->isSupportTeam())
+@elseif(Auth::user()->isTicketSupportTeam())
     <span class="role-pill badge-support">
         <i class="fas fa-headset"></i> Support
     </span>

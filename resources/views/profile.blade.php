@@ -32,7 +32,7 @@
             <div class="info-box">
                 <div class="info-label">Role</div>
                 <div class="info-value">
-                    {{ auth()->user()->isAdmin() ? 'Admin' : (auth()->user()->isSupportTeam() ? 'Support' : 'User') }}
+                    {{ auth()->user()->isAdmin() ? 'Admin' : (auth()->user()->isTicketSupportTeam() ? 'Support' : 'User') }}
                 </div>
             </div>
 

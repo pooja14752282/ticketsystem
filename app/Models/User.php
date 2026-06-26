@@ -39,7 +39,7 @@ class User extends Authenticatable
     return $this->su == 1;
 }
 
-public function isSupportTeam(): bool
+public function isTicketSupportTeam(): bool
 {
     return $this->su == 4;
 }
