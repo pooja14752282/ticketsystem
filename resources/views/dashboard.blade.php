@@ -101,14 +101,14 @@
     <div class="card tickets-card">
         <div class="tbl-header">
             <div class="card-title">Recent Tickets</div>
-            <a href="#" class="view-all-btn">View All</a>
+            <a href="{{ route('admin.tickets.index') }}" class="view-all-btn">View All</a>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Description</th>
+                    <th>Ticket ID</th>
+                    <th>Title</th>
                     <th>Created By</th>
                     <th>Assigned To</th>
                     <th>Status</th>
@@ -119,21 +119,39 @@
             <tbody>
                 @forelse($recentTickets as $ticket)
                     <tr>
-                        <td class="ticket-id">{{ $ticket->id }}</td>
+                        {{-- ticket_id from DB e.g. TKT-0001 --}}
+                        <td class="ticket-id" style="font-family:monospace; font-size:11px; font-weight:600;">
+                            {{ $ticket->ticket_id ?? '—' }}
+                        </td>
+
+                        {{-- title instead of description --}}
                         <td>
-                            <div class="ticket-subject" title="{{ $ticket->description }}">
-                                {{ $ticket->description }}
+                            <div class="ticket-subject" title="{{ $ticket->title }}">
+                                {{ $ticket->title ?? $ticket->description ?? '—' }}
                             </div>
                         </td>
+
+                        {{-- creator relationship (same as all_tickets blade) --}}
                         <td>
                             <div class="requester">
                                 <div class="avatar-sm">
-                                    {{ strtoupper(substr($ticket->createdBy->name ?? '?', 0, 2)) }}
+                                    {{ strtoupper(substr(optional($ticket->creator)->name ?? '?', 0, 2)) }}
                                 </div>
-                                <span>{{ $ticket->createdBy->name ?? '—' }}</span>
+                                <span>{{ optional($ticket->creator)->name ?? '—' }}</span>
                             </div>
                         </td>
-                        <td>{{ $ticket->assignedTo->name ?? '—' }}</td>
+
+                        {{-- assignedTeamMember (same as all_tickets blade) --}}
+                        <td>
+                            @if($ticket->assignedTeamMember)
+                                {{ $ticket->assignedTeamMember->name }}
+                            @elseif(optional($ticket->assignee)->name)
+                                {{ $ticket->assignee->name }}
+                            @else
+                                —
+                            @endif
+                        </td>
+
                         <td>
                             <span class="badge badge-{{ str_replace(' ', '_', strtolower($ticket->status)) }}">
                                 {{ ucfirst(str_replace('_', ' ', $ticket->status)) }}

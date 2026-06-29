@@ -95,7 +95,7 @@
     tbody td { padding: 11px 14px; font-size: 13px; color: #374151; vertical-align: middle; }
     tbody td:last-child { white-space: nowrap; }
 
-    .sno-col  { width: 48px; text-align: center; color: #9ca3af; font-size: 12px; }
+    .sno-col  { width: 100px; text-align: center; color: #374151; font-size: 11px; font-family: monospace; font-weight: 600; }
     .date-col { white-space: nowrap; font-size: 12px; color: #6b7280; }
     .desc-col { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
     .cat-col  { font-size: 12px; color: #6b7280; white-space: nowrap; }
@@ -338,7 +338,9 @@ table {
                 $priorityOption = $priorities->firstWhere('value', $ticket->priority);
             @endphp
             <tr id="row-{{ $ticket->id }}">
-                <td class="sno-col">{{ $i + 1 }}</td>
+
+               
+                <td class="sno-col">{{ $ticket->ticket_id ?? '—' }}</td>
 
                 <td class="date-col">{{ $ticket->created_at->format('d M Y') }}</td>
 
@@ -396,15 +398,16 @@ table {
 
                 <td class="age-col">{{ $ticket->age }}hr</td>
 
-               <td>
-    @if($ticket->attachment)
-        <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-view">
-            <i class="fas fa-paperclip"></i> Download
-        </a>
-    @else
-        <span style="color:#9ca3af;">—</span>
-    @endif
-</td>
+           
+                <td>
+                    @if($ticket->attachment)
+                        <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-view">
+                            <i class="fas fa-paperclip"></i> Download
+                        </a>
+                    @else
+                        <span style="color:#9ca3af;">—</span>
+                    @endif
+                </td>
 
                 <td>
                     <div class="action-btns">
