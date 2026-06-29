@@ -93,86 +93,89 @@
     </div>
 
     <div class="meta-grid">
-        <div class="meta-cell">
-            <div class="meta-label">Ticket ID</div>
-            <div class="meta-val">TKT-{{ $ticket->id }}</div><br>
-            <div class="meta-label">Title</div>
-            <div class="meta-val">{{ $ticket->title }}</div>
-        </div>
 
-        {{-- Status --}}
-        <div class="meta-cell">
-            <div class="meta-label">Status</div>
-            <div class="meta-val" style="display:flex;align-items:center;gap:8px;">
-                @if($canEdit)
-                    @php
-                        $statuses = \App\Models\TicketOption::where('type','status')
-                                        ->where('is_active', true)
-                                        ->orderBy('sort_order')
-                                        ->get();
-                        $statusKey = str_replace(' ','_',strtolower($ticket->status));
-                    @endphp
-                    <select
-                        class="status-select status-{{ $statusKey }}"
-                        id="status-select-{{ $ticket->id }}"
-                        onchange="updateStatus({{ $ticket->id }}, this)">
-                        @foreach($statuses as $s)
-                            <option value="{{ $s->value }}" {{ $ticket->status === $s->value ? 'selected' : '' }}>
-                                {{ $s->label }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <span class="status-saved-flash" id="status-flash-{{ $ticket->id }}">✓ Saved</span>
-                @else
-                    <span class="badge badge-{{ str_replace(' ','_',strtolower($ticket->status)) }}">
-                        {{ ucfirst(str_replace('_',' ',$ticket->status)) }}
-                    </span>
-                @endif
-            </div>
-        </div>
+    <div class="meta-cell">
+        <div class="meta-label">Ticket ID</div>
+        <div class="meta-val">{{ $ticket->ticket_id }}</div>
+    </div>
 
-        <div class="meta-cell">
-            <div class="meta-label">Priority</div>
-            <div class="meta-val">
-                <span class="badge badge-{{ strtolower($ticket->priority) }}">
-                    {{ ucfirst($ticket->priority) }}
-                </span>
-            </div>
-        </div>
-        <div class="meta-cell">
-            <div class="meta-label">App Name</div>
-            <div class="meta-val">{{ $ticket->ticketCategory->name ?? $ticket->category ?? '-' }}</div>
-        </div>
-        <div class="meta-cell">
-            <div class="meta-label">Created By</div>
-            <div class="meta-val">{{ optional($ticket->creator)->name ?? '-' }}</div>
-        </div>
-        <div class="meta-cell">
-            <div class="meta-label">Assigned To</div>
-            <div class="meta-val">
-                @if($ticket->assignedTeamMember)
-                    {{ $ticket->assignedTeamMember->name }}
-                    <div style="font-size:11px;color:#6b7280;font-weight:400;margin-top:2px;">
-                        {{ \App\Models\TicketSupportTeam::APPS[$ticket->assignedTeamMember->app_assigned] ?? '' }}
-                    </div>
-                @else
-                    {{ optional($ticket->assignee)->name ?? '—' }}
-                @endif
-            </div>
-        </div>
-        <div class="meta-cell">
-            <div class="meta-label">Created On</div>
-            <div class="meta-val">{{ $ticket->created_at->format('d M Y, h:i A') }}</div>
-        </div>
-        <div class="meta-cell">
-            <div class="meta-label">Last Updated</div>
-            <div class="meta-val">{{ $ticket->updated_at->format('d M Y, h:i A') }}</div>
-        </div>
-        <div class="meta-cell">
-            <div class="meta-label">Age</div>
-            <div class="meta-val">{{ $ticket->age }} hr</div>
+    <div class="meta-cell">
+        <div class="meta-label">Title</div>
+        <div class="meta-val">{{ $ticket->title }}</div>
+    </div>
+
+    <div class="meta-cell">
+        <div class="meta-label">Type</div>
+        <div class="meta-val">{{ $ticket->type ?? '-' }}</div>
+    </div>
+
+    <div class="meta-cell">
+        <div class="meta-label">Status</div>
+
+        @if($canEdit)
+            @php
+                $statuses = \App\Models\TicketOption::where('type','status')
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->get();
+
+                $statusKey = str_replace(' ','_',strtolower($ticket->status));
+            @endphp
+
+            <select
+                class="status-select status-{{ $statusKey }}"
+                id="status-select-{{ $ticket->id }}"
+                onchange="updateStatus({{ $ticket->id }}, this)">
+
+                @foreach($statuses as $s)
+                    <option value="{{ $s->value }}"
+                        {{ $ticket->status == $s->value ? 'selected' : '' }}>
+                        {{ $s->label }}
+                    </option>
+                @endforeach
+            </select>
+
+        @else
+
+            <span class="badge badge-{{ strtolower(str_replace(' ','_',$ticket->status)) }}">
+                {{ ucfirst(str_replace('_',' ',$ticket->status)) }}
+            </span>
+
+        @endif
+    </div>
+
+    <div class="meta-cell">
+        <div class="meta-label">Priority</div>
+        <div class="meta-val">
+            <span class="badge badge-{{ strtolower($ticket->priority) }}">
+                {{ ucfirst($ticket->priority) }}
+            </span>
         </div>
     </div>
+
+    <div class="meta-cell">
+        <div class="meta-label">App Name</div>
+        <div class="meta-val">{{ $ticket->app_name ?? '-' }}</div>
+    </div>
+
+    <div class="meta-cell">
+        <div class="meta-label">Created By</div>
+        <div class="meta-val">{{ $ticket->created_by }}</div>
+    </div>
+
+    <div class="meta-cell">
+        <div class="meta-label">Email</div>
+        <div class="meta-val">{{ $ticket->creator_email }}</div>
+    </div>
+
+    <div class="meta-cell">
+        <div class="meta-label">Created At</div>
+        <div class="meta-val">
+            {{ optional($ticket->created_at)->format('d M Y h:i A') }}
+        </div>
+    </div>
+
+</div>
 
     {{-- Due Date Change Reason --}}
     @if($ticket->due_date_reason)
@@ -193,8 +196,8 @@
 
     @if(!$ticket->attachment)
         <div class="attach-empty">
-            <i class="fas fa-folder-open"></i>
-            No attachment uploaded for this ticket.
+             <i class="fas fa-paperclip"></i>
+              No Attachment
         </div>
     @elseif(in_array(strtolower(pathinfo($ticket->attachment, PATHINFO_EXTENSION)), ['jpg','jpeg','png','gif','webp']))
         <div class="img-preview">

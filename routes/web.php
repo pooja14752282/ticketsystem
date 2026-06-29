@@ -16,6 +16,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Dashboard charts
+Route::get('/dashboard/chart-data', [DashboardController::class, 'chartData']);
+
 // Register routes
 Route::get("register", [AuthController::class, "register"])->name('register');
 Route::post("register", [AuthController::class, "store"])->name('register.store');
