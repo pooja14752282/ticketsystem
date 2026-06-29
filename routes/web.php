@@ -19,10 +19,6 @@ Route::get('/', function () {
 // Dashboard charts
 Route::get('/dashboard/chart-data', [DashboardController::class, 'chartData']);
 
-// Dashboard View All button
-Route::get('/admin/tickets', [App\Http\Controllers\TicketController::class, 'allTickets'])
-    ->name('admin.tickets.index'); 
-
 // Register routes
 Route::get("register", [AuthController::class, "register"])->name('register');
 Route::post("register", [AuthController::class, "store"])->name('register.store');
