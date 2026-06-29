@@ -289,75 +289,38 @@ class TicketController extends Controller
     }
 
     public function allTickets(Request $request)
-{
-    $query = Ticket::with([
-        'creator',
-        'assignedTeamMember',
-        'ticketCategory'
-    ]);
+    {
+        $query = Ticket::with(['creator', 'assignedTeamMember', 'ticketCategory']);
 
-    if ($request->filled('description')) {
-        $query->where('description', 'like', '%' . $request->description . '%');
+        if ($request->filled('description')) {
+            $query->where('description', 'like', '%' . $request->description . '%');
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        $tickets = $query->latest()->get();
+
+        $stats = [
+            'high'   => Ticket::where('priority', 'High')->count(),
+            'open'   => Ticket::where('status', 'open')->count(),
+            'onhold' => Ticket::where('status', 'on_hold')->count(),
+            'urgent' => Ticket::where('priority', 'urgent')->count(),
+        ];
+
+        $categories = \App\Models\TicketCategory::orderBy('name')->get();
+        $statuses   = \App\Models\TicketOption::where('type', 'status')->where('is_active', true)->orderBy('sort_order')->get();
+        $priorities = \App\Models\TicketOption::where('type', 'priority')->where('is_active', true)->orderBy('sort_order')->get();
+        $members    = \App\Models\TicketSupportTeam::where('is_active', true)->orderBy('name')->get();
+
+        return view('TicketSystem.admin.all_tickets', compact('tickets', 'stats', 'categories', 'statuses', 'priorities', 'members'));
     }
-
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-
-    if ($request->filled('priority')) {
-        $query->where('priority', $request->priority);
-    }
-
-    if ($request->filled('category')) {
-        $query->where('category_id', $request->category);
-    }
-
-
-    $tickets = $query->latest()->get();
-
-
-    $stats = [
-        'high'   => Ticket::where('priority', 'High')->count(),
-        'open'   => Ticket::where('status', 'open')->count(),
-        'onhold' => Ticket::where('status', 'on_hold')->count(),
-        'urgent' => Ticket::where('priority', 'urgent')->count(),
-    ];
-
-
-    $categories = \App\Models\TicketCategory::orderBy('name')->get();
-
-    $statuses = \App\Models\TicketOption::where('type','status')
-        ->where('is_active',true)
-        ->orderBy('sort_order')
-        ->get();
-
-
-    $priorities = \App\Models\TicketOption::where('type','priority')
-        ->where('is_active',true)
-        ->orderBy('sort_order')
-        ->get();
-
-
-    $members = \App\Models\TicketSupportTeam::where('is_active',true)
-        ->orderBy('name')
-        ->get();
-
-
-    // ADD THIS
-$isAdmin = auth()->user()->role == 'admin' 
-        || auth()->user()->role == 'Admin'
-        || auth()->user()->su == 1;
-
-    return view('TicketSystem.admin.all_tickets', compact(
-        'tickets',
-        'stats',
-        'categories',
-        'statuses',
-        'priorities',
-        'members',
-        'isAdmin'
-    ));
-}
 
     public function updatePriority(Request $request, $id)
     {
@@ -423,22 +386,21 @@ $isAdmin = auth()->user()->role == 'admin'
         return response()->json(['success' => true]);
     }
 
-    // ── FIX: download by ticket_id (e.g. "TKT-00019"), not the numeric primary key ──
     public function downloadAttachment($id)
-    {
-        $ticket = Ticket::where('ticket_id', $id)->firstOrFail();
+{
+    $ticket = Ticket::findOrFail($id);
 
-        if (!$ticket->attachment) {
-            abort(404, 'No attachment found.');
-        }
-
-        $path = storage_path('app/public/' . $ticket->attachment);
-
-        if (!file_exists($path)) {
-            abort(404, 'File not found.');
-        }
-
-        return response()->download($path);
+    if (!$ticket->attachment) {
+        abort(404, 'No attachment found.');
     }
 
+    $path = storage_path('app/public/' . $ticket->attachment);
+
+    if (!file_exists($path)) {
+        abort(404, 'File not found.');
+    }
+
+    return response()->download($path);
+}
+    
 }

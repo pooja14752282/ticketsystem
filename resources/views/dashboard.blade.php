@@ -101,42 +101,39 @@
     <div class="card tickets-card">
         <div class="tbl-header">
             <div class="card-title">Recent Tickets</div>
-            <a href="{{ route('admin.tickets.index') }}" class="view-all-btn">View All</a>
+            <a href="#" class="view-all-btn">View All</a>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>Ticket ID</th>
-                    <th>Title</th>
-                    <th>App Name</th>
+                    <th>#</th>
+                    <th>Description</th>
                     <th>Created By</th>
                     <th>Assigned To</th>
                     <th>Status</th>
                     <th>Priority</th>
-                    <th>Created On</th>
+                    <th>Created</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($recentTickets as $ticket)
                     <tr>
-                        <td class="ticket-id">{{ $ticket->ticket_id }}</td>
-                        
-                        <td class="desc-col" title="{{ $ticket->description }}">
-                           <a href="{{ route('admin.tickets.show', $ticket->id) }}">
-                            {{ $ticket->title }}
-                           </a>
-                        </td>
-
-                        <td class="cat-col">
-                           {{ $ticket->ticketCategory->name ?? $ticket->category ?? '—' }}
+                        <td class="ticket-id">{{ $ticket->id }}</td>
+                        <td>
+                            <div class="ticket-subject" title="{{ $ticket->description }}">
+                                {{ $ticket->description }}
+                            </div>
                         </td>
                         <td>
                             <div class="requester">
-                                <span>{{ ($ticket->creator)->name ?? '—' }}</span>
+                                <div class="avatar-sm">
+                                    {{ strtoupper(substr($ticket->createdBy->name ?? '?', 0, 2)) }}
+                                </div>
+                                <span>{{ $ticket->createdBy->name ?? '—' }}</span>
                             </div>
                         </td>
-                        <td>{{ $ticket->assignedTeamMember->name }}</td>
+                        <td>{{ $ticket->assignedTo->name ?? '—' }}</td>
                         <td>
                             <span class="badge badge-{{ str_replace(' ', '_', strtolower($ticket->status)) }}">
                                 {{ ucfirst(str_replace('_', ' ', $ticket->status)) }}

@@ -316,6 +316,7 @@ table {
         <thead>
             <tr>
                 <th>Ticket ID</th>
+                <th>Created On</th>
                 <th>Title</th>
                 <th>App Name</th>
                 @if($isAdmin)
@@ -336,9 +337,10 @@ table {
                 $statusOption   = $statuses->firstWhere('value', $ticket->status);
                 $priorityOption = $priorities->firstWhere('value', $ticket->priority);
             @endphp
-
             <tr id="row-{{ $ticket->id }}">
-                <td class="sno-col">{{ $ticket->ticket_id }}</td>
+                <td class="sno-col">{{ $i + 1 }}</td>
+
+                <td class="date-col">{{ $ticket->created_at->format('d M Y') }}</td>
 
                 <td class="desc-col" title="{{ $ticket->description }}">
                     <a href="{{ route('admin.tickets.show', $ticket->id) }}">
@@ -396,7 +398,7 @@ table {
 
                <td>
     @if($ticket->attachment)
-        <a href="{{ route('tickets.download', $ticket->ticket_id) }}" class="btn-view">
+        <a href="{{ route('tickets.download', $ticket->id) }}" class="btn-view">
             <i class="fas fa-paperclip"></i> Download
         </a>
     @else
