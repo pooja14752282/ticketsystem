@@ -25,13 +25,13 @@
                 <div style="width:30px; height:30px; border-radius:50%; background:#dbeafe; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#1d4ed8;">
                     {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
                 </div>
-                <span style="font-size:13px; color:#374151; font-weight:500;">
+                <span style="font-size:13px; color:000000; font-weight:500;">
                     {{ Auth::user()->name }}
                 </span>
             </div>
 
             <div id="dropdownMenu" style="display:none; position:absolute; right:0; top:40px; background:#fff; border:1px solid #e5e7eb; border-radius:8px; width:180px; box-shadow:0 6px 16px rgba(0,0,0,0.08); z-index:1000;">
-                <a href="{{ route('profile') }}" style="display:block; padding:10px; font-size:13px; color:#374151; text-decoration:none;">
+                <a href="{{ route('profile') }}" style="display:block; padding:10px; font-size:13px; color:000000; text-decoration:none;">
                     Profile
                 </a>
                 <a href="{{ route('logout') }}"

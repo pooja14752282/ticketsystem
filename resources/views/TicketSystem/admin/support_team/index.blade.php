@@ -5,7 +5,7 @@
 <div style="font-size:12px;color:#000000;margin-bottom:12px;">
     <a href="{{ route('dashboard') }}" style="color:#000000;text-decoration:none;">Home</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
-    <span style="color:#374151;font-weight:500;">Support Team</span>
+    <span style="color:000000;font-weight:500;">Support Team</span>
 </div>
 
 <div style="display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px;">
@@ -40,9 +40,9 @@
         <tbody>
             @forelse($teams as $i => $member)
             <tr style="border-bottom:1px solid #f3f4f6;">
-                <td style="padding:11px 14px;font-size:13px;color:#374151;">{{ $i + 1 }}</td>
-                <td style="padding:11px 14px;font-size:13px;color:#374151;"><strong>{{ $member->name }}</strong></td>
-                <td style="padding:11px 14px;font-size:13px;color:#374151;">{{ $member->email }}</td>
+                <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $i + 1 }}</td>
+                <td style="padding:11px 14px;font-size:13px;color:000000;"><strong>{{ $member->name }}</strong></td>
+                <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $member->email }}</td>
                 <td style="padding:11px 14px;font-size:13px;">
                     <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">
                         {{ \App\Models\TicketSupportTeam::APPS[$member->app_assigned] }}

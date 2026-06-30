@@ -92,7 +92,7 @@
     tbody tr { border-bottom: 1px solid #f3f4f6; transition: background 0.1s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #f9fafb; }
-    tbody td { padding: 11px 14px; font-size: 13px; color: #374151; vertical-align: middle; }
+    tbody td { padding: 11px 14px; font-size: 13px; color: 000000; vertical-align: middle; }
     tbody td:last-child { white-space: nowrap; }
 
     .sno-col  { width: 48px; text-align: center; color: #000000; font-size: 12px; }
@@ -135,7 +135,7 @@
     /* ── Empty state ── */
     .empty-state { padding: 60px 20px; text-align: center; }
     .empty-state i { font-size: 48px; color: #d1d5db; display: block; margin-bottom: 12px; }
-    .empty-state p { font-size: 15px; font-weight: 600; color: #374151; }
+    .empty-state p { font-size: 15px; font-weight: 600; color: 000000; }
 
     /* ── Reassign Modal ── */
     .modal-overlay {
@@ -151,7 +151,7 @@
     }
     .modal-box h2 { font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 4px; }
     .modal-box p  { font-size: 13px; color: #000000; margin-bottom: 18px; }
-    .modal-label  { font-size: 12px; color: #374151; font-weight: 500; display: block; margin-bottom: 6px; }
+    .modal-label  { font-size: 12px; color: 000000; font-weight: 500; display: block; margin-bottom: 6px; }
     .modal-select {
         width: 100%; padding: 9px 10px; font-size: 13px;
         border: 1px solid #d1d5db; border-radius: 7px;
@@ -183,7 +183,7 @@
         background: none; border: none; font-size: 18px;
         color: #000000; cursor: pointer; line-height: 1;
     }
-    .modal-close:hover { color: #374151; }
+    .modal-close:hover { color: 000000; }
     .reassign-flash {
         display: none; font-size: 12px; color: #16a34a;
         margin-top: 10px; text-align: right;
@@ -373,15 +373,11 @@ table {
                 </td>
 
                 <td>
-                    <span class="badge" style="background:{{ $statusOption->color ?? '#f3f4f6' }};color:{{ $statusOption->text_color ?? '#374151' }};">
                         {{ $statusOption->label ?? ucfirst(str_replace('_',' ',$ticket->status)) }}
-                    </span>
                 </td>
 
                 <td>
-                    <span class="badge" style="background:{{ $priorityOption->color ?? '#f3f4f6' }};color:{{ $priorityOption->text_color ?? '#374151' }};">
                         {{ $priorityOption->label ?? ucfirst($ticket->priority) }}
-                    </span>
                 </td>
 
                 <td class="date-col">

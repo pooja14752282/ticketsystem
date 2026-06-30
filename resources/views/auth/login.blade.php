@@ -73,7 +73,7 @@
             font-size:14px;
             font-weight:500;
             margin-bottom:8px;
-            color:#374151;
+            color:000000;
         }
 
         .form-control{

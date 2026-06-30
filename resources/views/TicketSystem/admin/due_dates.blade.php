@@ -22,7 +22,7 @@
     tbody tr { border-bottom: 1px solid #f3f4f6; transition: background 0.1s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #f9fafb; }
-    tbody td { padding: 11px 14px; font-size: 13px; color: #374151; vertical-align: middle; }
+    tbody td { padding: 11px 14px; font-size: 13px; color: 000000; vertical-align: middle; }
 
     .badge {
         display: inline-block; padding: 3px 10px; border-radius: 20px;
@@ -30,7 +30,7 @@
     }
     .badge-open      { background: #dcfce7; color: #166534; }
     .badge-on_hold   { background: #fef3c7; color: #92400e; }
-    .badge-closed    { background: #f3f4f6; color: #374151; }
+    .badge-closed    { background: #f3f4f6; color: 000000; }
     .badge-low       { background: #f0fdf4; color: #166634; }
     .badge-high      { background: #dbeafe; color: #1e40af; }
     .badge-urgent    { background: #fee2e2; color: #991b1b; }

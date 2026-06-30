@@ -30,7 +30,7 @@
             // Priority badge — use DB colors if available
             const pOpt   = ticketOptions.priorities[data.priority];
             const pBg    = pOpt ? pOpt.color      : '#f3f4f6';
-            const pColor = pOpt ? pOpt.text_color  : '#374151';
+            const pColor = pOpt ? pOpt.text_color  : '000000';
             const pLabel = pOpt ? pOpt.label       : capitalize(data.priority);
             document.getElementById('modal-priority').innerHTML =
                 `<span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:${pBg};color:${pColor};">${pLabel}</span>`;
@@ -38,7 +38,7 @@
             // Status badge — use DB colors if available
             const sOpt   = ticketOptions.statuses[data.status];
             const sBg    = sOpt ? sOpt.color      : '#f3f4f6';
-            const sColor = sOpt ? sOpt.text_color  : '#374151';
+            const sColor = sOpt ? sOpt.text_color  : '000000';
             const sLabel = sOpt ? sOpt.label       : capitalize(data.status.replace('_',' '));
             document.getElementById('modal-status').innerHTML =
                 `<span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:${sBg};color:${sColor};">${sLabel}</span>`;

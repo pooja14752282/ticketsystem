@@ -21,7 +21,7 @@
 .form-group label {
     font-size: 13px;
     font-weight: 600;
-    color: #374151;
+    color: 000000;
     display: block;
     margin-bottom: 6px;
 }
@@ -62,7 +62,7 @@
 
 .form-group input[type="file"] {
     font-size: 13px;
-    color: #374151;
+    color: 000000;
 }
 
 .due-date-row {

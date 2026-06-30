@@ -5,7 +5,7 @@
     .page-header { display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px; }
     .page-header h1 { font-size:18px;font-weight:600;color:#111827; }
     .page-header p  { font-size:13px;color:#000000;margin-top:4px; }
-    .btn-back { display:inline-flex;align-items:center;gap:8px;background:#f3f4f6;color:#374151;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none; }
+    .btn-back { display:inline-flex;align-items:center;gap:8px;background:#f3f4f6;color:000000;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none; }
     .btn-back:hover { background:#e5e7eb;color:#111827; }
 
     .card { background:#fff;border-radius:10px;border:1px solid #e5e7eb;overflow:hidden;margin-bottom:16px; }
@@ -39,7 +39,7 @@
     .status-saved-flash { font-size:11px;color:#16a34a;margin-left:8px;display:none; }
 
     .section-label { padding:10px 18px;font-size:11px;font-weight:600;color:#000000;text-transform:uppercase;letter-spacing:.06em;background:#f9fafb;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:6px; }
-    .desc-box { padding:16px 18px;font-size:13px;color:#374151;line-height:1.75;white-space:pre-wrap; }
+    .desc-box { padding:16px 18px;font-size:13px;color:000000;line-height:1.75;white-space:pre-wrap; }
 
     .attach-empty { padding:30px 18px;text-align:center;color:#000000;font-size:13px; }
     .attach-empty i { font-size:26px;display:block;margin-bottom:8px;color:#d1d5db; }
@@ -71,7 +71,7 @@
 <div style="font-size:12px;color:#000000;margin-bottom:12px;">
     <a href="{{ route('support.tickets') }}" style="color:#000000;text-decoration:none;">My Assigned Tickets</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
-    <span style="color:#374151;font-weight:500;">Ticket #{{ $ticket->id }}</span>
+    <span style="color:000000;font-weight:500;">Ticket #{{ $ticket->id }}</span>
 </div>
 
 {{-- Page Header --}}
@@ -249,11 +249,11 @@
             <div style="border:1px solid #e5e7eb;border-radius:8px;padding:14px;background:#f9fafb;margin-bottom:16px;">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
                     <p style="font-size:12px;color:#000000;margin:0;">Your review · {{ $ticket->review->created_at->format('d M Y, h:i A') }}</p>
-                    <span style="font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid #d1d5db;color:#374151;background:#fff;">
+                    <span style="font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid #d1d5db;color:000000;background:#fff;">
                         {{ $ticket->review->resolution_status }}
                     </span>
                 </div>
-                <p style="font-size:13px;color:#374151;margin:0;line-height:1.6;">{{ $ticket->review->notes }}</p>
+                <p style="font-size:13px;color:000000;margin:0;line-height:1.6;">{{ $ticket->review->notes }}</p>
             </div>
         @endif
 

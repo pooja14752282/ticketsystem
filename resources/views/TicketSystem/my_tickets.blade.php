@@ -113,7 +113,7 @@
                 <td>
                     <span class="badge"
                           style="background:{{ $priorityOption->color ?? '#f3f4f6' }};
-                                 color:{{ $priorityOption->text_color ?? '#374151' }};">
+                                 color:{{ $priorityOption->text_color ?? '000000' }};">
                         {{ $priorityOption->label ?? ucfirst($ticket->priority) }}
                     </span>
                 </td>
@@ -121,7 +121,7 @@
                 <td>
                     <span class="badge"
                           style="background:{{ $statusOption->color ?? '#f3f4f6' }};
-                                 color:{{ $statusOption->text_color ?? '#374151' }};">
+                                 color:{{ $statusOption->text_color ?? '000000' }};">
                         {{ $statusOption->label ?? ucfirst(str_replace('_',' ',$ticket->status)) }}
                     </span>
                 </td>

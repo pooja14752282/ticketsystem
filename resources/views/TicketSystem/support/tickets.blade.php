@@ -18,7 +18,7 @@
     tbody tr { border-bottom:1px solid #f3f4f6;transition:background .1s; }
     tbody tr:last-child { border-bottom:none; }
     tbody tr:hover { background:#f9fafb; }
-    tbody td { padding:11px 14px;font-size:13px;color:#374151;vertical-align:middle; }
+    tbody td { padding:11px 14px;font-size:13px;color:000000;vertical-align:middle; }
 
     .badge { display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600; }
     .badge-open        { background:#dbeafe;color:#1d4ed8; }
@@ -46,7 +46,7 @@
 @section('content')
 
 <div style="font-size:12px;color:#000000;margin-bottom:12px;">
-    <span style="color:#374151;font-weight:500;">My Assigned Tickets</span>
+    <span style="color:000000;font-weight:500;">My Assigned Tickets</span>
 </div>
 
 <div class="page-header">

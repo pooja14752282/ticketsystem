@@ -81,7 +81,7 @@
         border-radius: 8px;
         padding: 12px;
         font-size: 13px;
-        color: #374151;
+        color: 000000;
         line-height: 1.6;
     }
     .modal-loading {

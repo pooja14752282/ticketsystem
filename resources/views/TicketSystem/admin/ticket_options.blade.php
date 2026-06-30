@@ -123,7 +123,7 @@
     .options-table tbody td {
         padding: 10px 12px;
         font-size: 13px;
-        color: #374151;
+        color: 000000;
         vertical-align: middle;
     }
 

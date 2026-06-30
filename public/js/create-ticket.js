@@ -2,7 +2,7 @@ document.getElementById('priority-select').addEventListener('change', function (
     const option    = this.options[this.selectedIndex];
     const days      = parseInt(option.dataset.days || 0);
     const color     = option.dataset.color || '#f3f4f6';
-    const textColor = option.dataset.text  || '#374151';
+    const textColor = option.dataset.text  || '000000';
     const dateInput = document.getElementById('due-date-input');
     const badge     = document.getElementById('due-date-badge');
 

@@ -88,7 +88,7 @@ class TicketOptionController extends Controller
         'value'      => $value,
         'label'      => $request->role_name,
         'color'      => '#f3f4f6',
-        'text_color' => '#374151',
+        'text_color' => '000000',
         'is_active'  => true,
         'sort_order' => $maxOrder + 1,
     ]);
