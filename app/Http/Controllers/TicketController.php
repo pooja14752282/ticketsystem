@@ -194,34 +194,32 @@ class TicketController extends Controller
 
     // Update ticket status
     public function updateStatus(Request $request, $id)
-    {
-        // Dynamically load valid statuses from DB
-        $validStatuses = \App\Models\TicketOption::where('type', 'status')
-                            ->where('is_active', true)
-                            ->get()
-                            ->map(fn($s) => str_replace(' ', '_', strtolower($s->name)))
-                            ->toArray();
+{
+    $validStatuses = \App\Models\TicketOption::where('type', 'status')
+                        ->where('is_active', true)
+                        ->pluck('value')
+                        ->toArray();
 
-        $request->validate([
-            'status' => ['required', \Illuminate\Validation\Rule::in($validStatuses)],
-        ]);
+    $request->validate([
+        'status' => ['required', \Illuminate\Validation\Rule::in($validStatuses)],
+    ]);
 
-        $ticket     = Ticket::findOrFail($id);
-        $user       = auth()->user();
-        $teamMember = \App\Models\TicketSupportTeam::where('email', $user->email)->first();
+    $ticket     = Ticket::findOrFail($id);
+    $user       = auth()->user();
+    $teamMember = \App\Models\TicketSupportTeam::where('email', $user->email)->first();
 
-        $isAdmin          = $user->role === 'admin';
-        $isAssignedMember = $teamMember && $ticket->assigned_team_member_id === $teamMember->id;
-        $isAssignedUser   = $ticket->assigned_to === $user->id;
+    $isAdmin          = $user->isAdmin();
+    $isAssignedMember = $teamMember && $ticket->assigned_team_member_id === $teamMember->id;
+    $isAssignedUser   = $ticket->assigned_to === $user->id;
 
-        if (!$isAdmin && !$isAssignedMember && !$isAssignedUser) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
-        }
-
-        $ticket->update(['status' => $request->status]);
-
-        return response()->json(['success' => true]);
+    if (!$isAdmin && !$isAssignedMember && !$isAssignedUser) {
+        return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
     }
+
+    $ticket->update(['status' => $request->status]);
+
+    return response()->json(['success' => true]);
+}
 
     // Delete ticket
     public function destroy(Ticket $ticket)
@@ -394,7 +392,7 @@ $isAdmin = auth()->user()->role == 'admin'
         }
 
         $request->validate([
-            'member_id'       => 'required|exists:support_teams,id',
+            'member_id'       => 'required|exists:ticket_support_teams,id',
             'reassign_reason' => 'nullable|string|max:500',
         ]);
 

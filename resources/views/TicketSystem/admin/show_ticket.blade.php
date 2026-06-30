@@ -60,7 +60,7 @@
 
 @php
     $authUser   = auth()->user();
-    $isAdmin    = $authUser->role === 'admin';
+    $isAdmin = $authUser->isAdmin();
     $teamMember = \App\Models\TicketSupportTeam::where('email', $authUser->email)->first();
     $canEdit    = $isAdmin
         || ($teamMember && $ticket->assigned_team_member_id === $teamMember->id)
@@ -131,6 +131,9 @@
                     </option>
                 @endforeach
             </select>
+            <span id="status-flash-{{ $ticket->id }}" class="status-saved-flash">
+                <i class="fas fa-check-circle"></i> Saved
+            </span>
 
         @else
 
@@ -256,7 +259,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
 function updateStatus(id, selectEl) {
     const status = selectEl.value;
@@ -273,8 +276,10 @@ function updateStatus(id, selectEl) {
         if (data.success) {
             selectEl.className = 'status-select status-' + status;
             const flash = document.getElementById('status-flash-' + id);
-            flash.style.display = 'inline';
-            setTimeout(() => flash.style.display = 'none', 2000);
+            if (flash) {
+                flash.style.display = 'inline';
+                setTimeout(() => flash.style.display = 'none', 2000);
+            }
         } else {
             alert('Failed to update status.');
         }
@@ -282,4 +287,4 @@ function updateStatus(id, selectEl) {
     .catch(() => alert('Failed to update status. Please try again.'));
 }
 </script>
-@endsection
+@endpush

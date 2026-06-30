@@ -13,8 +13,11 @@
                 <span id="notifCountBadge" style="display:none; position:absolute; top:-2px; right:-2px; background:#1d4ed8; color:#fff; font-size:10px; font-weight:700; border-radius:50%; min-width:16px; height:16px; line-height:16px; text-align:center; padding:0 3px;"></span>            </div>
 
             <div id="notifMenu" style="display:none; position:absolute; right:0; top:42px; background:#fff; border:1px solid #e5e7eb; border-radius:8px; width:300px; max-height:360px; overflow-y:auto; box-shadow:0 6px 16px rgba(0,0,0,0.08); z-index:1000;">
-                <div style="padding:10px 12px; font-size:13px; font-weight:600; color:#111827; border-bottom:1px solid #f3f4f6;">
-                    Notifications
+                <div style="padding:10px 12px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f3f4f6;">
+                    <span style="font-size:13px; font-weight:600; color:#111827;">Notifications</span>
+                    <span id="markAllReadBtn" onclick="markAllRead()" style="font-size:11px; color:#1d4ed8; cursor:pointer; font-weight:500;">
+                        Mark all as read
+                    </span>
                 </div>
                 <div id="notifList">
                     <div style="padding:14px 12px; font-size:12px; color:#9ca3af;">Loading...</div>
@@ -96,11 +99,16 @@ function loadNotifications() {
             return;
         }
 
-        badge.textContent = items.length;
-        badge.style.display = 'block';
+        const unreadCount = items.filter(n => !n.is_read).length;
+        if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.style.display = 'block';
+        } else {
+            badge.style.display = 'none';
+        }
 
         list.innerHTML = items.map(n => `
-            <div style="padding:10px 12px; border-bottom:1px solid #f3f4f6;">
+            <div style="padding:10px 12px; border-bottom:1px solid #f3f4f6; background:${n.is_read ? '#fff' : '#eff6ff'};">
                 <div style="font-size:12px; font-weight:600; color:#111827;">${escapeHtml(n.title)}</div>
                 <div style="font-size:12px; color:#6b7280; margin-top:2px;">${escapeHtml(n.message)}</div>
                 <div style="font-size:11px; color:#9ca3af; margin-top:4px;">${n.created_at}</div>
@@ -110,6 +118,23 @@ function loadNotifications() {
     .catch(() => {
         document.getElementById('notifList').innerHTML = '<div style="padding:14px 12px; font-size:12px; color:#dc2626;">Failed to load</div>';
     });
+}
+
+function markAllRead() {
+    fetch('{{ route("notifications.markAllRead") }}', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            loadNotifications();
+        }
+    })
+    .catch(() => alert('Failed to mark notifications as read.'));
 }
 
 function escapeHtml(str) {

@@ -31,20 +31,22 @@ class TicketCategoryController extends Controller
 }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'name'      => 'required|string|max:100|unique:ticket_categories,name',
-            'assign_to' => 'nullable|exists:users,id',
-            'email'     => 'nullable|email|max:255',
-            'status'    => 'required|in:active,inactive',
-            'app_name'  => 'required|in:' . implode(',', array_keys(TicketSupportTeam::APPS)), 
-        ]);
+{
+    $request->validate([
+        'name'      => 'required|string|max:100|unique:ticket_categories,name',
+        'assign_to' => 'nullable|exists:users,id',
+        'email'     => 'nullable|email|max:255',
+        'status'    => 'nullable|in:active,inactive',
+        'app_name'  => 'nullable|in:' . implode(',', array_keys(TicketSupportTeam::APPS)),
+    ]);
 
-        TicketCategory::create($request->only('name', 'assign_to', 'email', 'status', 'app_name')); 
+    TicketCategory::create($request->only('name', 'assign_to', 'email', 'status', 'app_name') + [
+        'status' => $request->input('status', 'active'),
+    ]);
 
-        return redirect()->route('admin.ticket-categories.index')
-            ->with('success', 'Ticket Category created successfully.');
-    }
+    return redirect()->route('admin.ticket-categories.index')
+        ->with('success', 'Ticket Category created successfully.');
+}
 
     public function show(TicketCategory $ticketCategory)
     {

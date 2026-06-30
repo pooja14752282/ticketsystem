@@ -68,6 +68,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Notifications
     Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllRead'])
+    ->name('notifications.markAllRead');
     
     // Ticket Review
     Route::post('/ticketsystem/branch/{ticket}/review', [TicketReviewController::class, 'store'])->name('ticket.review.store');

@@ -89,64 +89,58 @@ class AdminTicketController extends Controller
     }
 
     public function reassign(Request $request, Ticket $ticket)
-    {
-        if (auth()->user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
-        }
-
-        $request->validate([
-            'assigned_team_member_id' => 'required|exists:support_teams,id',
-        ]);
-
-        $oldMember = $ticket->assignedTeamMember;
-        $newMember = TicketSupportTeam::find($request->assigned_team_member_id);
-
-        $ticket->update([
-            'assigned_team_member_id' => $newMember->id,
-        ]);
-
-        // ── In-app notification to old member ──
-        if ($oldMember) {
-            $oldUser = User::where('email', $oldMember->email)->first();
-            if ($oldUser) {
-                Notification::create([
-                    'user_id'   => $oldUser->id,
-                    'title'     => 'Ticket Reassigned',
-                    'message'   => "Ticket #{$ticket->id} has been reassigned from you to {$newMember->name}.",
-                    'type'      => 'warning',
-                    'ticket_id' => $ticket->id,
-                ]);
-
-                Mail::raw(
-                    "Hello {$oldMember->name},\n\nTicket #{$ticket->id} ({$ticket->description}) has been reassigned from you to {$newMember->name}.\n\nRegards,\nTicket System",
-                    function ($m) use ($oldMember, $ticket) {
-                        $m->to($oldMember->email)
-                          ->subject("Ticket #{$ticket->id} Reassigned");
-                    }
-                );
-            }
-        }
-
-        // ── In-app notification to new member ──
-        $newUser = User::where('email', $newMember->email)->first();
-        if ($newUser) {
-            Notification::create([
-                'user_id'   => $newUser->id,
-                'title'     => 'New Ticket Assigned',
-                'message'   => "Ticket #{$ticket->id} has been assigned to you.",
-                'type'      => 'info',
-                'ticket_id' => $ticket->id,
-            ]);
-
-            Mail::raw(
-                "Hello {$newMember->name},\n\nTicket #{$ticket->id} ({$ticket->description}) has been assigned to you.\n\nRegards,\nTicket System",
-                function ($m) use ($newMember, $ticket) {
-                    $m->to($newMember->email)
-                      ->subject("New Ticket #{$ticket->id} Assigned to You");
-                }
-            );
-        }
-
-        return response()->json(['success' => true, 'new_assignee' => $newMember->name]);
+{
+    if (!auth()->user()->isAdmin()) {
+        abort(403, 'Unauthorized.');
     }
+
+    $request->validate([
+        'assigned_team_member_id' => 'required|exists:ticket_support_teams,id',
+    ]);
+
+    $oldMember = $ticket->assignedTeamMember;
+    $newMember = TicketSupportTeam::find($request->assigned_team_member_id);
+
+    $ticket->update([
+        'assigned_team_member_id' => $newMember->id,
+    ]);
+
+    if ($oldMember && $oldMember->user_id) {
+        Notification::create([
+            'user_id'   => $oldMember->user_id,
+            'title'     => 'Ticket Reassigned',
+            'message'   => "Ticket #{$ticket->id} has been reassigned from you to {$newMember->name}.",
+            'type'      => 'warning',
+            'ticket_id' => $ticket->id,
+        ]);
+
+        Mail::raw(
+            "Hello {$oldMember->name},\n\nTicket #{$ticket->id} ({$ticket->description}) has been reassigned from you to {$newMember->name}.\n\nRegards,\nTicket System",
+            function ($m) use ($oldMember, $ticket) {
+                $m->to($oldMember->email)
+                  ->subject("Ticket #{$ticket->id} Reassigned");
+            }
+        );
+    }
+
+    if ($newMember->user_id) {
+        Notification::create([
+            'user_id'   => $newMember->user_id,
+            'title'     => 'New Ticket Assigned',
+            'message'   => "Ticket #{$ticket->id} has been assigned to you.",
+            'type'      => 'info',
+            'ticket_id' => $ticket->id,
+        ]);
+
+        Mail::raw(
+            "Hello {$newMember->name},\n\nTicket #{$ticket->id} ({$ticket->description}) has been assigned to you.\n\nRegards,\nTicket System",
+            function ($m) use ($newMember, $ticket) {
+                $m->to($newMember->email)
+                  ->subject("New Ticket #{$ticket->id} Assigned to You");
+            }
+        );
+    }
+
+    return response()->json(['success' => true, 'new_assignee' => $newMember->name]);
+}
 }
