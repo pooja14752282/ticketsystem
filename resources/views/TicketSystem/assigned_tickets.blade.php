@@ -258,7 +258,7 @@
             <tr>
                 <td colspan="9">
                     <div class="empty-state">
-                        <i class="fas fa-inbox"></i>
+                        
                         <p>No Tickets Assigned</p>
                         <span>You have no tickets assigned to you right now.</span>
                     </div>

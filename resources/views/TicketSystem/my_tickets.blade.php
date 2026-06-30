@@ -98,7 +98,7 @@
 
             <tr>
 
-                <td>#{{ $ticket->id }}</td>
+                <td>{{ $ticket->ticket_id }}</td>
 
                 <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
                     {{ $ticket->description }}

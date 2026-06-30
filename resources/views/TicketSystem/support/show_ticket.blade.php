@@ -60,7 +60,7 @@
 
 @php
     $authUser   = auth()->user();
-    $isAdmin    = $authUser->role === 'admin';
+    $isAdmin    = $authUser->isAdmin();
     $teamMember = \App\Models\TicketSupportTeam::where('email', $authUser->email)->first();
     $canEdit    = $isAdmin
         || ($teamMember && $ticket->assigned_team_member_id === $teamMember->id)
@@ -77,7 +77,7 @@
 {{-- Page Header --}}
 <div class="page-header">
     <div>
-        <h1>🎫 Ticket #{{ $ticket->id }}</h1>
+        <h1>🎫 {{ $ticket->ticket_id }}</h1>
         <p>Full details for this support ticket</p>
     </div>
     <a href="{{ route('support.tickets') }}" class="btn-back">
@@ -95,7 +95,7 @@
     <div class="meta-grid">
         <div class="meta-cell">
             <div class="meta-label">Ticket ID</div>
-            <div class="meta-val">#{{ $ticket->id }}</div>
+            <div class="meta-val">{{ $ticket->ticket_id }}</div>
         </div>
 
         {{-- Status --}}
@@ -293,7 +293,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
 function updateStatus(id, selectEl) {
     const status = selectEl.value;
@@ -343,4 +343,4 @@ function updatePriority(id, selectEl) {
     .catch(() => alert('Failed to update priority. Please try again.'));
 }
 </script>
-@endsection
+@endpush

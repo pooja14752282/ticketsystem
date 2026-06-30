@@ -87,7 +87,7 @@
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                
                 <th>Ticket ID</th>
                 <th>Description</th>
                 <th>Category</th>
@@ -95,17 +95,19 @@
                 <th>Status</th>
                 <th>Due Date</th>
                 <th>Created</th>
-                <th>Action</th>
+               
             </tr>
         </thead>
         <tbody>
             @forelse($tickets as $i => $ticket)
             <tr>
-                <td>{{ $i + 1 }}</td>
-                <td style="font-weight:600;">#{{ $ticket->id }}</td>
-                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ $ticket->description }}">
-                    {{ \Str::limit($ticket->description, 50) }}
-                </td>
+                
+                <td style="font-weight:600;">{{ $ticket->ticket_id }}</td>
+               <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ $ticket->description }}">
+    <a href="{{ route('support.ticket.show', $ticket->id) }}" style="color:inherit;text-decoration:none;">
+        {{ \Str::limit($ticket->description, 50) }}
+    </a>
+</td>
                 <td style="font-size:12px;color:#000000;">{{ $ticket->ticketCategory->name ?? $ticket->category ?? '-' }}</td>
                 <td>
                     <span class="badge badge-{{ strtolower($ticket->priority) }}">
@@ -132,11 +134,7 @@
                 <td style="font-size:12px;color:#000000;white-space:nowrap;">
                     {{ $ticket->created_at->format('d M Y') }}
                 </td>
-                <td>
-                    <a href="{{ route('support.ticket.show', $ticket->id) }}" class="btn-view">
-                        <i class="fas fa-eye"></i> View
-                    </a>
-                </td>
+                
             </tr>
             @empty
             <tr>

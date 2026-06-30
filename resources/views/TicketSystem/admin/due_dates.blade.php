@@ -81,7 +81,7 @@
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Ticket id </th>
                 <th>Description</th>
                 <th>Created By</th>
                 <th>Assigned To</th>
@@ -92,9 +92,9 @@
         </thead>
         <tbody>
             @forelse($tickets as $i => $ticket)
-            <tr>
-                <td style="color:#000000; font-size:12px; text-align:center;">{{ $i + 1 }}</td>
-
+            <tr> 
+                <td>{{ $ticket->ticket_id }}</td>
+               
                 <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:500;"
                     title="{{ $ticket->description }}">
                     {{ $ticket->description }}
