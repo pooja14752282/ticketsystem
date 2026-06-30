@@ -4,7 +4,7 @@
 <style>
     .page-header { display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px; }
     .page-header h1 { font-size:18px;font-weight:600;color:#111827; }
-    .page-header p  { font-size:13px;color:#6b7280;margin-top:4px; }
+    .page-header p  { font-size:13px;color:#000000;margin-top:4px; }
     .btn-back { display:inline-flex;align-items:center;gap:8px;background:#f3f4f6;color:#374151;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none; }
     .btn-back:hover { background:#e5e7eb;color:#111827; }
 
@@ -38,7 +38,7 @@
     .status-select.status-re_opened   { background:#ede9fe;color:#5b21b6;border-color:#ddd6fe; }
     .status-saved-flash { font-size:11px;color:#16a34a;margin-left:8px;display:none; }
 
-    .section-label { padding:10px 18px;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;background:#f9fafb;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:6px; }
+    .section-label { padding:10px 18px;font-size:11px;font-weight:600;color:#000000;text-transform:uppercase;letter-spacing:.06em;background:#f9fafb;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:6px; }
     .desc-box { padding:16px 18px;font-size:13px;color:#374151;line-height:1.75;white-space:pre-wrap; }
 
     .attach-empty { padding:30px 18px;text-align:center;color:#9ca3af;font-size:13px; }
@@ -52,7 +52,7 @@
     .btn-dl:hover { background:#1e40af;color:#fff; }
     .img-preview img { width:100%;max-height:340px;object-fit:contain;display:block;background:#f9fafb; }
     .img-footer { padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #e5e7eb; }
-    .img-footer span { font-size:12px;color:#6b7280; }
+    .img-footer span { font-size:12px;color:#000000; }
 </style>
 @endsection
 
@@ -239,7 +239,7 @@
                     </div>
                     <div>
                         <p style="font-size:13px;font-weight:600;margin:0;color:#111827;">{{ $ticket->review->supportMember->name ?? '—' }}</p>
-                        <p style="font-size:11px;color:#6b7280;margin:0;">{{ $ticket->review->created_at->format('d M Y, h:i A') }}</p>
+                        <p style="font-size:11px;color:#000000;margin:0;">{{ $ticket->review->created_at->format('d M Y, h:i A') }}</p>
                     </div>
                     <span style="margin-left:auto;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid #d1d5db;color:#374151;background:#fff;">
                         {{ $ticket->review->resolution_status }}

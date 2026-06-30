@@ -11,7 +11,7 @@
 <div style="display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px;">
     <div>
         <h1 style="font-size:18px;font-weight:600;color:#111827;">🗂️ Ticket Categories</h1>
-        <p style="font-size:13px;color:#6b7280;margin-top:4px;">Manage ticket categories</p>
+        <p style="font-size:13px;color:#000000;margin-top:4px;">Manage ticket categories</p>
     </div>
     <a href="{{ route('admin.ticket-categories.create') }}"
        style="display:inline-flex;align-items:center;gap:8px;background:#1d4ed8;color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;">

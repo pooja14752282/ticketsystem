@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Support Dashboard')
+@section('title', $isSupport ?? false ? 'My Dashboard' : 'Support Dashboard')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
@@ -100,8 +100,8 @@
     <!-- RECENT TICKETS (left, full height) -->
     <div class="card tickets-card">
         <div class="tbl-header">
-            <div class="card-title">Recent Tickets</div>
-            <a href="{{ route('admin.tickets.index') }}" class="view-all-btn">View All</a>
+            <div class="card-title">{{ $isSupport ?? false ? 'My Recent Tickets' : 'Recent Tickets' }}</div>
+            <a href="{{ ($isSupport ?? false) ? route('support.tickets') : route('admin.tickets.index') }}" class="view-all-btn">View All</a>
         </div>
 
         <table>
@@ -123,7 +123,7 @@
                         <td class="ticket-id">{{ $ticket->ticket_id }}</td>
 
                         <td class="desc-col" title="{{ $ticket->description }}">
-                           <a href="{{ route('admin.tickets.show', $ticket->id) }}">
+                           <a href="{{ ($isSupport ?? false) ? route('support.ticket.show', $ticket->id) : route('admin.tickets.show', $ticket->id) }}">
                             {{ $ticket->title }}
                            </a>
                         </td>

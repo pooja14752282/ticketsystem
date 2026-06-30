@@ -51,7 +51,7 @@
                 <i class="fas fa-save"></i> Update Member
             </button>
             <a href="{{ route('admin.support-team.index') }}"
-               style="background:#fff;color:#6b7280;border:1px solid #d1d5db;padding:9px 16px;border-radius:6px;font-size:13px;text-decoration:none;">
+               style="background:#fff;color:#000000;border:1px solid #d1d5db;padding:9px 16px;border-radius:6px;font-size:13px;text-decoration:none;">
                 Cancel
             </a>
         </div>

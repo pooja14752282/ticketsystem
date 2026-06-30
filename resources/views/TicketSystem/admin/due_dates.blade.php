@@ -7,7 +7,7 @@
         padding: 16px 20px; margin-bottom: 16px;
     }
     .page-header h1 { font-size: 18px; font-weight: 600; color: #111827; }
-    .page-header p  { font-size: 13px; color: #6b7280; margin-top: 4px; }
+    .page-header p  { font-size: 13px; color: #000000; margin-top: 4px; }
 
     .table-card {
         background: #fff; border-radius: 10px;
@@ -59,14 +59,14 @@
     }
     .btn-save-due:hover { background: #1e40af; }
     .btn-cancel-due {
-        background: #fff; color: #6b7280; border: 1px solid #d1d5db;
+        background: #fff; color: #000000; border: 1px solid #d1d5db;
         padding: 3px 8px; border-radius: 5px; font-size: 11px; cursor: pointer;
     }
     .btn-cancel-due:hover { background: #f3f4f6; }
     .due-flash { font-size: 11px; color: #16a34a; }
     .no-due { color: #9ca3af; font-size: 12px; }
     .overdue { color: #991b1b; font-weight: 600; font-size: 12px; }
-    .empty-state { padding: 60px 20px; text-align: center; color: #6b7280; }
+    .empty-state { padding: 60px 20px; text-align: center; color: #000000; }
 </style>
 @endsection
 

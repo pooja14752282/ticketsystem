@@ -27,7 +27,7 @@
 
     .option-section p {
         font-size: 13px;
-        color: #6b7280;
+        color: #000000;
         margin-bottom: 20px;
     }
 
@@ -41,7 +41,7 @@
 
     .option-form .form-group label {
         font-size: 12px;
-        color: #6b7280;
+        color: #000000;
         display: block;
         margin-bottom: 6px;
     }
@@ -68,7 +68,7 @@
 
     .color-group label {
         font-size: 12px;
-        color: #6b7280;
+        color: #000000;
         white-space: nowrap;
     }
 
@@ -159,7 +159,7 @@
         font-size: 12px; border: none; cursor: pointer;
     }
     .btn-toggle-off {
-        background: #f3f4f6; color: #6b7280;
+        background: #f3f4f6; color: #000000;
         padding: 4px 10px; border-radius: 5px;
         font-size: 12px; border: none; cursor: pointer;
     }

@@ -13,7 +13,7 @@
     .form-footer { display: flex; gap: 10px; margin-top: 28px; padding-top: 20px; border-top: 1px solid #f3f4f6; }
     .btn-submit { background: #1d4ed8; color: #fff; border: none; padding: 9px 24px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; }
     .btn-submit:hover { background: #1e40af; }
-    .btn-back { background: #fff; color: #6b7280; border: 1px solid #d1d5db; padding: 9px 20px; border-radius: 6px; font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .btn-back { background: #fff; color: #000000; border: 1px solid #d1d5db; padding: 9px 20px; border-radius: 6px; font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 6px; }
     .btn-back:hover { background: #f3f4f6; color: #374151; }
 </style>
 @endsection

@@ -56,7 +56,7 @@
                     <div style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
                         <img src="${data.attachment}" alt="Attachment" style="width:100%;max-height:280px;object-fit:contain;display:block;background:#f9fafb;">
                         <div style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f3f4f6;">
-                            <span style="font-size:12px;color:#6b7280;"><i class="fas fa-image" style="margin-right:5px;"></i>${data.filename}</span>
+                            <span style="font-size:12px;color:#000000;"><i class="fas fa-image" style="margin-right:5px;"></i>${data.filename}</span>
                             <a href="${data.attachment}" download="${data.filename}" style="background:#1d4ed8;color:#fff;padding:4px 12px;border-radius:6px;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
                                 <i class="fas fa-download"></i> Download
                             </a>

@@ -4,11 +4,11 @@
 <style>
     .page-header { display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px; }
     .page-header h1 { font-size:18px;font-weight:600;color:#111827; }
-    .page-header p  { font-size:13px;color:#6b7280;margin-top:4px; }
+    .page-header p  { font-size:13px;color:#000000;margin-top:4px; }
 
     .stats-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px; }
     .stat-card  { background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px; }
-    .stat-card p:first-child { font-size:12px;color:#6b7280;margin-bottom:4px; }
+    .stat-card p:first-child { font-size:12px;color:#000000;margin-bottom:4px; }
     .stat-num   { font-size:24px;font-weight:700; }
 
     .table-card { background:#fff;border-radius:10px;border:1px solid #e5e7eb;overflow:hidden; }
@@ -36,7 +36,7 @@
 
     .due-date-overdue  { color:#dc2626;font-weight:600; }
     .due-date-soon     { color:#f59e0b;font-weight:600; }
-    .due-date-ok       { color:#6b7280; }
+    .due-date-ok       { color:#000000; }
 
     .empty-state { padding:60px 20px;text-align:center;color:#9ca3af;font-size:13px; }
     .empty-state i { font-size:40px;display:block;margin-bottom:10px;color:#d1d5db; }
@@ -106,7 +106,7 @@
                 <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ $ticket->description }}">
                     {{ \Str::limit($ticket->description, 50) }}
                 </td>
-                <td style="font-size:12px;color:#6b7280;">{{ $ticket->ticketCategory->name ?? $ticket->category ?? '-' }}</td>
+                <td style="font-size:12px;color:#000000;">{{ $ticket->ticketCategory->name ?? $ticket->category ?? '-' }}</td>
                 <td>
                     <span class="badge badge-{{ strtolower($ticket->priority) }}">
                         {{ ucfirst($ticket->priority ?? '-') }}
@@ -129,7 +129,7 @@
                         <span style="color:#d1d5db;">—</span>
                     @endif
                 </td>
-                <td style="font-size:12px;color:#6b7280;white-space:nowrap;">
+                <td style="font-size:12px;color:#000000;white-space:nowrap;">
                     {{ $ticket->created_at->format('d M Y') }}
                 </td>
                 <td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\TicketSupportTeam as SupportTeam;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -10,17 +11,43 @@ class DashboardController extends Controller
     public function index()
     {
         $today = Carbon::today();
+        $user  = auth()->user();
+
+        // ===============================
+        // Determine scope: admin (su=1) sees everything,
+        // support team (su=4) sees only their assigned tickets
+        // ===============================
+        $isSupport = $user && $user->su == 4;
+        $member    = null;
+
+        $baseQuery = function () use ($isSupport, &$member, $user) {
+            $query = Ticket::query();
+
+            if ($isSupport) {
+                $member = SupportTeam::where('email', $user->email)->first();
+
+                if ($member) {
+                    $query->where('assigned_team_member_id', $member->id);
+                } else {
+                    // no matching support record — show nothing
+                    $query->whereRaw('1 = 0');
+                }
+            }
+
+            return $query;
+        };
 
         // ===============================
         // Metric Cards
         // ===============================
-        $totalTickets = Ticket::count();
+        $totalTickets = (clone $baseQuery())->count();
 
-        $openTickets = Ticket::where('status', 'open')->count();
+        $openTickets = (clone $baseQuery())->where('status', 'open')->count();
 
-        $completedTickets = Ticket::where('status', 'completed')->count();
+        $completedTickets = (clone $baseQuery())->where('status', 'completed')->count();
 
-        $overdueTickets = Ticket::whereNotNull('due_date')
+        $overdueTickets = (clone $baseQuery())
+            ->whereNotNull('due_date')
             ->whereDate('due_date', '<', $today)
             ->whereNotIn('status', ['completed', 'closed'])
             ->count();
@@ -28,7 +55,8 @@ class DashboardController extends Controller
         // ===============================
         // Status Breakdown
         // ===============================
-        $statusCounts = Ticket::selectRaw('status, COUNT(*) as total')
+        $statusCounts = (clone $baseQuery())
+            ->selectRaw('status, COUNT(*) as total')
             ->groupBy('status')
             ->pluck('total', 'status')
             ->toArray();
@@ -50,7 +78,8 @@ class DashboardController extends Controller
         // ===============================
         // Priority Breakdown
         // ===============================
-        $priorityCounts = Ticket::selectRaw('priority, COUNT(*) as total')
+        $priorityCounts = (clone $baseQuery())
+            ->selectRaw('priority, COUNT(*) as total')
             ->groupBy('priority')
             ->pluck('total', 'priority')
             ->toArray();
@@ -73,9 +102,12 @@ class DashboardController extends Controller
 
             $lineLabels[] = $date->format('d M');
 
-            $lineCreated[] = Ticket::whereDate('created_at', $date)->count();
+            $lineCreated[] = (clone $baseQuery())
+                ->whereDate('created_at', $date)
+                ->count();
 
-            $lineCompleted[] = Ticket::where('status', 'completed')
+            $lineCompleted[] = (clone $baseQuery())
+                ->where('status', 'completed')
                 ->whereDate('updated_at', $date)
                 ->count();
         }
@@ -83,7 +115,8 @@ class DashboardController extends Controller
         // ===============================
         // Top Categories
         // ===============================
-        $topCategories = Ticket::selectRaw('category, COUNT(*) as total')
+        $topCategories = (clone $baseQuery())
+            ->selectRaw('category, COUNT(*) as total')
             ->groupBy('category')
             ->orderByDesc('total')
             ->limit(5)
@@ -92,9 +125,10 @@ class DashboardController extends Controller
         // ===============================
         // SLA Compliance
         // ===============================
-        $totalWithDue = Ticket::whereNotNull('due_date')->count();
+        $totalWithDue = (clone $baseQuery())->whereNotNull('due_date')->count();
 
-        $withinSla = Ticket::whereNotNull('due_date')
+        $withinSla = (clone $baseQuery())
+            ->whereNotNull('due_date')
             ->where(function ($query) use ($today) {
 
                 $query->whereDate('due_date', '>=', $today)
@@ -110,7 +144,8 @@ class DashboardController extends Controller
         // ===============================
         // Recent Tickets
         // ===============================
-        $recentTickets = Ticket::with([
+        $recentTickets = (clone $baseQuery())
+            ->with([
                 'createdBy',
                 'assignedTo'
             ])
@@ -121,30 +156,32 @@ class DashboardController extends Controller
         // ===============================
         // Sidebar Count
         // ===============================
-        $inProgressCount = Ticket::where('status', 'in_progress')->count();
+        $inProgressCount = (clone $baseQuery())->where('status', 'in_progress')->count();
 
         return view('dashboard', compact(
-    'totalTickets',
-    'openTickets',
-    'completedTickets',
-    'overdueTickets',
-    'statusCounts',
-    'statusData',
-    'statusLabels',
-    'priorityCounts',
-    'urgentCount',
-    'highCount',
-    'mediumCount',
-    'lowCount',
-    'lineLabels',
-    'lineCreated',
-    'lineCompleted',
-    'topCategories',
-    'slaPercent',
-    'withinSla',
-    'totalWithDue',
-    'recentTickets',
-    'inProgressCount'
-));
+            'totalTickets',
+            'openTickets',
+            'completedTickets',
+            'overdueTickets',
+            'statusCounts',
+            'statusData',
+            'statusLabels',
+            'priorityCounts',
+            'urgentCount',
+            'highCount',
+            'mediumCount',
+            'lowCount',
+            'lineLabels',
+            'lineCreated',
+            'lineCompleted',
+            'topCategories',
+            'slaPercent',
+            'withinSla',
+            'totalWithDue',
+            'recentTickets',
+            'inProgressCount',
+            'isSupport',
+            'member'
+        ));
     }
 }

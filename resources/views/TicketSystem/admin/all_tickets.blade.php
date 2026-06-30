@@ -9,7 +9,7 @@
         padding: 16px 20px; margin-bottom: 16px;
     }
     .page-header h1 { font-size: 18px; font-weight: 600; color: #111827; }
-    .page-header p  { font-size: 13px; color: #6b7280; margin-top: 4px; }
+    .page-header p  { font-size: 13px; color: #000000; margin-top: 4px; }
     .btn-create {
         display: inline-flex; align-items: center; gap: 8px;
         background: #1d4ed8; color: #fff; border: none;
@@ -34,7 +34,7 @@
     .stat-card.amber { border-top-color: #f59e0b; }
     .stat-card.red   { border-top-color: #ef4444; }
     .stat-num   { font-size: 28px; font-weight: 600; color: #111827; }
-    .stat-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
+    .stat-label { font-size: 12px; color: #000000; margin-top: 4px; }
     .stat-icon  {
         width: 44px; height: 44px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center; font-size: 18px;
@@ -54,7 +54,7 @@
         grid-template-columns: 2fr 1fr 1fr 1fr auto auto;
         gap: 10px; align-items: end;
     }
-    .filter-group label { font-size: 12px; color: #6b7280; display: block; margin-bottom: 6px; }
+    .filter-group label { font-size: 12px; color: #000000; display: block; margin-bottom: 6px; }
     .filter-group input,
     .filter-group select {
         width: 100%; padding: 8px 10px; font-size: 13px;
@@ -71,7 +71,7 @@
     }
     .btn-apply:hover { background: #1e40af; }
     .btn-clear {
-        background: #fff; color: #6b7280; border: 1px solid #d1d5db;
+        background: #fff; color: #000000; border: 1px solid #d1d5db;
         padding: 0 12px; border-radius: 6px; font-size: 13px;
         cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
         height: 36px; text-decoration: none; white-space: nowrap;
@@ -95,11 +95,11 @@
     tbody td { padding: 11px 14px; font-size: 13px; color: #374151; vertical-align: middle; }
     tbody td:last-child { white-space: nowrap; }
 
-    .sno-col  { width: 48px; text-align: center; color: #9ca3af; font-size: 12px; }
-    .date-col { white-space: nowrap; font-size: 12px; color: #6b7280; }
+    .sno-col  { width: 48px; text-align: center; color: #000000; font-size: 12px; }
+    .date-col { white-space: nowrap; font-size: 12px; color: #000000; }
     .desc-col { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
-    .cat-col  { font-size: 12px; color: #6b7280; white-space: nowrap; }
-    .age-col  { font-size: 12px; color: #6b7280; white-space: nowrap; font-family: monospace; }
+    .cat-col  { font-size: 12px; color: #000000; white-space: nowrap; }
+    .age-col  { font-size: 12px; color: #000000; white-space: nowrap; font-family: monospace; }
 
     .user-name  { font-weight: 500; display: block; }
     .user-email { font-size: 11px; color: #9ca3af; display: block; margin-top: 1px; }
@@ -150,7 +150,7 @@
         position: relative;
     }
     .modal-box h2 { font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 4px; }
-    .modal-box p  { font-size: 13px; color: #6b7280; margin-bottom: 18px; }
+    .modal-box p  { font-size: 13px; color: #000000; margin-bottom: 18px; }
     .modal-label  { font-size: 12px; color: #374151; font-weight: 500; display: block; margin-bottom: 6px; }
     .modal-select {
         width: 100%; padding: 9px 10px; font-size: 13px;
@@ -168,7 +168,7 @@
     .reason-note { font-size: 11px; color: #d97706; margin-left: 4px; }
     .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
     .btn-modal-cancel {
-        background: #fff; color: #6b7280; border: 1px solid #d1d5db;
+        background: #fff; color: #000000; border: 1px solid #d1d5db;
         padding: 8px 16px; border-radius: 7px; font-size: 13px; cursor: pointer;
     }
     .btn-modal-cancel:hover { background: #f3f4f6; }

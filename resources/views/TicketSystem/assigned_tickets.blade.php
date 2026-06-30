@@ -38,7 +38,7 @@
         background: none;
         border: none;
         cursor: pointer;
-        color: #6b7280;
+        color: #000000;
         font-size: 16px;
         padding: 4px 8px;
         border-radius: 6px;
@@ -59,7 +59,7 @@
     }
     .modal-box-item label {
         font-size: 11px;
-        color: #6b7280;
+        color: #000000;
         font-weight: 600;
         text-transform: uppercase;
         display: block;
@@ -69,7 +69,7 @@
     .modal-section { margin-bottom: 16px; }
     .modal-section label {
         font-size: 11px;
-        color: #6b7280;
+        color: #000000;
         font-weight: 600;
         text-transform: uppercase;
         display: block;
@@ -87,7 +87,7 @@
     .modal-loading {
         text-align: center;
         padding: 40px;
-        color: #6b7280;
+        color: #000000;
         font-size: 14px;
     }
 </style>
