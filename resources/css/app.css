@@ -3,8 +3,8 @@
     --bg-page: #f1f3f6;
     --bg-white: #ffffff;
     --accent: #2563eb;
-    --text-primary: #1a202c;
-    --text-muted: #64748b;
+    --text-primary: #000000;
+    --text-muted: #000000;
     --border: #e5e7eb;
     --radius-sm: 6px;
     --radius-md: 10px;
@@ -63,7 +63,7 @@ body {
     font-size: 15px; flex-shrink: 0;
 }
 
-.logo-text { font-size: 14px; font-weight: 700; color: #111827; }
+.logo-text { font-size: 14px; font-weight: 700; color: #000000; }
 
 .sidebar-nav {
     display: flex; flex-direction: column;
@@ -303,5 +303,5 @@ tbody td {
 }
 
 .d-none {
-    display: none !important;
+    display: none;
 }

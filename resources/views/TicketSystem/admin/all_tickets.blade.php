@@ -214,10 +214,10 @@ table {
 <div class="page-header">
     <div>
         @if($isAdmin)
-            <h1>🎫 All Tickets <span style="font-size:13px;font-weight:400;color:#000000;">— Admin View</span></h1>
+            <h1>All Tickets <span style="font-size:13px;font-weight:400;color:#000000;">— Admin View</span></h1>
             <p>Track and manage all support tickets across the system</p>
         @else
-            <h1>🎫 My Tickets</h1>
+            <h1>My Tickets</h1>
             <p>Tickets you have submitted</p>
         @endif
     </div>

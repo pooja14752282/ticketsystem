@@ -99,7 +99,7 @@
 <div class="page-header">
     <div>
         <h1>
-            👤 Assigned To Me
+            Assigned To Me
             <span class="page-subtitle">— Ticket List</span>
         </h1>
         <p>Tickets assigned to you that need your attention</p>

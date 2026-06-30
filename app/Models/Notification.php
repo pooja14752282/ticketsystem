@@ -6,26 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
+    public $timestamps = true;
+
     protected $fillable = [
-        'user_id',
-        'ticket_id',
+        'uid',
         'title',
         'message',
-        'type',
-        'is_read',
-    ];
-
-    protected $casts = [
-        'is_read' => 'boolean',
+        'click_action',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function ticket()
-    {
-        return $this->belongsTo(Ticket::class);
+        return $this->belongsTo(User::class, 'uid', 'uid');
     }
 }

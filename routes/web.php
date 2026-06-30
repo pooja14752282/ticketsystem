@@ -67,10 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tickets/{id}/download', [TicketController::class, 'downloadAttachment'])->name('tickets.download');
 
     // Notifications
-    Route::get('/notifications', [notificationcontroller::class, 'index'])->name('notifications.index');
-    Route::post('/notifications/{id}/read', [notificationcontroller::class, 'markAsRead'])->name('notifications.read');
-    Route::post('/notifications/mark-all-read', [notificationcontroller::class, 'markAllRead'])->name('notifications.markAllRead');
-
+    Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    
     // Ticket Review
     Route::post('/ticketsystem/branch/{ticket}/review', [TicketReviewController::class, 'store'])->name('ticket.review.store');
 

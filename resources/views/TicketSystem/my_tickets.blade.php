@@ -46,7 +46,7 @@
 
     <input type="text"
            id="searchInput"
-           placeholder="🔍 Search tickets..."
+           placeholder=" Search tickets..."
            onkeyup="filterTable()">
 
     <select id="statusFilter" onchange="filterTable()">
@@ -137,7 +137,6 @@
             <tr>
                 <td colspan="6">
                     <div class="empty-state">
-                        <div class="icon">🎫</div>
                         <p>No tickets found. Create your first ticket!</p>
                     </div>
                 </td>

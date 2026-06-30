@@ -80,9 +80,6 @@
         <h1>🎫 Ticket #{{ $ticket->id }}</h1>
         <p>Full details for this support ticket</p>
     </div>
-    <a href="{{ route('admin.tickets.index') }}" class="btn-back">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
 </div>
 
 {{-- Card --}}
