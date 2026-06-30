@@ -29,9 +29,9 @@ class AuthController extends Controller
 
         switch (Auth::user()->su) {
             case 1:
-                return redirect()->route('admin.tickets.index');
+                return redirect()->route('dashboard');
             case 4:
-                return redirect()->route('support.tickets');
+                return redirect()->route('dashboard');
             default:
                 return redirect()->route('dashboard');
         }
