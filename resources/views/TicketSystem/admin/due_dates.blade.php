@@ -49,7 +49,7 @@
     .d-none { display: none !important; }
     .btn-edit-due {
         background: none; border: none; cursor: pointer;
-        color: #9ca3af; padding: 2px 4px; border-radius: 4px;
+        color: #000000; padding: 2px 4px; border-radius: 4px;
         display: inline-flex; align-items: center;
     }
     .btn-edit-due:hover { background: #f3f4f6; color: #1d4ed8; }
@@ -64,7 +64,7 @@
     }
     .btn-cancel-due:hover { background: #f3f4f6; }
     .due-flash { font-size: 11px; color: #16a34a; }
-    .no-due { color: #9ca3af; font-size: 12px; }
+    .no-due { color: #000000; font-size: 12px; }
     .overdue { color: #991b1b; font-weight: 600; font-size: 12px; }
     .empty-state { padding: 60px 20px; text-align: center; color: #000000; }
 </style>
@@ -93,7 +93,7 @@
         <tbody>
             @forelse($tickets as $i => $ticket)
             <tr>
-                <td style="color:#9ca3af; font-size:12px; text-align:center;">{{ $i + 1 }}</td>
+                <td style="color:#000000; font-size:12px; text-align:center;">{{ $i + 1 }}</td>
 
                 <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:500;"
                     title="{{ $ticket->description }}">
@@ -103,7 +103,7 @@
                 <td>
                     <span style="font-weight:500; font-size:13px;">{{ optional($ticket->creator)->name ?? '—' }}</span>
                     @if($ticket->creator)
-                        <span style="font-size:11px; color:#9ca3af; display:block;">{{ $ticket->creator->email }}</span>
+                        <span style="font-size:11px; color:#000000; display:block;">{{ $ticket->creator->email }}</span>
                     @endif
                 </td>
 

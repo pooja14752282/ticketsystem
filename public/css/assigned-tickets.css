@@ -29,7 +29,7 @@
     .empty-state { padding: 60px 20px; text-align: center; }
     .empty-state i { font-size: 48px; color: #d1d5db; display: block; margin-bottom: 12px; }
     .empty-state p { font-size: 15px; font-weight: 600; color: #374151; margin-bottom: 6px; }
-    .empty-state span { font-size: 13px; color: #9ca3af; }
+    .empty-state span { font-size: 13px; color: #000000; }
 
     #ticketModalOverlay {
     position: fixed;
@@ -58,7 +58,7 @@
 .page-subtitle {
     font-size: 13px;
     font-weight: 400;
-    color: #9ca3af;
+    color: #000000;
 }
 
 /* table actions */
@@ -111,7 +111,7 @@
 .modal-loading {
     text-align: center;
     padding: 40px 0;
-    color: #9ca3af;
+    color: #000000;
 }
 
 .modal-description {
@@ -141,7 +141,7 @@
 
 .modal-box-item label {
     font-size: 11px;
-    color: #9ca3af;
+    color: #000000;
     text-transform: uppercase;
     margin-bottom: 4px;
     display: block;

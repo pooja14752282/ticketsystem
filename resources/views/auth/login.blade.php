@@ -64,7 +64,7 @@
         }
 
         .login-subtitle{
-            color:#9ca3af;
+            color:#000000;
             font-size:14px;
             margin-bottom:35px;
         }
@@ -98,7 +98,7 @@
             right:14px;
             transform:translateY(-50%);
             cursor:pointer;
-            color:#9ca3af;
+            color:#000000;
             font-size:16px;
         }
 
@@ -115,7 +115,7 @@
 
         .remember-text{
             font-size:13px;
-            color:#9ca3af;
+            color:#000000;
         }
 
         .btn-login{
@@ -176,7 +176,7 @@
         .bottom-text{
             text-align:center;
             font-size:14px;
-            color:#9ca3af;
+            color:#000000;
         }
 
         .bottom-text a{

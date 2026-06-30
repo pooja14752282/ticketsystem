@@ -73,7 +73,7 @@ body {
 
 .nav-section-title {
     font-size: 10px; font-weight: 700;
-    text-transform: uppercase; color: #9ca3af;
+    text-transform: uppercase; color: #000000;
     letter-spacing: 0.08em; padding: 6px 8px 10px;
 }
 
@@ -108,7 +108,7 @@ body {
 
 .topbar-left p {
     font-size: 11px;
-    color: #9ca3af;
+    color: #000000;
     margin-top: 1px;
 }
 

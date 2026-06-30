@@ -102,7 +102,7 @@
     .age-col  { font-size: 12px; color: #000000; white-space: nowrap; font-family: monospace; }
 
     .user-name  { font-weight: 500; display: block; }
-    .user-email { font-size: 11px; color: #9ca3af; display: block; margin-top: 1px; }
+    .user-email { font-size: 11px; color: #000000; display: block; margin-top: 1px; }
 
     /* ── Badges ── */
     .badge {
@@ -181,7 +181,7 @@
     .modal-close {
         position: absolute; top: 14px; right: 16px;
         background: none; border: none; font-size: 18px;
-        color: #9ca3af; cursor: pointer; line-height: 1;
+        color: #000000; cursor: pointer; line-height: 1;
     }
     .modal-close:hover { color: #374151; }
     .reassign-flash {
@@ -214,7 +214,7 @@ table {
 <div class="page-header">
     <div>
         @if($isAdmin)
-            <h1>🎫 All Tickets <span style="font-size:13px;font-weight:400;color:#9ca3af;">— Admin View</span></h1>
+            <h1>🎫 All Tickets <span style="font-size:13px;font-weight:400;color:#000000;">— Admin View</span></h1>
             <p>Track and manage all support tickets across the system</p>
         @else
             <h1>🎫 My Tickets</h1>
@@ -368,7 +368,7 @@ table {
                     @elseif(optional($ticket->assignee)->name)
                         <span class="user-name">{{ $ticket->assignee->name }}</span>
                     @else
-                        <span style="color:#9ca3af;">—</span>
+                        <span style="color:#000000;">—</span>
                     @endif
                 </td>
 
@@ -388,7 +388,7 @@ table {
                     @if($ticket->due_date)
                         {{ \Carbon\Carbon::parse($ticket->due_date)->format('d M Y') }}
                     @else
-                        <span style="color:#9ca3af;">—</span>
+                        <span style="color:#000000;">—</span>
                     @endif
                 </td>
 
@@ -400,7 +400,7 @@ table {
             <i class="fas fa-paperclip"></i> Download
         </a>
     @else
-        <span style="color:#9ca3af;">—</span>
+        <span style="color:#000000;">—</span>
     @endif
 </td>
 

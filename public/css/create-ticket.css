@@ -28,7 +28,7 @@
 
 .label-light {
     font-weight: 400;
-    color: #9ca3af;
+    color: #000000;
     font-size: 12px;
 }
 
@@ -82,7 +82,7 @@
 
 .helper-text {
     font-size: 11px;
-    color: #9ca3af;
+    color: #000000;
     margin-top: 5px;
 }
 

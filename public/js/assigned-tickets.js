@@ -47,7 +47,7 @@
             const attachEl = document.getElementById('modal-attachment');
             if (!data.attachment) {
                 attachEl.innerHTML = `
-                    <div style="background:#f9fafb;border:1px dashed #d1d5db;border-radius:8px;padding:20px;text-align:center;color:#9ca3af;font-size:13px;">
+                    <div style="background:#f9fafb;border:1px dashed #d1d5db;border-radius:8px;padding:20px;text-align:center;color:#000000;font-size:13px;">
                         <i class="fas fa-folder-open" style="font-size:22px;display:block;margin-bottom:8px;"></i>
                         No attachment uploaded
                     </div>`;
@@ -73,7 +73,7 @@
                         </div>
                         <div style="flex:1;">
                             <div style="font-size:13px;font-weight:600;color:#111827;">${data.filename}</div>
-                            <div style="font-size:11px;color:#9ca3af;margin-top:2px;">${ext.toUpperCase()} file</div>
+                            <div style="font-size:11px;color:#000000;margin-top:2px;">${ext.toUpperCase()} file</div>
                         </div>
                         <a href="${data.attachment}" download="${data.filename}" style="background:#1d4ed8;color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
                             <i class="fas fa-download"></i> Download

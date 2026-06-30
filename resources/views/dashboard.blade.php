@@ -226,7 +226,7 @@
                         <span class="cat-count">{{ $cat->total }}</span>
                     </div>
                 @empty
-                    <div style="font-size:12px; color:#9ca3af; padding:6px 0;">No categories yet</div>
+                    <div style="font-size:12px; color:#000000; padding:6px 0;">No categories yet</div>
                 @endforelse
             </div>
         </div>
@@ -313,8 +313,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
-                    x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#9ca3af' } },
-                    y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 11 }, color: '#9ca3af', stepSize: 1 } }
+                    x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#000000' } },
+                    y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 11 }, color: '#000000', stepSize: 1 } }
                 }
             }
         });

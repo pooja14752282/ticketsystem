@@ -38,14 +38,14 @@
     .due-date-soon     { color:#f59e0b;font-weight:600; }
     .due-date-ok       { color:#000000; }
 
-    .empty-state { padding:60px 20px;text-align:center;color:#9ca3af;font-size:13px; }
+    .empty-state { padding:60px 20px;text-align:center;color:#000000;font-size:13px; }
     .empty-state i { font-size:40px;display:block;margin-bottom:10px;color:#d1d5db; }
 </style>
 @endsection
 
 @section('content')
 
-<div style="font-size:12px;color:#9ca3af;margin-bottom:12px;">
+<div style="font-size:12px;color:#000000;margin-bottom:12px;">
     <span style="color:#374151;font-weight:500;">My Assigned Tickets</span>
 </div>
 

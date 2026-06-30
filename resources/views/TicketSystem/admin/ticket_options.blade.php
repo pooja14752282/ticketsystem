@@ -261,7 +261,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" style="text-align:center;padding:20px;color:#9ca3af;font-size:13px;">
+                    <td colspan="4" style="text-align:center;padding:20px;color:#000000;font-size:13px;">
                         No statuses yet
                     </td>
                 </tr>
@@ -339,7 +339,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" style="text-align:center;padding:20px;color:#9ca3af;font-size:13px;">
+                    <td colspan="4" style="text-align:center;padding:20px;color:#000000;font-size:13px;">
                         No priorities yet
                     </td>
                 </tr>
@@ -399,7 +399,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="3" style="text-align:center;padding:20px;color:#9ca3af;font-size:13px;">
+                    <td colspan="3" style="text-align:center;padding:20px;color:#000000;font-size:13px;">
                         No roles yet
                     </td>
                 </tr>

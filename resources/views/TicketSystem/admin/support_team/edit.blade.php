@@ -2,10 +2,10 @@
 
 @section('content')
 
-<div style="font-size:12px;color:#9ca3af;margin-bottom:12px;">
-    <a href="{{ route('dashboard') }}" style="color:#9ca3af;text-decoration:none;">Home</a>
+<div style="font-size:12px;color:#000000;margin-bottom:12px;">
+    <a href="{{ route('dashboard') }}" style="color:#000000;text-decoration:none;">Home</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
-    <a href="{{ route('admin.support-team.index') }}" style="color:#9ca3af;text-decoration:none;">Support Team</a>
+    <a href="{{ route('admin.support-team.index') }}" style="color:#000000;text-decoration:none;">Support Team</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
     <span style="color:#374151;font-weight:500;">Edit Member</span>
 </div>

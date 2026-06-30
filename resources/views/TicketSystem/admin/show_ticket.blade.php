@@ -14,7 +14,7 @@
 
     .meta-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e7eb; }
     .meta-cell { background:#fff;padding:14px 18px; }
-    .meta-label { font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px; }
+    .meta-label { font-size:11px;color:#000000;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px; }
     .meta-val { font-size:13px;font-weight:600;color:#111827; }
 
     .badge { display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:capitalize; }
@@ -41,13 +41,13 @@
     .section-label { padding:10px 18px;font-size:11px;font-weight:600;color:#000000;text-transform:uppercase;letter-spacing:.06em;background:#f9fafb;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:6px; }
     .desc-box { padding:16px 18px;font-size:13px;color:#374151;line-height:1.75;white-space:pre-wrap; }
 
-    .attach-empty { padding:30px 18px;text-align:center;color:#9ca3af;font-size:13px; }
+    .attach-empty { padding:30px 18px;text-align:center;color:#000000;font-size:13px; }
     .attach-empty i { font-size:26px;display:block;margin-bottom:8px;color:#d1d5db; }
     .file-row { padding:14px 18px;display:flex;align-items:center;gap:14px; }
     .file-icon { width:42px;height:42px;background:#dbeafe;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
     .file-icon i { color:#1d4ed8;font-size:18px; }
     .file-name { font-size:13px;font-weight:600;color:#111827; }
-    .file-ext  { font-size:11px;color:#9ca3af;margin-top:2px; }
+    .file-ext  { font-size:11px;color:#000000;margin-top:2px; }
     .btn-dl { display:inline-flex;align-items:center;gap:6px;background:#1d4ed8;color:#fff;padding:7px 14px;border-radius:6px;font-size:12px;text-decoration:none;white-space:nowrap;margin-left:auto; }
     .btn-dl:hover { background:#1e40af;color:#fff; }
     .img-preview img { width:100%;max-height:340px;object-fit:contain;display:block;background:#f9fafb; }
@@ -68,8 +68,8 @@
 @endphp
 
 {{-- Breadcrumb --}}
-<div style="font-size:12px;color:#9ca3af;margin-bottom:12px;">
-    <a href="{{ route('admin.tickets.index') }}" style="color:#9ca3af;text-decoration:none;">All Tickets</a>
+<div style="font-size:12px;color:#000000;margin-bottom:12px;">
+    <a href="{{ route('admin.tickets.index') }}" style="color:#000000;text-decoration:none;">All Tickets</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
     <span style="color:#374151;font-weight:500;">Ticket #{{ $ticket->id }}</span>
 </div>

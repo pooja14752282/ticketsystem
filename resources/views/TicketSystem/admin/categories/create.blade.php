@@ -21,10 +21,10 @@
 @section('content')
 
 {{-- Breadcrumb --}}
-<div style="font-size:12px;color:#9ca3af;margin-bottom:12px;">
-    <a href="{{ route('dashboard') }}" style="color:#9ca3af;text-decoration:none;">Home</a>
+<div style="font-size:12px;color:#000000;margin-bottom:12px;">
+    <a href="{{ route('dashboard') }}" style="color:#000000;text-decoration:none;">Home</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
-    <a href="{{ route('admin.ticket-categories.index') }}" style="color:#9ca3af;text-decoration:none;">Categories</a>
+    <a href="{{ route('admin.ticket-categories.index') }}" style="color:#000000;text-decoration:none;">Categories</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
     <span style="color:#374151;font-weight:500;">Add Category</span>
 </div>

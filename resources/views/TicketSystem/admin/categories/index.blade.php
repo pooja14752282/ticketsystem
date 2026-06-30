@@ -2,8 +2,8 @@
 
 @section('content')
 
-<div style="font-size:12px;color:#9ca3af;margin-bottom:12px;">
-    <a href="{{ route('dashboard') }}" style="color:#9ca3af;text-decoration:none;">Home</a>
+<div style="font-size:12px;color:#000000;margin-bottom:12px;">
+    <a href="{{ route('dashboard') }}" style="color:#000000;text-decoration:none;">Home</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
     <span style="color:#374151;font-weight:500;">Ticket Categories</span>
 </div>
@@ -84,7 +84,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" style="padding:60px 20px;text-align:center;color:#9ca3af;font-size:13px;">
+                <td colspan="5" style="padding:60px 20px;text-align:center;color:#000000;font-size:13px;">
                     No categories yet. Add your first one!
                 </td>
             </tr>
