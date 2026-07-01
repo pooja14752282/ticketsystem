@@ -90,6 +90,23 @@
         color: #000000;
         font-size: 14px;
     }
+
+    /* ── DataTables sort arrows + footer controls ── */
+table.dataTable thead th {
+    position: relative;
+}
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    font-size: 12px; color: #000000; padding: 10px 14px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 4px 10px; margin-left: 2px; border-radius: 5px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #1d4ed8 !important; color: #fff !important; border: none !important;
+}
 </style>
 @endpush
 
@@ -166,7 +183,7 @@
 
 {{-- Table --}}
 <div class="table-card">
-    <table>
+    <table id="ticketsTable">
         <thead>
             <tr>
                 <th>Sl.No.</th>
@@ -182,7 +199,7 @@
         </thead>
 
         <tbody>
-        @forelse($tickets as $index => $ticket)
+        @foreach($tickets as $index => $ticket)
 
             @php
                 $statusOption   = $statuses->firstWhere('value', $ticket->status);
@@ -254,17 +271,7 @@
                 </td>
             </tr>
 
-        @empty
-            <tr>
-                <td colspan="9">
-                    <div class="empty-state">
-                        
-                        <p>No Tickets Assigned</p>
-                        <span>You have no tickets assigned to you right now.</span>
-                    </div>
-                </td>
-            </tr>
-        @endforelse
+        @endforeach
         </tbody>
     </table>
 </div>
@@ -336,9 +343,38 @@
     </div>
 </div>
 
+
+
 @endsection
 
+
+
 @push('scripts')
+
+{{-- ── DataTables assets (skip if already loaded globally in layout.blade.php) ── --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#ticketsTable').DataTable({
+        order: [],
+        searching: false,
+        paging: true,
+        info: true,
+        lengthChange: true,
+        columnDefs: [
+            { orderable: false, targets: 0 },   // Sl.No. — not meaningful to sort
+            { orderable: false, targets: -1 }   // Actions column
+        ],
+        language: {
+            emptyTable: "No Tickets Assigned — You have no tickets assigned to you right now."
+        }
+    });
+});
+</script>
+
 <script>
 function openTicketModal(id) {
     document.getElementById('ticketModalOverlay').classList.add('active');
@@ -382,4 +418,5 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeTicketModal();
 });
 </script>
+
 @endpush

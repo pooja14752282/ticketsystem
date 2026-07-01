@@ -2,11 +2,66 @@
 
 @section('content')
 
-<div style="font-size:12px;color:#000000;margin-bottom:12px;">
-    <a href="{{ route('dashboard') }}" style="color:#000000;text-decoration:none;">Home</a>
-    <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
-    <span style="color:000000;font-weight:500;">Support Team</span>
-</div>
+<style>
+#ticketsTable_wrapper {
+    padding: 0 0 16px;
+}
+
+#ticketsTable_length {
+    padding-left: 20px;
+    padding-top: 14px;
+    padding-bottom: 10px;
+    font-size: 13px;
+    color: #000000;
+}
+
+#ticketsTable_length select {
+    padding: 4px 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin: 0 6px;
+}
+
+#ticketsTable_info {
+    padding-left: 20px;
+    font-size: 12px;
+    color: #000000;
+}
+
+#ticketsTable_paginate {
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#ticketsTable_paginate .paginate_button {
+    padding: 6px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+}
+
+#ticketsTable_paginate .paginate_button.current {
+    background: #1d4ed8 !important;
+    color: #fff !important;
+    border-color: #1d4ed8 !important;
+}
+
+#ticketsTable_paginate .paginate_button.disabled {
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.dataTables_wrapper .row:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+}
+</style>
 
 <div style="display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px;">
     <div>
@@ -26,7 +81,7 @@
 @endif
 
 <div style="background:#fff;border-radius:10px;border:1px solid #e5e7eb;overflow:hidden;">
-    <table style="width:100%;border-collapse:collapse;">
+    <table id="ticketsTable" style="width:100%;border-collapse:collapse;">
         <thead style="background:#1d4ed8;">
             <tr>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;"></th>
@@ -38,7 +93,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($teams as $i => $member)
+            @foreach($teams as $i => $member)
             <tr style="border-bottom:1px solid #f3f4f6;">
             <td style="padding:11px 14px;position:relative;">
     <div style="position:relative;display:inline-block;">
@@ -123,16 +178,38 @@
                     @endif
                 </td>
             </tr>
-            @empty
-            <tr>
-                <td colspan="6" style="padding:60px 20px;text-align:center;color:#000000;font-size:13px;">
-                    No team members yet. Add your first member!
-                </td>
-            </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>
+
+
+
+@push('scripts')
+
+{{-- ── DataTables assets (skip these two lines if already loaded globally in layout.blade.php) ── --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#ticketsTable').DataTable({
+        order: [],
+        searching: false,
+        paging: true,
+        info: true,
+        lengthChange: true,
+        columnDefs: [
+            { orderable: false, targets: 0 },  // Actions (three-dot) column
+            { orderable: false, targets: 1 }   // Sno — not meaningful to sort
+        ],
+        language: {
+            emptyTable: "No team members yet. Add your first member!"
+        }
+    });
+});
+</script>
 
 <script>
 function toggleActionDropdown(id, btn) {
@@ -170,5 +247,7 @@ window.addEventListener('scroll', function() {
     });
 }, true);
 </script>
+
+@endpush
 
 @endsection
