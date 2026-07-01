@@ -56,16 +56,28 @@
 .text-danger{
     color:#dc3545;
 }
+/* ── DataTables sort arrows + footer controls ── */
+table.dataTable thead th {
+    position: relative;
+}
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    font-size: 12px; color: #000000; padding: 10px 14px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 4px 10px; margin-left: 2px; border-radius: 5px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #1d4ed8 !important; color: #fff !important; border: none !important;
+}
 </style>
 @endsection
 
 @section('content')
 
-<div style="font-size:12px;color:#000000;margin-bottom:12px;">
-    <a href="{{ route('dashboard') }}" style="color:#000000;text-decoration:none;">Home</a>
-    <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
-    <span style="color:000000;font-weight:500;">Ticket Categories</span>
-</div>
+
 
 <div style="display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px;">
     <div>
@@ -85,10 +97,10 @@
 @endif
 
 <div class="table-card">
-        <table style="width:100%;border-collapse:collapse;">
+        <table id="ticketsTable">
         <thead style="background:#1d4ed8;">
             <tr>
-                <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Actions</th>
+                <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;"></th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Sl.no</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Name</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Assignee</th>
@@ -165,6 +177,27 @@
 @endsection
 
 @push('scripts')
+
+{{-- ── DataTables assets (skip these two lines if already loaded globally in layout.blade.php) ── --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#ticketsTable').DataTable({
+        order: [],           // keep the latest()-first order from the controller on load
+        searching: false,    // your own filter form already handles search
+        paging: true,
+        info: true,
+        lengthChange: true,
+        columnDefs: [
+            { orderable: false, targets: -1 }, // Actions column
+            { orderable: false, targets: -2 }  // Attachment column
+        ]
+    });
+});
+</script>
 
 <script>
 function toggleTicketDropdown(btn) {

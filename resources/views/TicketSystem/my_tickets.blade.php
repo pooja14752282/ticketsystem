@@ -18,7 +18,7 @@
     </a>
 </div>
 
-{{-- STATS --}}
+{{-- STATS 
 <div class="stats-grid">
     <div class="stat-card high">
         <div class="label">High Priority</div>
@@ -39,7 +39,7 @@
         <div class="label">Urgent Priority</div>
         <div class="value">{{ $stats['urgent'] }}</div>
     </div>
-</div>
+</div>--}}
 
 {{-- FILTERS --}}
 <div class="filters">
@@ -89,7 +89,7 @@
 
         <tbody>
 
-            @forelse($tickets as $ticket)
+            @foreach($tickets as $ticket)
 
             @php
                 $priorityOption = $priorities->firstWhere('value', $ticket->priority);
@@ -132,17 +132,7 @@
 
             </tr>
 
-            @empty
-
-            <tr>
-                <td colspan="6">
-                    <div class="empty-state">
-                        <p>No tickets found. Create your first ticket!</p>
-                    </div>
-                </td>
-            </tr>
-
-            @endforelse
+            @endforeach
 
         </tbody>
 
@@ -154,6 +144,30 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
+{{-- ── DataTables assets (skip these two lines if already loaded globally in layout.blade.php) ── --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#ticketTable').DataTable({
+        order: [],
+        searching: false,
+        paging: true,
+        info: true,
+        lengthChange: true,
+        columnDefs: [
+            { orderable: false, targets: -1 }, // Actions column
+            { orderable: false, targets: -2 }  // Attachment column
+        ],
+        language: {
+            emptyTable: "No tickets found. Create your first ticket!"
+        }
+    });
+});
+</script>
+
 <script src="{{ asset('js/my-tickets.js') }}"></script>
-@endsection
+@endpush
