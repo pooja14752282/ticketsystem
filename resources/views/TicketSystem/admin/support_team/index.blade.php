@@ -92,10 +92,10 @@
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Status</th>
             </tr>
         </thead>
-        <tbody>
+       <tbody>
             @foreach($teams as $i => $member)
-            <tr style="border-bottom:1px solid #f3f4f6;">
-            <td style="padding:11px 14px;position:relative;">
+            <tr style="border-bottom:1px solid #f3f4f6;">   
+            <td style="padding:11px 14px;position:relative"; >
     <div style="position:relative;display:inline-block;">
 
         <!-- Three Dots Button -->
@@ -157,7 +157,7 @@
     </div>
 </td>
                 <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $i + 1 }}</td>
-                <td style="padding:11px 14px;font-size:13px;color:000000;"><strong>{{ $member->name }}</strong></td>
+                <td style="padding:11px 14px;font-size:13px;color:000000;text-transform:capitalize;"><strong>{{ $member->name }}</strong></td>
                 <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $member->email }}</td>
                 <td style="padding:11px 14px;font-size:13px;">
                     <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">
