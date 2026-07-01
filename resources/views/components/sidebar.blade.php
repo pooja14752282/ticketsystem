@@ -5,7 +5,13 @@
         <div class="logo-icon">
             <i class="fas fa-headset"></i>
         </div>
-        <div class="logo-text">SEEL Support</div>
+        <div class="logo-text">
+            <a href="{{ route('dashboard') }}"
+                class="nav-link {{ request()->routeIs('dashboard') }}"
+                style="font-size: 15px; color: black; font-weight: bold;">
+                SEEL SUPPORT
+            </a>
+        </div>
     </div>
 
     <nav class="sidebar-nav">
