@@ -221,7 +221,63 @@ table.dataTable thead th {
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
     background: #1d4ed8 !important; color: #fff !important; border: none !important;
 }
+.action-dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+.action-menu-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 6px 10px;
+    color: #555;
+}
+
+.action-menu-btn:hover {
+    color: #000;
+}
+
+.dropdown-menu {
+    display: none;
+    position: fixed;
+    background: #fff;
+    min-width: 170px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.15);
+    z-index: 2000;
+    overflow: hidden;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+.dropdown-item.text-danger {
+    color: #dc3545;
+}
+
+.dropdown-item i {
+    width: 18px;
+}
 </style>
 @endsection
 
@@ -332,6 +388,7 @@ table.dataTable thead th {
         <table id="ticketsTable">
         <thead>
             <tr>
+                <th>Actions</th>
                 <th>Ticket ID</th>
                 <th>Title</th>
                 <th>App Name</th>
@@ -344,7 +401,6 @@ table.dataTable thead th {
                 <th>Due Date</th>
                 <th>Age</th>
                 <th>Attachment</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -355,6 +411,40 @@ table.dataTable thead th {
             @endphp
 
             <tr id="row-{{ $ticket->id }}">
+                </td>
+
+                <td>
+                    <div class="action-dropdown">
+    <button type="button"
+        class="action-menu-btn"
+        onclick="toggleTicketDropdown(this)">
+    <i class="fas fa-ellipsis-v"></i>
+</button>
+
+    <div class="dropdown-menu">
+        @if($isAdmin)
+
+        <button
+            class="dropdown-item"
+            onclick="openReassign({{ $ticket->id }}, '{{ addslashes($ticket->assignedTeamMember->name ?? optional($ticket->assignee)->name ?? 'Unassigned') }}')">
+            <i class="fas fa-user-edit"></i> Reassign
+        </button>
+
+        <form method="POST"
+              action="{{ route('admin.tickets.destroy', $ticket->id) }}"
+              onsubmit="return confirm('Delete this ticket?')">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit" class="dropdown-item text-danger">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+        </form>
+
+        @endif
+    </div>
+</div>
+                </td>
                 <td class="sno-col">{{ $ticket->ticket_id }}</td>
 
                 <td class="desc-col" title="{{ $ticket->description }}">
@@ -416,28 +506,6 @@ table.dataTable thead th {
         <span style="color:#000000;">—</span>
     @endif
 </td>
-
-                <td>
-                    <div class="action-btns">
-                        @if($isAdmin)
-                        <button
-                            class="btn-reassign"
-                            onclick="openReassign({{ $ticket->id }}, '{{ addslashes($ticket->assignedTeamMember->name ?? optional($ticket->assignee)->name ?? 'Unassigned') }}')"
-                            title="Reassign ticket">
-                            <i class="fas fa-user-edit"></i> Reassign
-                        </button>
-
-                        <form method="POST" action="{{ route('admin.tickets.destroy', $ticket->id) }}"
-                              onsubmit="return confirm('Delete this ticket?')" style="margin:0">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-delete">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </form>
-                        @endif
-                    </div>
-                </td>
             </tr>
             @empty
             <tr>
@@ -582,6 +650,43 @@ function submitReassign() {
 document.getElementById('reassignModal').addEventListener('click', function(e) {
     if (e.target === this) closeReassign();
 });
+
+function toggleTicketDropdown(btn) {
+    const menu = btn.nextElementSibling;
+    const isOpen = menu.classList.contains('show');
+
+    // Close all open menus first
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+
+    if (!isOpen) {
+        const rect = btn.getBoundingClientRect();
+        menu.style.top = (rect.bottom + 4) + 'px';
+
+        // Align right edge of menu with right edge of button,
+        // but keep it on-screen if that would overflow left
+        let left = rect.right - 170; // 170 = min-width of menu
+        if (left < 8) left = rect.left;
+        menu.style.left = left + 'px';
+
+        menu.classList.add('show');
+    }
+}
+
+window.addEventListener('click', function(e) {
+    if (!e.target.closest('.action-dropdown')) {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.classList.remove('show');
+        });
+    }
+});
+
+// Reposition/close on scroll so it doesn't float in the wrong place
+window.addEventListener('scroll', function() {
+    document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+        menu.classList.remove('show');
+    });
+}, true);
+
 </script>
 @endif
 @endpush
