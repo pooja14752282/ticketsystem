@@ -20,6 +20,7 @@
     request()->routeIs('ticketsystem.*') ||
     request()->routeIs('support.tickets')
 )
+@unless(Auth::user()->isTicketSupportTeam())
 <div class="ticket-tabs">
 
     @if(Auth::user()->isAdmin())
@@ -39,6 +40,6 @@
         <i class="fas fa-ticket-alt"></i> My Tickets
     </a>
 
-   
 </div>
+@endunless
 @endif
