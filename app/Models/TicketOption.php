@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/* Ticket option table contains Priorities, Status, Roles */
+
 class TicketOption extends Model
 {
     protected $fillable = [

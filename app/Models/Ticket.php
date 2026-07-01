@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/*Tickets are being fetched from ticket table from EXAM_DB*/
+
 class Ticket extends Model
 {
     use HasFactory, SoftDeletes;
