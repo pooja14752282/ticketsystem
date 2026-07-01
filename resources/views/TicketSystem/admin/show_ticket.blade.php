@@ -77,7 +77,7 @@
 {{-- Page Header --}}
 <div class="page-header">
     <div>
-        <h1>🎫 Ticket #{{ $ticket->id }}</h1>
+        <h1>🎫 {{ $ticket->ticket_id }}</h1>
         <p>Full details for this support ticket</p>
     </div>
 </div>
@@ -196,7 +196,7 @@
 
     @if(!$ticket->attachment)
         <div class="attach-empty">
-             <i class="fas fa-paperclip"></i>
+             
               No Attachment
         </div>
     @elseif(in_array(strtolower(pathinfo($ticket->attachment, PATHINFO_EXTENSION)), ['jpg','jpeg','png','gif','webp']))
@@ -250,7 +250,7 @@
         </div>
     @else
         <div class="attach-empty">
-            <i class="fas fa-comment-slash"></i>
+            
             No review submitted for this ticket yet.
         </div>
     @endif
