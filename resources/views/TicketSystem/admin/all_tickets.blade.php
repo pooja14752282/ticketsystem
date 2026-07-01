@@ -205,6 +205,23 @@ table {
     min-width: 1100px; /* adjust based on columns */
 }
 
+/* ── DataTables sort arrows + footer controls ── */
+table.dataTable thead th {
+    position: relative;
+}
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    font-size: 12px; color: #000000; padding: 10px 14px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 4px 10px; margin-left: 2px; border-radius: 5px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #1d4ed8 !important; color: #fff !important; border: none !important;
+}
+
 </style>
 @endsection
 
@@ -312,7 +329,7 @@ table {
 {{-- Tickets Table --}}
 <div class="table-card table-responsive">
     <div class="table-scroll">
-        <table>
+        <table id="ticketsTable">
         <thead>
             <tr>
                 <th>Ticket ID</th>
@@ -477,6 +494,27 @@ table {
 @endsection
 
 @push('scripts')
+{{-- ── DataTables assets (skip these two lines if already loaded globally in layout.blade.php) ── --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#ticketsTable').DataTable({
+        order: [],           // keep the latest()-first order from the controller on load
+        searching: false,    // your own filter form already handles search
+        paging: true,
+        info: true,
+        lengthChange: true,
+        columnDefs: [
+            { orderable: false, targets: -1 }, // Actions column
+            { orderable: false, targets: -2 }  // Attachment column
+        ]
+    });
+});
+</script>
+
 @if($isAdmin)
 <script>
 let _reassignTicketId = null;
