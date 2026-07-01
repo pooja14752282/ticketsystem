@@ -550,8 +550,7 @@ table.dataTable thead th {
             Reason for Reassignment
             <span class="reason-note">(visible to the new assignee)</span>
         </label>
-        <textarea class="modal-textarea" id="modal-reassign-reason"
-            placeholder="e.g. Aliya is on leave, please handle this urgently..."></textarea>
+        <textarea class="modal-textarea" id="modal-reassign-reason"></textarea>
 
         <div class="modal-footer">
             <button class="btn-modal-cancel" onclick="closeReassign()">Cancel</button>
