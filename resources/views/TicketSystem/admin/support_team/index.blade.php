@@ -10,7 +10,7 @@
 
 <div style="display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px;">
     <div>
-        <h1 style="font-size:18px;font-weight:600;color:#111827;">👥 Support Team</h1>
+        <h1 style="font-size:18px;font-weight:600;color:#111827;">Support Team</h1>
         <p style="font-size:13px;color:#000000;margin-top:4px;">Manage support team members and their app assignments</p>
     </div>
     <a href="{{ route('admin.support-team.create') }}"
@@ -29,17 +29,78 @@
     <table style="width:100%;border-collapse:collapse;">
         <thead style="background:#1d4ed8;">
             <tr>
+                <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Actions</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Sno</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Name</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Email</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">App Assigned</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Status</th>
-                <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Actions</th>
             </tr>
         </thead>
         <tbody>
             @forelse($teams as $i => $member)
             <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:11px 14px;position:relative;">
+    <div style="position:relative;display:inline-block;">
+
+        <!-- Three Dots Button -->
+        <button type="button"
+    class="dots-btn"
+    onclick="toggleActionDropdown({{ $member->id }}, this)"
+    style="background:none;border:none;cursor:pointer;font-size:18px;color:#374151;padding:4px 8px;">
+    <i class="fas fa-ellipsis-v"></i>
+</button>
+
+        <!-- Dropdown -->
+        <div id="dropdown-{{ $member->id }}"
+     class="action-dropdown"
+     style="display:none;position:fixed;background:#fff;
+            min-width:170px;border:1px solid #e5e7eb;border-radius:8px;
+            box-shadow:0 6px 18px rgba(0,0,0,.12);z-index:9999;overflow:hidden;">
+
+            {{-- Toggle Status --}}
+            <form action="{{ route('admin.support-team.toggle', $member) }}"
+                  method="POST">
+                @csrf
+                @method('PATCH')
+
+                <button type="submit"
+                        style="width:100%;text-align:left;background:none;border:none;
+                               padding:10px 14px;font-size:13px;cursor:pointer;">
+                    @if($member->is_active)
+                        <i class="fas fa-toggle-on"></i> Deactivate
+                    @else
+                        <i class="fas fa-toggle-off"></i> Activate
+                    @endif
+                </button>
+            </form>
+
+            {{-- Edit --}}
+            <a href="{{ route('admin.support-team.edit', $member) }}"
+               style="display:block;padding:10px 14px;font-size:13px;
+                      color:#1d4ed8;text-decoration:none;">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+
+            {{-- Delete --}}
+            <form action="{{ route('admin.support-team.destroy', $member) }}"
+                  method="POST"
+                  onsubmit="return confirm('Remove this member?')">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit"
+                        style="width:100%;text-align:left;background:none;border:none;
+                               padding:10px 14px;font-size:13px;color:#dc2626;
+                               cursor:pointer;">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</td>
                 <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $i + 1 }}</td>
                 <td style="padding:11px 14px;font-size:13px;color:000000;"><strong>{{ $member->name }}</strong></td>
                 <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $member->email }}</td>
@@ -61,45 +122,6 @@
                         </span>
                     @endif
                 </td>
-
-                {{-- Actions Column --}}
-                <td style="padding:11px 14px;">
-                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-
-                        {{-- Toggle Active/Inactive --}}
-                        <form action="{{ route('admin.support-team.toggle', $member) }}"
-                              method="POST" style="margin:0">
-                            @csrf @method('PATCH')
-                            @if($member->is_active)
-                                <button type="submit" style="background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:5px;font-size:12px;border:none;cursor:pointer;white-space:nowrap;">
-                                    <i class="fas fa-toggle-on"></i> Deactivate
-                                </button>
-                            @else
-                                <button type="submit" style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:5px;font-size:12px;border:none;cursor:pointer;white-space:nowrap;">
-                                    <i class="fas fa-toggle-off"></i> Activate
-                                </button>
-                            @endif
-                        </form>
-
-                        {{-- Edit --}}
-                        <a href="{{ route('admin.support-team.edit', $member) }}"
-                           style="background:#dbeafe;color:#1d4ed8;padding:4px 10px;border-radius:5px;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-
-                        {{-- Delete --}}
-                        <form action="{{ route('admin.support-team.destroy', $member) }}"
-                              method="POST"
-                              onsubmit="return confirm('Remove this member?')"
-                              style="margin:0">
-                            @csrf @method('DELETE')
-                            <button type="submit" style="background:#fee2e2;color:#991b1b;padding:4px 10px;border-radius:5px;font-size:12px;border:none;cursor:pointer;white-space:nowrap;">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </form>
-
-                    </div>
-                </td>
             </tr>
             @empty
             <tr>
@@ -111,5 +133,42 @@
         </tbody>
     </table>
 </div>
+
+<script>
+function toggleActionDropdown(id, btn) {
+    let dropdown = document.getElementById('dropdown-' + id);
+    const isOpen = dropdown.style.display === 'block';
+
+    document.querySelectorAll('.action-dropdown').forEach(function(menu){
+        menu.style.display = 'none';
+    });
+
+    if (!isOpen) {
+        const rect = btn.getBoundingClientRect();
+        dropdown.style.top = (rect.bottom + 4) + 'px';
+
+        let left = rect.right - 170; // 170 = min-width of dropdown
+        if (left < 8) left = rect.left;
+        dropdown.style.left = left + 'px';
+
+        dropdown.style.display = 'block';
+    }
+}
+
+document.addEventListener('click', function(event){
+    if (!event.target.closest('.action-dropdown') &&
+        !event.target.closest('.dots-btn')) {
+        document.querySelectorAll('.action-dropdown').forEach(function(menu){
+            menu.style.display = 'none';
+        });
+    }
+});
+
+window.addEventListener('scroll', function() {
+    document.querySelectorAll('.action-dropdown').forEach(function(menu){
+        menu.style.display = 'none';
+    });
+}, true);
+</script>
 
 @endsection
