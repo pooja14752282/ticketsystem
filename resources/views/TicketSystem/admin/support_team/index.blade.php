@@ -29,7 +29,7 @@
     <table style="width:100%;border-collapse:collapse;">
         <thead style="background:#1d4ed8;">
             <tr>
-                <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Actions</th>
+                <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;"></th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Sno</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Name</th>
                 <th style="padding:11px 14px;font-size:13px;font-weight:500;color:#fff;text-align:left;">Email</th>

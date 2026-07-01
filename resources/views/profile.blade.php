@@ -2,144 +2,245 @@
 
 @section('content')
 
-<div class="profile-page">
+    <div class="page-header">
+        <h2 class="page-title">My Profile</h2>
+    </div>
 
-    <div class="profile-card">
+    <div class="profile-main-card">
 
-        <div class="profile-header">
-            <div class="profile-avatar">
+    {{-- RIGHT PROFILE IMAGE --}}
+        <div class="profile-right-section">
+
+            <div class="profile-avatar-circle">
                 {{ strtoupper(substr(auth()->user()->name,0,1)) }}
             </div>
 
-            <h2>{{ auth()->user()->name }}</h2>
-            <p>{{ auth()->user()->email }}</p>
+            <h3 class="profile-name">
+                {{ auth()->user()->name }}
+            </h3>
+
+            <p class="profile-role">
+                {{ auth()->user()->isAdmin() ? 'Admin' : (auth()->user()->isTicketSupportTeam() ? 'Support' : 'User') }}
+            </p>
+
         </div>
 
-        <div class="profile-body">
+        {{-- LEFT SECTION --}}
+        <div class="profile-left-section">
 
-            <div class="section-title">Profile Information</div>
-
-            <div class="info-box">
-                <div class="info-label">Full Name</div>
-                <div class="info-value">{{ auth()->user()->name }}</div>
+            <div class="section-heading">
+                <span class="bar"></span> Profile Information
             </div>
 
-            <div class="info-box">
-                <div class="info-label">Email Address</div>
-                <div class="info-value">{{ auth()->user()->email }}</div>
-            </div>
-
-            <div class="info-box">
-                <div class="info-label">Role</div>
-                <div class="info-value">
-                    {{ auth()->user()->isAdmin() ? 'Admin' : (auth()->user()->isTicketSupportTeam() ? 'Support' : 'User') }}
+            <div class="detail-row">
+                <div class="detail-label">Full Name:</div>
+                <div class="detail-value">
+                    {{ auth()->user()->name }}
                 </div>
             </div>
 
-            <div class="section-title" style="margin-top:30px;">
-                Change Password
+            <div class="detail-row">
+                <div class="detail-label">Email Address:</div>
+                <div class="detail-value">
+                    {{ auth()->user()->email }}
+                </div>
             </div>
 
-            <div class="change-password-box">
+            <div class="detail-row">
+                <div class="detail-label">Role:</div>
+                <div class="detail-value">
+                    {{ auth()->user()->isAdmin() ? 'Admin' : (auth()->user()->isTicketSupportTeam() ? 'Support' : 'User') }}
+                </div>
+            </div>
+            <br>
+            <br>
 
-                <form method="POST" action="{{ route('profile.password.update') }}">
-                    @csrf
-                    @method('PUT')
-
-                    <input type="password" name="current_password" placeholder="Current Password" class="form-control" required>
-                    @error('current_password')
-                        <div class="error-text">{{ $message }}</div>
-                    @enderror
-
-                    <input type="password" name="password" placeholder="New Password" class="form-control" required>
-                    @error('password')
-                        <div class="error-text">{{ $message }}</div>
-                    @enderror
-
-                    <input type="password" name="password_confirmation" placeholder="Confirm Password" class="form-control" required>
-
-                    <button class="btn-brand" type="submit">Update Password</button>
-
-                </form>
-
+        {{-- PASSWORD SECTION --}}
+            <div class="section-heading">
+                <span class="bar"></span> Change Password
             </div>
 
+            <form method="POST" action="{{ route('profile.password.update') }}">
+                @csrf
+                @method('PUT')
+
+                <input type="password" 
+                       name="current_password" 
+                       placeholder="Current Password"
+                       class="form-control"
+                       required>
+
+                @error('current_password')
+                    <div class="error-text">{{ $message }}</div>
+                @enderror
+
+                <input type="password" 
+                       name="password" 
+                       placeholder="New Password"
+                       class="form-control"
+                       required>
+
+                @error('password')
+                    <div class="error-text">{{ $message }}</div>
+                @enderror
+
+                <input type="password"
+                       name="password_confirmation"
+                       placeholder="Confirm Password"
+                       class="form-control"
+                       required>
+
+                <button class="btn-brand">
+                    Update Password
+                </button>
+
+            </form>
         </div>
-    </div>
-</div>
 
 @endsection
-
 @push('styles')
 <style>
-.profile-page {
-    max-width: 900px;
-    margin: auto;
+
+.profile-page-header {
+    margin-bottom:20px;
 }
 
-.profile-card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+.page-title {
+    font-size:22px;
+    font-weight:700;
+    margin:0;
 }
 
-.profile-header {
-    background: linear-gradient(135deg,#6366f1,#818cf8);
-    padding: 35px;
-    text-align: center;
-    color: white;
+.page-subtitle {
+    color:#666;
 }
 
-.profile-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin: auto;
-    background: rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    font-weight: 700;
+/* MAIN 3 COLUMN CARD */
+.profile-main-card {
+    background:#fff;
+    border-radius:15px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    display:grid;
+    grid-template-columns:1fr 1fr 260px;
+    gap:25px;
+    padding:30px;
 }
 
-.profile-body {
-    padding: 25px;
+/* LEFT PROFILE INFO */
+.profile-left-section,
+.profile-middle-section {
+    padding-right:20px;
+    border-right:1px solid #eee;
 }
 
-.info-box {
-    background: #f8fafc;
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #e5e7eb;
+.section-heading {
+    font-size:16px;
+    font-weight:700;
+    color:#4a49e0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
 }
 
-.section-title {
-    font-weight: 700;
-    margin: 20px 0 15px;
+.section-heading .bar {
+    width:4px;
+    height:18px;
+    background:#6366f1;
+    border-radius:3px;
 }
 
+/* DETAILS */
+.detail-row {
+    display:flex;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid #eee;
+}
+
+.detail-label {
+    color:black;
+}
+
+.detail-value {
+    font-weight:600;
+}
+
+/* PASSWORD */
 .form-control {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
+    width:100%;
+    padding:11px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
 }
 
 .btn-brand {
-    background: #6e70f5;
-    color: white;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
+    width:100%;
+    background:#6e70f5;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* RIGHT PROFILE IMAGE */
+.profile-right-section {
+    text-align:center;
+}
+
+.profile-avatar-circle {
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6366f1,#818cf8);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    font-weight:700;
+    margin:20px auto;
+}
+
+.profile-name {
+    font-size:18px;
+    margin:0;
+}
+
+.profile-role {
+    color:#999;
+}
+
+.status-badge {
+    background:#e6f9ee;
+    color:#17a463;
+    padding:5px 15px;
+    border-radius:20px;
+    font-size:12px;
 }
 
 .error-text {
-    color: red;
-    font-size: 12px;
+    color:red;
+    font-size:12px;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+.profile-main-card{
+grid-template-columns:1fr;
+}
+
+.profile-left-section,
+.profile-middle-section{
+border:none;
+}
+}
+
+.page-header{
+    background:#FFFF;
 }
 </style>
 @endpush

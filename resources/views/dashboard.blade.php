@@ -8,6 +8,15 @@
 
 @section('content')
 
+@if($totalTickets == 0)
+<div class="empty-dashboard"
+     style="background-color: white; padding: 40px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h1>{{ ($isSupport ?? false) ? 'No tickets assigned yet' : 'No tickets yet' }}</h1>
+    <h2>{{ ($isSupport ?? false) ? 'Tickets assigned to you will show up here once available.' : 'Once tickets start coming in, your dashboard stats will appear here.' }}</h2>
+</div>
+
+@else
+
 <!-- METRIC CARDS -->
 <div class="metrics-grid">
     <div class="metric-card">
@@ -271,8 +280,8 @@
     </div>
 </div>
 
+@endif
 @endsection
-
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>

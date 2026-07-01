@@ -29,20 +29,20 @@
         padding: 16px 20px; display: flex; align-items: center;
         justify-content: space-between; border-top: 3px solid transparent;
     }
-    .stat-card.blue  { border-top-color: #3b82f6; }
+    .stat-card.orange  { border-top-color: #ea580c; }
     .stat-card.green { border-top-color: #22c55e; }
     .stat-card.amber { border-top-color: #f59e0b; }
-    .stat-card.red   { border-top-color: #ef4444; }
+    .stat-card.red   { border-top-color: #dc2626; }
     .stat-num   { font-size: 28px; font-weight: 600; color: #111827; }
     .stat-label { font-size: 12px; color: #000000; margin-top: 4px; }
     .stat-icon  {
         width: 44px; height: 44px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center; font-size: 18px;
     }
-    .stat-icon.blue  { background: #dbeafe; color: #3b82f6; }
+    .stat-icon.orange  { background: #dbeafe; color: #ea580c;; }
     .stat-icon.green { background: #dcfce7; color: #22c55e; }
     .stat-icon.amber { background: #fef3c7; color: #f59e0b; }
-    .stat-icon.red   { background: #fee2e2; color: #ef4444; }
+    .stat-icon.red   { background: #fee2e2; color: #dc2626; }
 
     /* ── Filters ── */
     .filter-card {
@@ -62,7 +62,7 @@
         background: #fff; color: #111827;
     }
     .filter-group input:focus,
-    .filter-group select:focus { outline: none; border-color: #3b82f6; }
+    .filter-group select:focus { outline: none; border-color: #ea580c; }
     .btn-apply {
         background: #1d4ed8; color: #fff; border: none;
         padding: 0 16px; border-radius: 6px; font-size: 13px;
@@ -157,14 +157,14 @@
         border: 1px solid #d1d5db; border-radius: 7px;
         background: #fff; color: #111827; margin-bottom: 20px;
     }
-    .modal-select:focus { outline: none; border-color: #3b82f6; }
+    .modal-select:focus { outline: none; border-color: #ea580c; }
     .modal-textarea {
         width: 100%; padding: 9px 10px; font-size: 13px;
         border: 1px solid #d1d5db; border-radius: 7px;
         background: #fff; color: #111827; margin-bottom: 20px;
         resize: vertical; min-height: 80px; font-family: inherit;
     }
-    .modal-textarea:focus { outline: none; border-color: #3b82f6; }
+    .modal-textarea:focus { outline: none; border-color: #ea580c; }
     .reason-note { font-size: 11px; color: #d97706; margin-left: 4px; }
     .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
     .btn-modal-cancel {
@@ -301,12 +301,12 @@ table.dataTable thead th {
 
 {{-- Stats --}}
 <div class="stats-grid">
-    <div class="stat-card blue">
+    <div class="stat-card orange">
         <div>
             <div class="stat-num">{{ $stats['high'] }}</div>
             <div class="stat-label">High Priority</div>
         </div>
-        <div class="stat-icon blue"><i class="fas fa-arrow-up"></i></div>
+        <div class="stat-icon orange"><i class="fas fa-arrow-up"></i></div>
     </div>
     <div class="stat-card green">
         <div>
@@ -388,11 +388,12 @@ table.dataTable thead th {
         <table id="ticketsTable">
         <thead>
             <tr>
-                <th>Actions</th>
+                <th></th>
                 <th>Ticket ID</th>
                 <th>Title</th>
                 <th>App Name</th>
                 @if($isAdmin)
+                <th>Created At</th>
                 <th>Created By</th>
                 @endif
                 <th>Assigned To</th>
@@ -458,6 +459,10 @@ table.dataTable thead th {
                 </td>
 
                 @if($isAdmin)
+                <td>
+                    <span class="user-name">{{ $ticket->created_at->format('d M Y') }}</span>
+                </td>
+
                 <td>
                     <span class="user-name">{{ optional($ticket->creator)->name ?? '—' }}</span>
                     @if($ticket->creator)
@@ -605,7 +610,7 @@ function submitReassign() {
     const select   = document.getElementById('modal-member-select');
     const memberId = select.value;
     if (!memberId) {
-        select.style.borderColor = '#ef4444';
+        select.style.borderColor = '#dc2626';
         setTimeout(() => select.style.borderColor = '#d1d5db', 1500);
         return;
     }
