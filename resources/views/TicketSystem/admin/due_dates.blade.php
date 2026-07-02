@@ -1,73 +1,7 @@
 @extends('layout')
 
 @section('styles')
-<style>
-    .page-header {
-        background: #fff; border-radius: 10px; border: 1px solid #e5e7eb;
-        padding: 16px 20px; margin-bottom: 16px;
-    }
-    .page-header h1 { font-size: 18px; font-weight: 600; color: #111827; }
-    .page-header p  { font-size: 13px; color: #000000; margin-top: 4px; }
-
-    .table-card {
-        background: #fff; border-radius: 10px;
-        border: 1px solid #e5e7eb; overflow: hidden;
-    }
-    table { width: 100%; border-collapse: collapse; }
-    thead { background: #1d4ed8; }
-    thead th {
-        padding: 11px 14px; font-size: 12px; font-weight: 600;
-        color: #fff; text-align: left; white-space: nowrap;
-    }
-    tbody tr { border-bottom: 1px solid #f3f4f6; transition: background 0.1s; }
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: #f9fafb; }
-    tbody td { padding: 11px 14px; font-size: 13px; color: 000000; vertical-align: middle; }
-
-    .badge {
-        display: inline-block; padding: 3px 10px; border-radius: 20px;
-        font-size: 11px; font-weight: 600;
-    }
-    .badge-open      { background: #dcfce7; color: #166534; }
-    .badge-on_hold   { background: #fef3c7; color: #92400e; }
-    .badge-closed    { background: #f3f4f6; color: 000000; }
-    .badge-low       { background: #f0fdf4; color: #166634; }
-    .badge-high      { background: #dbeafe; color: #1e40af; }
-    .badge-urgent    { background: #fee2e2; color: #991b1b; }
-
-    .due-cell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .due-input {
-        font-size: 12px; border: 1px solid #d1d5db; border-radius: 6px;
-        padding: 3px 6px; background: #fff; color: #111827; width: 130px;
-    }
-    .due-reason-input {
-        font-size: 12px; border: 1px solid #d1d5db; border-radius: 6px;
-        padding: 4px 6px; background: #fff; color: #111827;
-        width: 100%; margin-top: 6px; resize: vertical; min-height: 52px;
-    }
-    .due-reason-input:focus { outline: none; border-color: #3b82f6; }
-    .d-none { display: none !important; }
-    .btn-edit-due {
-        background: none; border: none; cursor: pointer;
-        color: #000000; padding: 2px 4px; border-radius: 4px;
-        display: inline-flex; align-items: center;
-    }
-    .btn-edit-due:hover { background: #f3f4f6; color: #1d4ed8; }
-    .btn-save-due {
-        background: #1d4ed8; color: #fff; border: none;
-        padding: 3px 10px; border-radius: 5px; font-size: 11px; cursor: pointer;
-    }
-    .btn-save-due:hover { background: #1e40af; }
-    .btn-cancel-due {
-        background: #fff; color: #000000; border: 1px solid #d1d5db;
-        padding: 3px 8px; border-radius: 5px; font-size: 11px; cursor: pointer;
-    }
-    .btn-cancel-due:hover { background: #f3f4f6; }
-    .due-flash { font-size: 11px; color: #16a34a; }
-    .no-due { color: #000000; font-size: 12px; }
-    .overdue { color: #991b1b; font-weight: 600; font-size: 12px; }
-    .empty-state { padding: 60px 20px; text-align: center; color: #000000; }
-</style>
+<link rel="stylesheet" href="{{ asset('css/ticket-due-dates.css') }}">
 @endsection
 
 @section('content')

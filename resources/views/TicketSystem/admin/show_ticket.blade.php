@@ -1,59 +1,7 @@
 @extends('layout')
 
 @section('styles')
-<style>
-    .page-header { display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px; }
-    .page-header h1 { font-size:18px;font-weight:600;color:#111827; }
-    .page-header p  { font-size:13px;color:#000000;margin-top:4px; }
-    .btn-back { display:inline-flex;align-items:center;gap:8px;background:#f3f4f6;color:000000;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none; }
-    .btn-back:hover { background:#e5e7eb;color:#111827; }
-
-    .card { background:#fff;border-radius:10px;border:1px solid #e5e7eb;overflow:hidden;margin-bottom:16px; }
-    .card-header { background:#1d4ed8;padding:14px 20px;display:flex;align-items:center;gap:10px; }
-    .card-header span { color:#fff;font-size:14px;font-weight:600; }
-
-    .meta-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e7eb; }
-    .meta-cell { background:#fff;padding:14px 18px; }
-    .meta-label { font-size:11px;color:#000000;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px; }
-    .meta-val { font-size:13px;font-weight:600;color:#111827; }
-
-    .badge { display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:capitalize; }
-    .badge-in_progress { background:#fef3c7;color:#92400e; }
-    .badge-completed   { background:#dcfce7;color:#166534; }
-    .badge-on_hold     { background:#fce7f3;color:#9d174d; }
-    .badge-re_opened   { background:#ede9fe;color:#5b21b6; }
-    .badge-low         { background:#f0fdf4;color:#166534; }
-    .badge-high        { background:#dbeafe;color:#1e40af; }
-    .badge-urgent      { background:#fee2e2;color:#991b1b; }
-
-    .status-select {
-        padding:5px 10px;font-size:12px;font-weight:600;
-        border-radius:20px;border:1px solid #d1d5db;
-        cursor:pointer;outline:none;appearance:auto;transition:background .15s;
-    }
-    .status-select:focus { border-color:#3b82f6; }
-    .status-select.status-in_progress { background:#fef3c7;color:#92400e;border-color:#fde68a; }
-    .status-select.status-completed   { background:#dcfce7;color:#166534;border-color:#bbf7d0; }
-    .status-select.status-on_hold     { background:#fce7f3;color:#9d174d;border-color:#fbcfe8; }
-    .status-select.status-re_opened   { background:#ede9fe;color:#5b21b6;border-color:#ddd6fe; }
-    .status-saved-flash { font-size:11px;color:#16a34a;margin-left:8px;display:none; }
-
-    .section-label { padding:10px 18px;font-size:11px;font-weight:600;color:#000000;text-transform:uppercase;letter-spacing:.06em;background:#f9fafb;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:6px; }
-    .desc-box { padding:16px 18px;font-size:13px;color:000000;line-height:1.75;white-space:pre-wrap; }
-
-    .attach-empty { padding:30px 18px;text-align:center;color:#000000;font-size:13px; }
-    .attach-empty i { font-size:26px;display:block;margin-bottom:8px;color:#d1d5db; }
-    .file-row { padding:14px 18px;display:flex;align-items:center;gap:14px; }
-    .file-icon { width:42px;height:42px;background:#dbeafe;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
-    .file-icon i { color:#1d4ed8;font-size:18px; }
-    .file-name { font-size:13px;font-weight:600;color:#111827; }
-    .file-ext  { font-size:11px;color:#000000;margin-top:2px; }
-    .btn-dl { display:inline-flex;align-items:center;gap:6px;background:#1d4ed8;color:#fff;padding:7px 14px;border-radius:6px;font-size:12px;text-decoration:none;white-space:nowrap;margin-left:auto; }
-    .btn-dl:hover { background:#1e40af;color:#fff; }
-    .img-preview img { width:100%;max-height:340px;object-fit:contain;display:block;background:#f9fafb; }
-    .img-footer { padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #e5e7eb; }
-    .img-footer span { font-size:12px;color:#000000; }
-</style>
+<link rel="stylesheet" href="{{ asset('css/show-ticket.css') }}">
 @endsection
 
 @section('content')
@@ -71,7 +19,7 @@
 <div style="font-size:12px;color:#000000;margin-bottom:12px;">
     <a href="{{ route('admin.tickets.index') }}" style="color:#000000;text-decoration:none;">All Tickets</a>
     <i class="fas fa-chevron-right" style="font-size:10px;margin:0 6px;"></i>
-    <span style="color:000000;font-weight:500;">Ticket #{{ $ticket->id }}</span>
+    <span style="color:#000000;font-weight:500;">Ticket #{{ $ticket->id }}</span>
 </div>
 
 {{-- Page Header --}}
@@ -234,18 +182,18 @@
         <div style="padding:16px 18px;">
             <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;background:#f9fafb;">
                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-                    <div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:000000;">
+                    <div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#000000;">
                         {{ strtoupper(substr($ticket->review->supportMember->name ?? 'S', 0, 2)) }}
                     </div>
                     <div>
                         <p style="font-size:13px;font-weight:600;margin:0;color:#111827;">{{ $ticket->review->supportMember->name ?? '—' }}</p>
                         <p style="font-size:11px;color:#000000;margin:0;">{{ $ticket->review->created_at->format('d M Y, h:i A') }}</p>
                     </div>
-                    <span style="margin-left:auto;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid #d1d5db;color:000000;background:#fff;">
+                    <span style="margin-left:auto;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid #d1d5db;color:#000000;background:#fff;">
                         {{ $ticket->review->resolution_status }}
                     </span>
                 </div>
-                <p style="font-size:13px;color:000000;margin:0;line-height:1.6;">{{ $ticket->review->notes }}</p>
+                <p style="font-size:13px;color:#000000;margin:0;line-height:1.6;">{{ $ticket->review->notes }}</p>
             </div>
         </div>
     @else

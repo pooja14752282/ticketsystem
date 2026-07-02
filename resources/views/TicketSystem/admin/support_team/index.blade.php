@@ -1,67 +1,10 @@
 @extends('layout')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/support-team.css') }}">
+@endsection
+
 @section('content')
-
-<style>
-#ticketsTable_wrapper {
-    padding: 0 0 16px;
-}
-
-#ticketsTable_length {
-    padding-left: 20px;
-    padding-top: 14px;
-    padding-bottom: 10px;
-    font-size: 13px;
-    color: #000000;
-}
-
-#ticketsTable_length select {
-    padding: 4px 8px;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    margin: 0 6px;
-}
-
-#ticketsTable_info {
-    padding-left: 20px;
-    font-size: 12px;
-    color: #000000;
-}
-
-#ticketsTable_paginate {
-    padding-right: 20px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-#ticketsTable_paginate .paginate_button {
-    padding: 6px 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    font-size: 13px;
-    color: #374151;
-    cursor: pointer;
-}
-
-#ticketsTable_paginate .paginate_button.current {
-    background: #1d4ed8 !important;
-    color: #fff !important;
-    border-color: #1d4ed8 !important;
-}
-
-#ticketsTable_paginate .paginate_button.disabled {
-    color: #9ca3af;
-    cursor: not-allowed;
-}
-
-.dataTables_wrapper .row:last-child {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 10px;
-}
-</style>
 
 <div style="display:flex;align-items:flex-start;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:16px;">
     <div>
@@ -156,9 +99,9 @@
 
     </div>
 </td>
-                <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $i + 1 }}</td>
-                <td style="padding:11px 14px;font-size:13px;color:000000;text-transform:capitalize;"><strong>{{ $member->name }}</strong></td>
-                <td style="padding:11px 14px;font-size:13px;color:000000;">{{ $member->email }}</td>
+                <td style="padding:11px 14px;font-size:13px;color:#000000;">{{ $i + 1 }}</td>
+                <td style="padding:11px 14px;font-size:13px;color:#000000;text-transform:capitalize;"><strong>{{ $member->name }}</strong></td>
+                <td style="padding:11px 14px;font-size:13px;color:#000000;">{{ $member->email }}</td>
                 <td style="padding:11px 14px;font-size:13px;">
                     <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">
                         {{ \App\Models\TicketSupportTeam::APPS[$member->app_assigned] }}
