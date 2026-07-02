@@ -12,7 +12,7 @@
 </div>
 
 <div class="table-card">
-    <table>
+    <table id="ticketsTable">
         <thead>
             <tr>
                 <th>Ticket id </th>
@@ -111,6 +111,30 @@
 @endsection
 
 @push('scripts')
+
+
+{{-- ── DataTables assets (skip these two lines if already loaded globally in layout.blade.php) ── --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#ticketsTable').DataTable({
+        order: [],           // keep the latest()-first order from the controller on load
+        searching: false,    // your own filter form already handles search
+        paging: true,
+        info: true,
+        lengthChange: true,
+        columnDefs: [
+            { orderable: false, targets: -1 }, // Actions column
+            { orderable: false, targets: -2 }  // Attachment column
+        ]
+    });
+});
+</script>
+
+
 <script>
 function startEdit(id) {
     document.getElementById('due-display-' + id).classList.add('d-none');
